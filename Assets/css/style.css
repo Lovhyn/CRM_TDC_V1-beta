@@ -1,0 +1,310 @@
+body {
+    color: white;
+}
+#logoLogin {
+    height: 190px;
+    width: 185px;
+}
+hr {
+    background: rgb(33,37,41);
+    background: linear-gradient(90deg, rgba(33,37,41,1) 0%, rgba(237,109,166,1) 25%, rgba(255,255,255,1) 50%, rgba(237,109,166,1) 75%, rgba(33,37,41,1) 100%);
+}
+.fieldsetLogin {
+    /* border: solid white !important;  */
+    margin-top: 40px;
+    padding: 35px;
+    border-radius: 10px;
+    max-width: 500px;
+    background: rgb(237,109,166);
+    background: linear-gradient(328deg, rgba(238, 76, 149, 0.647) 0%, rgba(92,36,131,0.4) 100%);
+    box-shadow: 7px 7px 10px #000000 !important;
+}
+.fieldsetUserManagement {
+    /* border: solid white !important;  */
+    border-radius: 10px;
+    width: 650px;
+    margin-top: 50px;
+    padding: 35px;
+    background: rgb(237,109,166);
+    background: linear-gradient(328deg, rgba(238, 76, 149, 0.647) 0%, rgba(92,36,131,0.4) 100%);
+    box-shadow: 7px 7px 10px #000000 !important;
+}
+.fieldsetProManagement {
+    border-radius: 10px;
+    width: 850px;
+    margin-top: 50px;
+    padding: 35px;
+    background: rgb(237,109,166);
+    background: linear-gradient(328deg, rgba(238, 76, 149, 0.647) 0%, rgba(92,36,131,0.4) 100%);
+    box-shadow: 7px 7px 10px #000000 !important;
+}
+.fieldsetAddNewProspect {
+    border-radius: 10px;
+    width: 850px;
+    margin-top: 50px;
+    padding: 35px;
+    background: rgb(237,109,166);
+    background: linear-gradient(328deg, rgba(238, 76, 149, 0.647) 0%, rgba(92,36,131,0.4) 100%);
+    box-shadow: 7px 7px 10px #000000 !important;
+}
+#infosPro {
+    color: rgb(190, 190, 190);
+}
+.connectedAsRole {
+    color: #ED6DA6 !important;
+}
+header a {
+    color:rgb(190, 190, 190) !important;
+}
+h1, h2, h3, h4, h5, h6, span {
+    color: white;
+}
+.linkTel {
+    text-decoration: none;
+}
+.linkTel:hover {
+    color: #ED6DA6 !important;
+    text-decoration: underline;
+}
+.linkPro:hover {
+    color: #ED6DA6 !important;
+}
+.nav-link:active {
+    transform: scale(1.2);
+}
+.btn {
+    border-radius: 4px;
+    background-color: #212529;
+    border: none;
+    color: #FFFFFF;
+    text-align: center;
+    font-size: 15px;
+    padding: 15px;
+    width: 160px;
+    transition: all 0.5s;
+    cursor: pointer;
+    margin: 5px;
+}
+.btn span {
+    cursor: pointer;
+    display: inline-block;
+    position: relative;
+    transition: 0.5s;
+}
+.btn span:after {
+    content: '\00bb';
+    position: absolute;
+    opacity: 0;
+    top: 0;
+    right: -20px;
+    transition: 0.5s;
+}
+.btn:hover span {
+    padding-right: 25px;
+}
+.btn:hover span:after {
+    opacity: 1;
+    right: 0;
+}
+.btn:active:after {
+    padding: 0;
+    margin: 0;
+    opacity: 1;
+    transition: 0s
+}
+/* boutons actions */
+.validIcon {
+    border: none;
+    color: #00e344;
+    background-color: #21252900;
+}
+.updIcon {
+    border: none;
+    color: #009FE3;
+    background-color: #21252900;
+}
+.delIcon {
+    border: none;
+    color: #F39200;
+    background-color: #21252900;
+}
+.followIcon {
+    border: none;
+    color: #f3cf00;
+    background-color: #21252900;
+}
+.addUserIcon, .addConclusionBtn, .addAreaActivityBtn, .addNewProspectIcon {
+    border: none;
+    color: #ED6DA6;
+    background-color: #21252900
+}
+.addNewProspectIcon {
+    transform: scale(1.5);
+}
+.addNewProspectIcon:hover {
+    transform: scale(1.9);
+}
+.proNameBtn {
+    border: none;
+    background-color: #21252900;
+}
+.proNameBtn:hover {
+    color: #ED6DA6;
+    transform: scale(1.1);
+    text-decoration: underline;
+}
+table input, table a {
+    color: white;
+}
+/* .addAreaActivityBtn {
+    border: none;
+    color: #D94190;
+    background-color: #21252900
+} */
+.updIcon:hover, .delIcon:hover, .addUserIcon:hover, .addAreaActivityBtn:hover, .addConclusionBtn:hover, .validIcon:hover, .followIcon:hover {
+    transform: scale(1.3);
+}
+#newActivityAreaForm {
+    width: 400px;
+}
+
+/* Bootstrap table attributes*/
+.fixed-table-toolbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+.columns.columns-right.btn-group.float-right {
+    width: 50%;
+    align-items: center;
+    justify-content: start;
+}
+.float-right.search.btn-group {
+    width: 50%;
+    align-items: center;
+    justify-content: end;
+}
+.float-right.search.btn-group input {
+    width: 50%;
+    align-items: center;
+    justify-content: end;
+}
+.btn.btn-secondary.dropdown-toggle span {
+    visibility: hidden;
+}
+.dropdown-item.dropdown-item-marker span {
+    color: rgb(125, 125, 125);
+}
+.dropdown-item.dropdown-item-marker span:hover {
+    color: white;
+}
+.float-left.pagination-detail {
+    width: 50%;
+}
+.float-right.pagination {
+    width: 50%;
+    align-items: center;
+    justify-content: end;
+}
+.fixed-table-pagination {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+.btn.btn-secondary.dropdown-toggle span:nth-child(1) {
+    visibility: visible;
+    color: #ED6DA6;
+}
+.page-link {
+    color: rgb(125, 125, 125) !important;
+}
+.page-item.active .page-link {
+    background-color: transparent;
+    color: white !important;
+    border: none;
+    height: 100%;
+}
+.page-item:hover {
+    background-color: transparent;
+}
+.page-link {
+    border: none;
+    background-color: transparent;
+    color: white;
+}
+.pagination-info {
+    color:#7D7D7D;
+}
+.page-size::after {
+    visibility: hidden;
+}
+.page-list {
+    color:#7D7D7D;
+}
+.dropdown-item.active {
+    transform: scale(1.0);
+    color: white;
+}
+thead th {
+    color: #ED6DA6;
+}
+#displayDiv {
+    display: none;
+}
+#submitFormBtn {
+    display: none;
+}
+
+
+
+
+
+
+
+/*Mobile-----------------------------------------------------------------------------------------*/
+@media screen and (max-width: 400px) and (min-width: 10px){
+    .resizeImg {
+        height: 35px;
+        width: 30px;
+    }
+    .resizeImg:hover {
+        transform: scale(1.1);
+    }
+} 
+/*-----------------------------------STOP Mobile => 400px // START TABLET => 700px---------------*/
+/*Tablets---------------------------------------------------------------------------------------*/
+@media screen and (max-width: 700px) and (min-width :401px){
+    .resizeImg {
+        height: 55px;
+        width: 50px;
+    }
+    .resizeImg:hover {
+        transform: scale(1.1);
+    }
+    body {
+        font-size: smaller;
+    }
+}
+/*-----------------------------------STOP Tablets => 700px // Go Full Screen => 2500px-----------*/
+/*Full Screen-----------------------------------------------------------------------------------*/
+@media screen and (max-width: 2500px) and (min-width :701px){
+    .resizeImg {
+        height: 75px;
+        width: 70px;
+    }
+    .resizeImg:hover {
+        transform: scale(1.1);
+    }
+}
+/*-----------------------------------STOP Full Screen => 2560px // Go Big Screen => 12000px------*/
+/*Big Screen------------------------------------------------------------------------------------*/
+@media screen and (max-width: 12000px) and (min-width :2501px){
+    .resizeImg {
+        height: 115px;
+        width: 110px;
+    }
+    .resizeImg:hover {
+        transform: scale(1.1);
+    }
+}
+
