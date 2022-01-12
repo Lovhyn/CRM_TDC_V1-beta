@@ -59,30 +59,35 @@ class Contacting_Mgr {
     }
 //  °°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°
     public static function createNewContact(Int $userId, Int $proId, Int $interlocutorId,
-                                            Int $contactTypeId, Int $conclusionId, $contactComment, 
-                                            String $meetingDate, String $recallDate) {
+                                            Int $contactTypeId, Int $conclusionId, String $contactComment, 
+                                            $meetingDate = null, $recallDate = null) {
         try {
 //          Etablit une connexion à la base de données.
             $PDOconnexion = BddConnexion::getConnexion();
+            echo('mon cul');
 /*
             Prépare la requête SQL et l'enregistre dans une variable =>
             On souhaite ici insérer une nouvelle prise de contact dans la base de données. 
 */
             $sqlRequest = ' INSERT INTO `suivre` (
                             `ID_utilisateur`, `ID_professionnel`, `ID_interlocuteur`, `ID_nature`, 
-                            `ID_conclusion`, `commentaire`, `date_rdv`, `date-relance`) 
+                            `ID_conclusion`, `commentaire`, `date_rdv`, `date_relance`) 
                             VALUES (
                             :userId, :proId, :interlocutorId, :contactTypeId, :conclusionId, :contactComment,
                             :meetingDate, :recallDate); ';
+                            echo('mes fesses');
 //          Connexion PDO + prépare l'envoi de la requête.
             $repPDO = $PDOconnexion->prepare($sqlRequest);
+            echo('mon popotin');
 //          Exécute la requête en affectant les valeurs données en paramètres aux étiquettes.
             $repPDO->execute(array(':userId' => $userId, ':proId' => $proId,
                                     ':interlocutorId' => $interlocutorId, ':contactTypeId' => $contactTypeId, 
                                     ':conclusionId' => $conclusionId, ':contactComment' => $contactComment, 
                                     ':meetingDate' => $meetingDate, ':recallDate' => $recallDate));
+                                    echo('à tous les coups c la que ça merde');
 //          Réinitialise le curseur.
             $repPDO->closeCursor();
+            echo('ma bite');
 //          Ferme la connexion à la bdd.
             BddConnexion::disconnect();
         } catch(Exception $e) {

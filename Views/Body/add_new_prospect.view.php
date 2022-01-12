@@ -9,7 +9,7 @@
                 <div class="w-100 d-flex justify-content-between"> 
                 <input type="hidden" name="action" value="addedNewProspect">  
             -->
-            <form name="addNewProspect" action="/outils/Controllers/Controller_cdp.php?action=myProspectsListing" method="post" class="ADDNEWPROSPECT">
+            <form name="addNewProspect" action="/outils/Controllers/Controller_cdp.php?action=addedNewProspect" method="post" class="ADDNEWPROSPECT">
                 <div class="w-100 d-flex justify-content-between">
 <!-------------->
 <!-----PRO------>
@@ -162,11 +162,19 @@
                     </div>
                 </div>
 <!----------------------------------------------CALENDAR------------------------------------------>
-                <div id="displayDiv">
+                <div id="displayMeetingDiv">
                     <div class="w-100 d-flex justify-content-center">
                         <div class="w-25 mb-4 text-center">
-                            <label for="meetingCalendar" id="calendarLabel"></label>
-                            <input class="form-select" type="date" name="calendar" id="calendar">
+                            <label for="meetingCalendar" id="meetingCalendarLabel"></label>
+                            <input class="form-select" type="datetime-local" name="meetingCalendar" id="meetingCalendar">
+                        </div>
+                    </div>
+                </div>
+                <div id="displayRecallDiv">
+                    <div class="w-100 d-flex justify-content-center">
+                        <div class="w-25 mb-4 text-center">
+                            <label for="recallCalendar" id="recallCalendarLabel"></label>
+                            <input class="form-select" type="date" name="recallCalendar" id="recallCalendar">
                         </div>
                     </div>
                 </div>
