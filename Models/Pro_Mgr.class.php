@@ -94,8 +94,11 @@ public static function getMyProspectsList(int $paramUserId) {
                             CONCAT(SUBSTRING(u.nom, 1, 1), '.', u.prenom) as suivi, 
                             u.nom, u.prenom,
                             s.libelle_secteur, p.observation, p.prospect_ou_client,
-                            p.ID_professionnel, p.ID_utilisateur, p.ID_secteur 
+                            p.ID_professionnel, p.ID_utilisateur, p.ID_secteur,
+                            f.date_debut_suivi, f.date_derniere_pdc, c.libelle_conclusion
                             FROM professionnel p
+                            INNER JOIN suivre f ON f.ID_professionnel = p.ID_professionnel
+                            INNER JOIN conclusion c ON c.ID_conclusion = f.ID_conclusion
                             INNER JOIN utilisateur u ON u.ID_utilisateur = p.ID_utilisateur
                             INNER JOIN secteur_activite s ON s.ID_secteur = p.ID_secteur
                             WHERE p.prospect_ou_client = 0 AND p.ID_utilisateur =:idUserConnected ";
@@ -134,8 +137,10 @@ public static function getMyCustomersList(int $paramUserId) {
                             CONCAT(SUBSTRING(u.nom, 1, 1), '.', u.prenom) as suivi, 
                             u.nom, u.prenom,
                             s.libelle_secteur, p.observation, p.prospect_ou_client,
-                            p.ID_professionnel, p.ID_utilisateur, p.ID_secteur 
+                            p.ID_professionnel, p.ID_utilisateur, p.ID_secteur,
+                            f.date_debut_suivi, f.commentaire
                             FROM professionnel p
+                            INNER JOIN suivre f ON f.ID_professionnel = p.ID_professionnel
                             INNER JOIN utilisateur u ON u.ID_utilisateur = p.ID_utilisateur
                             INNER JOIN secteur_activite s ON s.ID_secteur = p.ID_secteur
                             WHERE p.prospect_ou_client = 1 AND p.ID_utilisateur =:idUserConnected ";

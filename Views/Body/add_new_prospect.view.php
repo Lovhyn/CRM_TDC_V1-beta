@@ -82,7 +82,7 @@
 <!-------------------------------------------SECONDARY ADRESS------------------------------------->
                     <div class="w-50 d-flex justify-content-center">
                         <div class="w-75 mb-2">
-                            <label for="NEWPROSPECTSECONDARYADRESS" class="form-label">Adresse secondaire :</label>
+                            <label for="NEWPROSPECTSECONDARYADRESS" class="form-label">Complément d'adresse :</label>
                             <input placeholder="Ex : 12 impasse des choses" type="text" class="form-control" name="newProspectSecondaryAdress" id="NEWPROSPECTSECONDARYADRESS" minlength="5" maxlength="50">
                         </div>
                     </div>

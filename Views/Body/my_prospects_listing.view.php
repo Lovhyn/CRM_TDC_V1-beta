@@ -21,8 +21,8 @@ $userConnected = (int) $_SESSION['idUser'];
                     <th>Décideur</th>
                     <th>Lieu</th>
                     <th>Téléphone</th>
-                    <th>Observation</th>
-                    <th data-sortable="true">Secteur</th>
+                    <th data-sortable="true">Dernier contact</th>
+                    <th data-sortable="true">Date</th>
                     <th>Modifier</th>
                     <th>Voir suivi</th>
                 </tr>
@@ -31,10 +31,11 @@ $userConnected = (int) $_SESSION['idUser'];
 //      Récupère la liste des prospects.
         $tProspects = Pro_Mgr::getMyProspectsList($userConnected);
         foreach($tProspects as $tProspect) {
+            
             echo
             '<tr>
                 <td class="">
-                    <form id="fullInfosProLink"  action="/outils/Controllers/Controller_cdp.php?action=fullInfosPro" method="post">
+                    <form id="fullInfosProLink" action="/outils/Controllers/Controller_cdp.php?action=fullInfosPro" method="post">
                         <input type="hidden" name="pro_ID" value="' . $tProspect['ID_professionnel']. '">
                         <input type="hidden" name="pro_name" value="' . $tProspect['libelle_entreprise']. '">
                         <input type="hidden" name="user_ID" value="' . $tProspect['ID_utilisateur']. '">
@@ -73,8 +74,8 @@ $userConnected = (int) $_SESSION['idUser'];
             }
                 echo
                 '<td><a class="linkTel" href="tel:">' . $tProspect['tel'] . '</a></td>
-                <td>' . $tProspect['observation'] . '</td>
-                <td>' . $tProspect['libelle_secteur'] . '</td>
+                <td>' . $tProspect['libelle_conclusion'] . '</td>
+                <td>' . $lastContactDate = Dates_Mgr::dateFormatDayMonthYear($tProspect['date_derniere_pdc']) . '</td>
                 <td>
                     <form class="d-flex justify-content-center" action="/outils/Controllers/Controller_cdp.php?action=updatePro" method="post">
                         <input type="hidden" name="pro_ID" value="' . $tProspect['ID_professionnel']. '">

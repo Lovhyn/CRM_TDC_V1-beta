@@ -14,13 +14,15 @@ class Dates_Mgr {
 //  °°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°
 //  Retourne la date donnée en paramètre au format : "jj/mm/yyyy hh:mm".
     public static function dateFormatDayMonthYearHourMinutesSeconds(String $paramDate) {
-        $dayMonthYearHourMinutesSeconds = date('d/m/Y h:m', strtotime($paramDate));
+        $paramDate = (int) $paramDate;
+        $dayMonthYearHourMinutesSeconds = gmdate('d/m/Y h:m', $paramDate);
         return $dayMonthYearHourMinutesSeconds;
     }
 //  °°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°
 //  Retourne la date donnée en paramètre au format : "jj/mm/yyyy".
     public static function dateFormatDayMonthYear(String $paramDate) {
-        $dayMonthYear = date('d/m/Y', strtotime($paramDate));
+        $paramDate = (int) $paramDate;
+        $dayMonthYear = gmdate('d/m/Y', $paramDate);
         return $dayMonthYear;
     }
 //  °°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°
