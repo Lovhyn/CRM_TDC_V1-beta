@@ -18,7 +18,6 @@ class Pro_Mgr {
                             CONCAT(SUBSTRING(u.nom, 1, 1), '.', u.prenom) as suivi, 
                             u.nom, u.prenom,
                             s.libelle_secteur, p.observation, p.prospect_ou_client,
-                            DATE_FORMAT(p.date_debut_suivi, '%d/%m/%Y') as debut ,
                             p.ID_professionnel, p.ID_utilisateur, p.ID_secteur 
                             FROM professionnel p
                             INNER JOIN utilisateur u ON u.ID_utilisateur = p.ID_utilisateur
@@ -57,7 +56,6 @@ class Pro_Mgr {
                             CONCAT(SUBSTRING(u.nom, 1, 1), '.', u.prenom) as suivi, 
                             u.nom, u.prenom,
                             s.libelle_secteur, p.observation, p.prospect_ou_client,
-                            DATE_FORMAT(p.date_debut_suivi, '%d/%m/%Y') as debut ,
                             p.ID_professionnel, p.ID_utilisateur, p.ID_secteur 
                             FROM professionnel p
                             INNER JOIN utilisateur u ON u.ID_utilisateur = p.ID_utilisateur
@@ -96,12 +94,51 @@ public static function getMyProspectsList(int $paramUserId) {
                             CONCAT(SUBSTRING(u.nom, 1, 1), '.', u.prenom) as suivi, 
                             u.nom, u.prenom,
                             s.libelle_secteur, p.observation, p.prospect_ou_client,
-                            DATE_FORMAT(p.date_debut_suivi, '%d/%m/%Y') as debut ,
                             p.ID_professionnel, p.ID_utilisateur, p.ID_secteur 
                             FROM professionnel p
                             INNER JOIN utilisateur u ON u.ID_utilisateur = p.ID_utilisateur
                             INNER JOIN secteur_activite s ON s.ID_secteur = p.ID_secteur
                             WHERE p.prospect_ou_client = 0 AND p.ID_utilisateur =:idUserConnected ";
+//          Connexion PDO + prépare l'envoi de la requête.
+            $repPDO = $PDOconnexion->prepare($sqlRequest);
+//          Exécute la requête en affectant les valeurs données en paramètres aux étiquettes.
+            $repPDO->execute(array(':idUserConnected' => $paramUserId));
+//          On définit sous quelle forme nous souhaitons récupérer le résultat.
+            $repPDO->setFetchMode(PDO::FETCH_ASSOC);
+//          On récupère le résultat de la requête sous la forme d'un tableau associatif.
+            $records = $repPDO->fetchAll();
+//          Réinitialise le curseur.
+            $repPDO->closeCursor();
+//          Ferme la connexion à la bdd.
+            BddConnexion::disconnect();
+//          Puis on retourne ce tableau.
+            return $records;
+        } catch(Exception $e) {
+            die('Erreur : Accès interdit ou connexion impossible.');
+        }
+    }
+//  °°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°
+public static function getMyCustomersList(int $paramUserId) {
+    try {
+//          Etablit une connexion à la base de données.
+            $PDOconnexion = BddConnexion::getConnexion();
+/*
+            Prépare la requête SQL et l'enregistre dans une variable =>
+            On souhaite ici récupérer : 
+                - la liste de tous les clients parmi les professionnels enregistrés pour un utilisateur.
+*/
+            $sqlRequest = " SELECT 
+                            p.libelle_entreprise, p.nom_decideur, 
+                            CONCAT(p.cp, ', ', p.ville) as lieu, p.tel, p.tel_2, p.mail, 
+                            p.adresse, p.adresse_2, p.cp, p.ville,
+                            CONCAT(SUBSTRING(u.nom, 1, 1), '.', u.prenom) as suivi, 
+                            u.nom, u.prenom,
+                            s.libelle_secteur, p.observation, p.prospect_ou_client,
+                            p.ID_professionnel, p.ID_utilisateur, p.ID_secteur 
+                            FROM professionnel p
+                            INNER JOIN utilisateur u ON u.ID_utilisateur = p.ID_utilisateur
+                            INNER JOIN secteur_activite s ON s.ID_secteur = p.ID_secteur
+                            WHERE p.prospect_ou_client = 1 AND p.ID_utilisateur =:idUserConnected ";
 //          Connexion PDO + prépare l'envoi de la requête.
             $repPDO = $PDOconnexion->prepare($sqlRequest);
 //          Exécute la requête en affectant les valeurs données en paramètres aux étiquettes.

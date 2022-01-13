@@ -28,7 +28,7 @@
                 require("../Views/Footer/footer.view.php");
                 break;
             case 'addedNewProspect' :
-                var_dump($_POST);
+                // var_dump($_POST);
                 $followedBy = (int) $_SESSION['idUser'];       
                 $newProspectName = $_POST['newProspectName'];
                 $newProspectDecisionMakerName = $_POST['newDecisionMakerName'];
@@ -46,63 +46,53 @@
                 $newContactConclusion = $_POST['newContactConclusion'];
                 $newContactComment = $_POST['newContactComment'];
                 $msg = '';
-/*
-                Manipule les dates de façon à entrer les dates de rendez-vous
-                ou de relances sous forme de TimeStamp dans la base de données.
-                
-                Dans les deux cas où l'on récupère les dates depuis le calendrier 
-                du formulaire au format String, il nous suffit de convertir le 
-                résultat obtenu (Y-m-d) en TimeStamp avec la méthode strtotime.
-*/
-                if ((isset($_POST['meetingCalendar'])) AND ($newContactConclusion === '5')) {
-                    $meetingDate = $_POST['meetingCalendar'];
-                    $meetingTimeStampedDate = strtotime($meetingDate);
-                    $recallTimeStampedDate = NULL;
-                } elseif ((isset($_POST['recallCalendar'])) AND ($newContactConclusion === '7')) {
-                    $recallDate = $_POST['recallCalendar'];
-                    $recallTimeStampedDate = strtotime($recallDate);
-                    $meetingTimeStampedDate = NULL;
-                } else {
-                    $meetingTimeStampedDate = NULL;
-/*
-                    Détermine les différentes automatisations de relances en fonction
-                    de la conclusion sélectionnée par l'utilisateur.
-*/                   
-                    if ($newContactConclusion === '1') {
-//                      On crée un nouvel objet date.
-                        $currentDate = new DateTime();
-//                      On crée un nouvel objet interval avec l'intervalle désiré en paramètre.
-                        $interval  = new DateInterval('P3D');
-//                      On enregistre dans une variable la valeur de l'intervalle ajouté à l'objet.
-                        $recallDate = $currentDate->add($interval);
-//                      On convertit la variable implémentée au format String.
-                        $recallDateToString = $recallDate->format('Y-m-d');
-//                      On convertit enfin la date de relance en TimeStamp
-                        $recallTimeStampedDate = strtotime($recallDateToString);
-                    }
-                }                
+//              Avant l'ajout, on contrôle qu'aucun professionnel n'a un un nom semblable.
                 if (Pro_Mgr::checkIfExists($newProspectName) === 0) {
-//                  Récupère la dernière valeur de l'auto-increment avant l'insert.
+//                  Récupère la prochaine valeur de l'auto-increment avant l'insert.
                     $resultBefore = Pro_Mgr::getLastAutoIncrementValue();
+//                  Convertit le résultat en entier.
                     $lastValueBefore = (int) $resultBefore[0]["AUTO_INCREMENT"];
                     Pro_Mgr::createNewPro($followedBy, $newProspectActivityArea, $newProspectName, 
                                         $newProspectDecisionMakerName, $newProspectMainPhone, 
                                         $newProspectSecondaryPhone, $newProspectMail, 
                                         $newProspectMainAdress, $newProspectSecondaryAdress, 
                                         $newProspectCP, $newProspectCity, $newProspectObservation);
-//                  Récupère la dernière valeur de l'auto-increment après l'insert.
+//                  Récupère la prochaine valeur de l'auto-increment après l'insert.
                     $resultAfter = Pro_Mgr::getLastAutoIncrementValue();
+//                  Convertit le résultat en entier.
                     $lastValueAfter = (int) $resultAfter[0]["AUTO_INCREMENT"];
 /*
                     Contrôle que l'insert du professionnel a correctement été effectué
                     avant d'insérer un suivi dans la base de données.
-*/                 
-                    // if ($lastValueAfter === ($lastValueBefore + 1)) {
-                    //     Contacting_Mgr::createNewContact($followedBy, $lastValueAfter, $newContactInterlocutor,
-                    //                                     $newContactType, $newContactConclusion, $newContactComment, 
-                    //                                     $meetingTimeStampedDate, $recallTimeStampedDate);
-                    //                                     echo('youpi');
-                    // }
+*/               
+                    if ($lastValueAfter === ($lastValueBefore + 1)) {
+                        $firstContactDate = Dates_Mgr::nowToUnixString();
+//                      A la création d'un nouveau suivi, les date de début de suivi et de dernier contact sont identiques.
+                        $lastContactDate = $firstContactDate;
+//                      Si l'utilisateur a validé une date depuis le calendrier rdv, on enregistre une date de rdv. 
+                        if ((isset($_POST['meetingCalendar'])) AND ($newContactConclusion === '5')) {
+                            $meetingDate = Dates_Mgr::paramToUnixString($_POST['meetingCalendar']);
+                            Contacting_Mgr::createNewContactMeeting($followedBy, $lastValueBefore, $newContactInterlocutor,
+                                                                $newContactType, $newContactConclusion, $newContactComment,
+                                                                $firstContactDate, $lastContactDate, $meetingDate);
+                        } else {
+                            if ((isset($_POST['recallCalendar'])) AND ($newContactConclusion === '7')) {
+                                $meetingDate = Dates_Mgr::paramToUnixString($_POST['recallCalendar']);
+//                          Sinon, on automatise l'enregistrement d'une date de relance suivant la conclusion sélectionnée. 
+                            } elseif (($newContactConclusion === '1') OR ($newContactConclusion === '4') OR ($newContactConclusion === '8')) {
+                                $recallDate = (string) strtotime('+3 days', time());
+                            } elseif ($newContactConclusion === '2') {
+                                $recallDate = (string) strtotime('+5 months', time());
+                            } elseif ($newContactConclusion === '3') {
+                                $recallDate = (string) strtotime('+5 days', time());
+                            } elseif ($newContactConclusion === '6') {
+                                $recallDate = (string) strtotime('+8 days', time());
+                            } 
+                            Contacting_Mgr::createNewContactRecall($followedBy, $lastValueBefore, $newContactInterlocutor,
+                                                                $newContactType, $newContactConclusion, $newContactComment,
+                                                                $firstContactDate, $lastContactDate, $recallDate);
+                        }  
+                    }
                     $msg = '<div class="text-center" style="color: #46ec4e">Nouveau suivi enregistré.</div>';
                     require("../Views/Header/header_cdp.view.php");  
                     echo($msg);

@@ -5,7 +5,7 @@ $userConnected = (int) $_SESSION['idUser'];
 <div class="container">
 <hr>
     <div class="d-flex justify-content-center mt-3">
-        <h2 >Liste des prospects</h2>
+        <h2 >Mes prospects</h2>
     </div>
     <form class="d-flex justify-content-center mt-3" action="/outils/Controllers/Controller_cdp.php?action=addNewProspectForm" method="post">
         <button type="submit" value="addNewProspect" class="addNewProspectIcon">
@@ -52,7 +52,6 @@ $userConnected = (int) $_SESSION['idUser'];
                         <input type="hidden" name="pro_adress2" value="' . $tProspect['adresse_2']. '">
                         <input type="hidden" name="pro_observation" value="' . $tProspect['observation']. '">
                         <input type="hidden" name="pro_status" value="' . $tProspect['prospect_ou_client']. '">
-                        <input type="hidden" name="pro_start" value="' . $tProspect['debut']. '">
                         <input class="proNameBtn" type="submit" name="pro_ID" value="' . $tProspect['libelle_entreprise']. '"> 
                     </form>
                 </td> 
@@ -100,7 +99,7 @@ $userConnected = (int) $_SESSION['idUser'];
                     </form>
                 </td>
                 <td>
-                    <form action="/outils/Controllers/Controller_cdp.php?action=myProspectActivity" method="post">
+                    <form class="d-flex justify-content-center" action="/outils/Controllers/Controller_cdp.php?action=myProspectActivity" method="post">
                         <button class="followIcon" type="submit" name="action" value="followPro">
                             <i class="fas fa-glasses"></i>
                         </button>

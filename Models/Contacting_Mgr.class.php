@@ -58,36 +58,65 @@ class Contacting_Mgr {
         }            
     }
 //  °°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°
-    public static function createNewContact(Int $userId, Int $proId, Int $interlocutorId,
-                                            Int $contactTypeId, Int $conclusionId, String $contactComment, 
-                                            $meetingDate = null, $recallDate = null) {
+    public static function createNewContactMeeting(Int $userId, Int $proId, Int $interlocutorId,
+                                                Int $contactTypeId, Int $conclusionId, String $contactComment, 
+                                                String $firstContact, String $lastContact, String $meetingDate) {
         try {
 //          Etablit une connexion à la base de données.
             $PDOconnexion = BddConnexion::getConnexion();
-            echo('mon cul');
 /*
             Prépare la requête SQL et l'enregistre dans une variable =>
-            On souhaite ici insérer une nouvelle prise de contact dans la base de données. 
+            On souhaite ici insérer une nouvelle prise de contact avec rdv dans la bdd. 
 */
             $sqlRequest = ' INSERT INTO `suivre` (
                             `ID_utilisateur`, `ID_professionnel`, `ID_interlocuteur`, `ID_nature`, 
-                            `ID_conclusion`, `commentaire`, `date_rdv`, `date_relance`) 
+                            `ID_conclusion`, `commentaire`, `date_debut_suivi`, `date_derniere_pdc`, `date_rdv`) 
                             VALUES (
                             :userId, :proId, :interlocutorId, :contactTypeId, :conclusionId, :contactComment,
-                            :meetingDate, :recallDate); ';
-                            echo('mes fesses');
+                            :firstContact, :lastContact, :meetingDate); ';
 //          Connexion PDO + prépare l'envoi de la requête.
             $repPDO = $PDOconnexion->prepare($sqlRequest);
-            echo('mon popotin');
 //          Exécute la requête en affectant les valeurs données en paramètres aux étiquettes.
             $repPDO->execute(array(':userId' => $userId, ':proId' => $proId,
                                     ':interlocutorId' => $interlocutorId, ':contactTypeId' => $contactTypeId, 
                                     ':conclusionId' => $conclusionId, ':contactComment' => $contactComment, 
-                                    ':meetingDate' => $meetingDate, ':recallDate' => $recallDate));
-                                    echo('à tous les coups c la que ça merde');
+                                    ':firstContact' => $firstContact, ':lastContact' => $lastContact,
+                                    ':meetingDate' => $meetingDate));
 //          Réinitialise le curseur.
             $repPDO->closeCursor();
-            echo('ma bite');
+//          Ferme la connexion à la bdd.
+            BddConnexion::disconnect();
+        } catch(Exception $e) {
+            die('Erreur : Accès interdit ou connexion impossible.');
+        }  
+    }
+//  °°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°
+    public static function createNewContactRecall(Int $userId, Int $proId, Int $interlocutorId,
+                                                Int $contactTypeId, Int $conclusionId, String $contactComment, 
+                                                String $firstContact, String $lastContact, String $recallDate) {
+        try {
+//          Etablit une connexion à la base de données.
+            $PDOconnexion = BddConnexion::getConnexion();
+/*
+            Prépare la requête SQL et l'enregistre dans une variable =>
+            On souhaite ici insérer une nouvelle prise de contact avec relance dans la bdd. 
+*/
+            $sqlRequest = ' INSERT INTO `suivre` (
+                            `ID_utilisateur`, `ID_professionnel`, `ID_interlocuteur`, `ID_nature`, 
+                            `ID_conclusion`, `commentaire`, `date_debut_suivi`, `date_derniere_pdc`, `date_relance`) 
+                            VALUES (
+                            :userId, :proId, :interlocutorId, :contactTypeId, :conclusionId, :contactComment,
+                            :firstContact, :lastContact,:recallDate); ';
+//          Connexion PDO + prépare l'envoi de la requête.
+            $repPDO = $PDOconnexion->prepare($sqlRequest);
+//          Exécute la requête en affectant les valeurs données en paramètres aux étiquettes.
+            $repPDO->execute(array(':userId' => $userId, ':proId' => $proId,
+                                    ':interlocutorId' => $interlocutorId, ':contactTypeId' => $contactTypeId, 
+                                    ':conclusionId' => $conclusionId, ':contactComment' => $contactComment, 
+                                    ':firstContact' => $firstContact, ':lastContact' => $lastContact,
+                                    ':recallDate' => $recallDate));
+//          Réinitialise le curseur.
+            $repPDO->closeCursor();
 //          Ferme la connexion à la bdd.
             BddConnexion::disconnect();
         } catch(Exception $e) {

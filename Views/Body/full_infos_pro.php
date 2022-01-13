@@ -126,7 +126,7 @@ $unknown = 'Non renseigné';
                         </div>
 <!-----------------------------------------SECONDARY ADRESS--------------------------------------->
                         <div class="mb-3">
-                            <label id="infosPro" class="form-label">Adresse secondaire :</label>
+                            <label id="infosPro" class="form-label">Complément d'adresse :</label>
 <?php
                             if ($_POST['pro_adress2'] === "") {
 ?>
