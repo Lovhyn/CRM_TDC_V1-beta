@@ -24,6 +24,10 @@
                     <label for="NEWUSERPASSWORD" class="form-label">Mot de passe :</label>
                     <input required placeholder="Définissez un mot de passe" type="password" class="form-control" name="newUserPassword" id="NEWUSERPASSWORD" minlength="5" maxlength="50">
                 </div>
+                <div class="mb-2">
+                    <label for="NEWUSERPASSWORD²" class="form-label">Confirmation mot de passe :</label>
+                    <input required placeholder="Confirmez le mot de passe" type="password" class="form-control" name="newUserPassword²" id="NEWUSERPASSWORD²" minlength="5" maxlength="50">
+                </div>
                 <div class="mb-5">
                     <label for="NEWUSERRIGHTS" class="form-label">Droits :</label>
                     <select required class="form-select" name="newUserRights" id="NEWUSERRIGHTS">

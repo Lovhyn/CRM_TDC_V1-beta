@@ -81,9 +81,8 @@ class Conclusions_Mgr {
             $PDOconnexion = BddConnexion::getConnexion();
 /*
             Prépare la requête SQL et l'enregistre dans une variable =>
-            On souhaite ici récupérer : 
-                - une liste non détaillée des professionnels qui nous servira à 
-                vérifier si la suppression d'un scénario (conclusion) est possible
+            On souhaite ici récupérer une liste non détaillée des professionnels qui nous servira : 
+                - à vérifier si la suppression d'un scénario (conclusion) est possible
                 (si non associé à un professionnel).
 */
             $sqlRequest = ' SELECT c.ID_conclusion, c.libelle_conclusion, s.ID_professionnel, 

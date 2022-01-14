@@ -62,13 +62,16 @@ header a {
 h1, h2, h3, h4, h5, h6, span {
     color: white;
 }
-.linkTel {
-    text-decoration: none;
+/* #linkTel {
+    color: #ED6DA6 ;
 }
-.linkTel:hover {
-    color: #ED6DA6 !important;
-    text-decoration: underline;
+#linkTel:hover {
+    color: #00e344 ;
+} */
+#displayPhoneNumber {
+
 }
+
 .linkPro:hover {
     color: #ED6DA6 !important;
 }
@@ -123,18 +126,28 @@ h1, h2, h3, h4, h5, h6, span {
 }
 .updIcon {
     border: none;
-    color: #009FE3;
+    color: #1cb4f5;
     background-color: #21252900;
 }
 .delIcon {
     border: none;
-    color: #F39200;
+    color: #fca522;
     background-color: #21252900;
 }
 .followIcon {
     border: none;
-    color: #f3cf00;
+    color: #fae04c;
     background-color: #21252900;
+}
+.phoneIcon {
+    border: none;
+    background-color: #21252900;
+}
+.phoneIcon a {
+    color: #f8a765;
+}
+.phoneIcon a:hover {
+    color: #2ffc6c;
 }
 .addUserIcon, .addConclusionBtn, .addAreaActivityBtn, .addNewProspectIcon {
     border: none;
@@ -164,7 +177,7 @@ table input, table a {
     color: #D94190;
     background-color: #21252900
 } */
-.updIcon:hover, .delIcon:hover, .addUserIcon:hover, .addAreaActivityBtn:hover, .addConclusionBtn:hover, .validIcon:hover, .followIcon:hover {
+.updIcon:hover, .delIcon:hover, .addUserIcon:hover, .addAreaActivityBtn:hover, .addConclusionBtn:hover, .validIcon:hover, .followIcon:hover, .phoneIcon:hover {
     transform: scale(1.3);
 }
 #newActivityAreaForm {

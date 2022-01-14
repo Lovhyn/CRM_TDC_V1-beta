@@ -87,25 +87,35 @@
                 require("../Views/Footer/footer.view.php");
                 break;
             case 'addedUser' :
-                $newUserName = $_POST['newUserName'];
-                $newUserSurname = $_POST['newUserSurname'];
-                $newUserPhone = $_POST['newUserPhone'];
-                $newUserMail = $_POST['newUserMail'];
-                $newUserPassword = $_POST['newUserPassword'];
-                $newUserRights = $_POST['newUserRights'];
-                if ($_POST['newUserRights'] === 'admin') {
-                    $newUserRights = 1;
-                } elseif ($_POST['newUserRights'] === 'responsable') {
-                    $newUserRights = 2;                   
+//              Vérifie que les mots de passe saisis sont identiques.
+                if ((isset($_POST['newUserPassword²'])) AND ($_POST['newUserPassword²'] === $_POST['newUserPassword'])) {
+                    $newUserName = $_POST['newUserName'];
+                    $newUserSurname = $_POST['newUserSurname'];
+                    $newUserPhone = $_POST['newUserPhone'];
+                    $newUserMail = $_POST['newUserMail'];
+                    $newUserPassword = $_POST['newUserPassword'];
+                    $newUserRights = $_POST['newUserRights'];
+                    if ($_POST['newUserRights'] === 'admin') {
+                        $newUserRights = 1;
+                    } elseif ($_POST['newUserRights'] === 'responsable') {
+                        $newUserRights = 2;                   
+                    } else {
+                        $newUserRights = 3;                   
+                    }
+                    User_Mgr::createUser($newUserName, $newUserSurname, $newUserPassword,
+                                        $newUserMail, $newUserPhone, $newUserRights);
+                    require("../Views/Header/header_admin.view.php");
+                    echo('<div class="text-center" style="color: #46ec4e">Nouvel utilisateur enregistré.</div>');
+                    require("../Views/Body/user_management.view.php");
+                    require("../Views/Footer/footer.view.php");
+                    break;
                 } else {
-                    $newUserRights = 3;                   
+                    require("../Views/Header/header_admin.view.php");
+                    echo('<div class="text-center" style="color: #E84E0E">Erreur : l\'utilisateur n\'a pas pu être enregistré.</div>');
+                    require("../Views/Body/add_user.view.php");
+                    require("../Views/Footer/footer.view.php");
+                    break;
                 }
-                User_Mgr::createUser($newUserName, $newUserSurname, $newUserPassword,
-                                    $newUserMail, $newUserPhone, $newUserRights);
-                require("../Views/Header/header_admin.view.php");
-                require("../Views/Body/user_management.view.php");
-                require("../Views/Footer/footer.view.php");
-                break;
             case 'updateUser' : 
                 require("../Views/Header/header_admin.view.php");
                 require("../Views/Body/update_user.view.php");
@@ -191,25 +201,25 @@
                 require("../Views/Body/conclusions_management.view.php");
                 require("../Views/Footer/footer.view.php");
                 break;
-            case 'addConclusion' :
-                $newConclusion = $_POST['newConclusion'];
-                if (($newConclusion != '') and (Conclusions_Mgr::checkIfExists($newConclusion) < 1)) {
-                    Conclusions_Mgr::createConclusion($newConclusion);
-                    require("../Views/Header/header_admin.view.php");
-                    require("../Views/Body/conclusions_management.view.php");
-                    require("../Views/Footer/footer.view.php");
-                } elseif ($newConclusion == '') {
-                    require("../Views/Header/header_admin.view.php");
-                    echo('<div class="text-center" style="color: #E84E0E">Erreur : veuillez saisir un scénario</div>');
-                    require("../Views/Body/conclusions_management.view.php");
-                    require("../Views/Footer/footer.view.php");
-                } else {
-                    require("../Views/Header/header_admin.view.php");
-                    echo('<div class="text-center" style="color: #E84E0E">Erreur : ce scénario existe déjà</div>');
-                    require("../Views/Body/conclusions_management.view.php");
-                    require("../Views/Footer/footer.view.php");
-                }
-                break;
+            // case 'addConclusion' :
+            //     $newConclusion = $_POST['newConclusion'];
+            //     if (($newConclusion != '') and (Conclusions_Mgr::checkIfExists($newConclusion) < 1)) {
+            //         Conclusions_Mgr::createConclusion($newConclusion);
+            //         require("../Views/Header/header_admin.view.php");
+            //         require("../Views/Body/conclusions_management.view.php");
+            //         require("../Views/Footer/footer.view.php");
+            //     } elseif ($newConclusion == '') {
+            //         require("../Views/Header/header_admin.view.php");
+            //         echo('<div class="text-center" style="color: #E84E0E">Erreur : veuillez saisir un scénario</div>');
+            //         require("../Views/Body/conclusions_management.view.php");
+            //         require("../Views/Footer/footer.view.php");
+            //     } else {
+            //         require("../Views/Header/header_admin.view.php");
+            //         echo('<div class="text-center" style="color: #E84E0E">Erreur : ce scénario existe déjà</div>');
+            //         require("../Views/Body/conclusions_management.view.php");
+            //         require("../Views/Footer/footer.view.php");
+            //     }
+            //     break;
             case 'updateConclusion' :
                 $idConclusionToUpdate = $_POST['idConclusion'];
                 $newConclusionLabel = $_POST['updConclusion'];
@@ -218,13 +228,13 @@
                 require("../Views/Body/conclusions_management.view.php");
                 require("../Views/Footer/footer.view.php");
                 break;
-            case 'deleteConclusion' :
-                $idConclusionToDelete = $_POST['idConclusion'];
-                Conclusions_Mgr::deleteConclusionById($idConclusionToDelete);
-                require("../Views/Header/header_admin.view.php");
-                require("../Views/Body/conclusions_management.view.php");
-                require("../Views/Footer/footer.view.php");
-                break;
+            // case 'deleteConclusion' :
+            //     $idConclusionToDelete = $_POST['idConclusion'];
+            //     Conclusions_Mgr::deleteConclusionById($idConclusionToDelete);
+            //     require("../Views/Header/header_admin.view.php");
+            //     require("../Views/Body/conclusions_management.view.php");
+            //     require("../Views/Footer/footer.view.php");
+            //     break;
         }
     } else header('Location: ../index.php');
 ?>

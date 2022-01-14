@@ -8,13 +8,13 @@
                 data-toggle="table" data-search="true" data-show-columns="true" data-pagination="true">
             <thead>
                 <tr>
-                    <th>Nom</th>
-                    <th>Suivi par</th>
+                    <th data-sortable="true">Nom</th>
+                    <th data-sortable="true">Suivi par</th>
                     <th data-sortable="true">Dernier contact</th>
                     <th data-sortable="true">Date</th>
-                    <th>Téléphone</th>
                     <th>Modifier</th>
                     <th>Voir suivi</th>
+                    <th>Appeler</th>
                 </tr>
             </thead>
 <?php
@@ -51,7 +51,6 @@
                 <td>' . $tProspect['suivi'] . '</td>
                 <td>' . $tProspect['libelle_conclusion'] . '</td>
                 <td>' . $lastContactDate = Dates_Mgr::dateFormatDayMonthYear($tProspect['date_derniere_pdc']) . '</td>
-                <td><a class="linkTel" href="tel:">' . $tProspect['tel'] . '</a></td>
                 <td>
                     <form class="d-flex justify-content-center" action="/outils/Controllers/Controller_admin.php?action=updatePro" method="post">
                         <input type="hidden" name="pro_ID" value="' . $tProspect['ID_professionnel']. '">
@@ -83,6 +82,18 @@
                         </button>
                     </form>
                 </td>
+                <td>';
+                if ($tProspect['tel'] != '') {
+                    echo
+                    '<div class="d-flex justify-content-center">
+                        <button class="phoneIcon">
+                            <a title="'.$tProspect['tel'].'" href="tel:'.$tProspect['tel'].'">
+                                <i id="iconPhone" class="fas fa-phone"></i>
+                            </a>
+                        </button>
+                    </div>';
+                }
+                '</td>
             </tr>';
         }
 ?>
