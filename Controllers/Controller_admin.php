@@ -126,10 +126,8 @@
                 $surnameUserToUpdate = $_POST['majUserSurname'];
                 $phoneUserToUpdate = $_POST['majUserPhone'];
                 $mailUserToUpdate = $_POST['majUserMail'];
-                $passwordUserToUpdate = $_POST['majUserPassword'];
                 $rightsUserToUpdate = $_POST['majUserRights'];
                 $idUserToUpdate = $_POST['userId'];
-                $oldPasswordUser = $_POST['oldUserPassword'];
                 if ($_POST['majUserRights'] === 'admin') {
                     $rightsUserToUpdate = 1;
                 } elseif ($_POST['majUserRights'] === 'responsable') {
@@ -137,15 +135,34 @@
                 } else {
                     $rightsUserToUpdate = 3;                   
                 }
-                if ($passwordUserToUpdate == '') {
-                    $passwordUserToUpdate = $oldPasswordUser;
-                } 
-                User_Mgr::updateUser($nameUserToUpdate, $surnameUserToUpdate, $passwordUserToUpdate, 
+                if ((isset($_POST['majUserPassword'])) AND (isset($_POST['majUserPassword²']))) {
+                    $passwordUserToUpdate = $_POST['majUserPassword'];
+                    $passwordUserToUpdateConfirmation = $_POST['majUserPassword²'];
+                    if ($passwordUserToUpdate === $passwordUserToUpdateConfirmation) {
+                        User_Mgr::updateUser($nameUserToUpdate, $surnameUserToUpdate, $passwordUserToUpdate, 
                                     $mailUserToUpdate, $phoneUserToUpdate, $rightsUserToUpdate, $idUserToUpdate);
-                require("../Views/Header/header_admin.view.php");
-                require("../Views/Body/user_management.view.php");
-                require("../Views/Footer/footer.view.php");
-                break;
+                        require("../Views/Header/header_admin.view.php");
+                        echo('<div class="text-center" style="color: #46ec4e">L\'utilisateur a bien été mis à jour.</div>');
+                        require("../Views/Body/user_management.view.php");
+                        require("../Views/Footer/footer.view.php");
+                    break;
+                    } else {
+                        require("../Views/Header/header_admin.view.php");
+                        echo('<div class="text-center" style="color: #E84E0E">Erreur : l\'utilisateur n\'a pas pu être mis à jour.</div>');
+                        require("../Views/Body/user_management.view.php");
+                        require("../Views/Footer/footer.view.php");
+                        break;
+                    }
+                } else {
+                    $oldPasswordUser = $_POST['oldUserPassword'];
+                    User_Mgr::updateUser($nameUserToUpdate, $surnameUserToUpdate, $oldPasswordUser, 
+                                    $mailUserToUpdate, $phoneUserToUpdate, $rightsUserToUpdate, $idUserToUpdate);
+                    require("../Views/Header/header_admin.view.php");
+                    echo('<div class="text-center" style="color: #46ec4e">L\'utilisateur a bien été mis à jour.</div>');
+                    require("../Views/Body/user_management.view.php");
+                    require("../Views/Footer/footer.view.php");
+                    break;
+                }
 /*
             case 'deleteUser' : 
                 $userID = (int) $_POST['idUser'];

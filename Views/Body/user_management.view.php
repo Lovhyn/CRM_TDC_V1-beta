@@ -15,9 +15,9 @@
                 <th>Nom</th>
                 <th class="text-center">Prénom</th>
                 <th class="text-center">Mail</th>
-                <th class="text-center">Téléphone</th>
                 <th class="text-center">Rôle</th>
                 <th class="text-center">Modifier</th>
+                <th class="text-center">Appeler</th>
                 <!-- <th class="text-center">Supprimer</th> -->
             </thead>
 <?php
@@ -29,7 +29,6 @@
                 <td>' . $tUser['nom'] . '</td>
                 <td class="text-center">' . $tUser['prenom'] . '</td>
                 <td class="text-center">' . $tUser['mail'] . '</td>
-                <td class="text-center"><a class="linkTel" href="tel:">' . $tUser['tel'] . '</a></td>
                 <td class="text-center">' . $tUser['libelle_droit'] . '</td>
                 <td>
                     <form class="d-flex justify-content-center" action="/outils/Controllers/Controller_admin.php?action=updateUser" method="post">
@@ -46,6 +45,18 @@
                         </button>
                     </form>
                 </td>
+            <td>';
+                if ($tUser['tel'] != '') {
+                    echo
+                    '<div class="d-flex justify-content-center">
+                        <button class="phoneIcon">
+                            <a title="'.$tUser['tel'].'" href="tel:'.$tUser['tel'].'">
+                                <i id="iconPhone" class="fas fa-phone"></i>
+                            </a>
+                        </button>
+                    </div>';
+                }
+                '</td>
             </tr>';
 /*
                 <td>

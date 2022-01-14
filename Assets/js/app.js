@@ -105,6 +105,14 @@ function displayCalendar() {
     }
 }
 
+//  GERE L'AFFICHAGE REACTIF DU FORMULAIRE DE MAJ UTILISATEUR SELON.
+function displayInputConfirmPassword () {
+//  récupère le composant <div> du champ de saisie d'un nouveau mot de passe. 
+    var newPasswordDiv = document.getElementById("newPasswordDiv");
+//  récupère le composant <div> du champ de saisie de la confirmation du nouveau mot de passe.
+    var confirmNewPasswordDiv = document.getElementById("confirmNewPasswordDiv");
+}
+
 
 
     
