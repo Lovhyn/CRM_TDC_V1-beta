@@ -17,7 +17,17 @@ $unknown = 'Non renseigné';
 <!--------------------------------------------START----------------------------------------------->
                         <div class="mb-3">
                             <label id="infosPro" class="form-label">Début du suivi :</label>
-                                <span class="infosPro"><?php echo($_POST['pro_start']);?></span>
+<?php
+                            if ($_POST['first_contact'] === "") {
+?>
+                                <span class="undefined"><?php echo($unknown);?></span>
+<?php
+                            } else {                        
+?>
+                                <span class="infosPro"><?php echo(Dates_Mgr::dateFormatDayMonthYear($_POST['first_contact']));?></span>
+<?php
+                            }
+?>
                             <hr>
                         </div>
 <!-----------------------------------------FOLLOWED BY-------------------------------------------->
@@ -204,7 +214,7 @@ $unknown = 'Non renseigné';
 <?php
                 } elseif ($_SESSION['rights'] === "2") {
 ?>
-                    <form action="/outils/Controllers/Controller_responsable.php?action=prospectsListing" method="post">
+                    <form action="/outils/Controllers/Controller_responsable.php?action=myProspectsListing" method="post">
                         <div class="d-flex justify-content-center">
                             <button type="submit" class="btn"><span>Retour</span></button>
                         </div>
@@ -230,7 +240,7 @@ $unknown = 'Non renseigné';
 <?php
                 } elseif ($_SESSION['rights'] === "2") {
 ?>
-                    <form action="/outils/Controllers/Controller_responsable.php?action=clientsListing" method="post">
+                    <form action="/outils/Controllers/Controller_responsable.php?action=myClientsListing" method="post">
                         <div class="d-flex justify-content-center">
                             <button type="submit" class="btn"><span>Retour</span></button>
                         </div>

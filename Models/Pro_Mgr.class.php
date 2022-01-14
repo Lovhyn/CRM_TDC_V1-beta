@@ -18,11 +18,14 @@ class Pro_Mgr {
                             CONCAT(SUBSTRING(u.nom, 1, 1), '.', u.prenom) as suivi, 
                             u.nom, u.prenom,
                             s.libelle_secteur, p.observation, p.prospect_ou_client,
-                            p.ID_professionnel, p.ID_utilisateur, p.ID_secteur 
+                            p.ID_professionnel, p.ID_utilisateur, p.ID_secteur,
+                            f.date_debut_suivi, f.date_derniere_pdc, c.libelle_conclusion
                             FROM professionnel p
+                            INNER JOIN suivre f ON f.ID_professionnel = p.ID_professionnel
+                            INNER JOIN conclusion c ON c.ID_conclusion = f.ID_conclusion
                             INNER JOIN utilisateur u ON u.ID_utilisateur = p.ID_utilisateur
                             INNER JOIN secteur_activite s ON s.ID_secteur = p.ID_secteur
-                            WHERE p.prospect_ou_client = 0; ";
+                            WHERE p.prospect_ou_client = 0 ";
 //          Connexion PDO + soumission de la requête.
             $repPDO = $PDOconnexion->query($sqlRequest);
 //          On définit sous quelle forme nous souhaitons récupérer le résultat.
@@ -58,6 +61,8 @@ class Pro_Mgr {
                             s.libelle_secteur, p.observation, p.prospect_ou_client,
                             p.ID_professionnel, p.ID_utilisateur, p.ID_secteur 
                             FROM professionnel p
+                            INNER JOIN suivre f ON f.ID_professionnel = p.ID_professionnel
+                            INNER JOIN conclusion c ON c.ID_conclusion = f.ID_conclusion
                             INNER JOIN utilisateur u ON u.ID_utilisateur = p.ID_utilisateur
                             INNER JOIN secteur_activite s ON s.ID_secteur = p.ID_secteur
                             WHERE p.prospect_ou_client = 1; ";
@@ -238,11 +243,11 @@ public static function getMyCustomersList(int $paramUserId) {
 //          Exécute la requête en affectant les valeurs données en paramètres aux étiquettes.
             $repPDO->execute(array(':ID_utilisateur' => $userId, ':ID_secteur' => $proActivityArea, 
                                     ':libelle_entreprise' => $proName, ':nom_decideur' => $proDecisionMaker,
-                                    ':tel' => $proMainPhone, ':tel_2' => $proSecondaryPhone, 
+                                    ':tel' => self::phoneFormatToInternational($proMainPhone), 
+                                    ':tel_2' => self::phoneFormatToInternational($proSecondaryPhone), 
                                     ':mail' => $proMail, ':adresse' => $proMainAdress, 
                                     ':adresse_2' => $proSecondaryAdress, ':cp' => $proCp, 
                                     ':ville' => $proCity, ':observation' => $proObservation));
-                                    
 //          Réinitialise le curseur.
             $repPDO->closeCursor();
 //          Ferme la connexion à la bdd.

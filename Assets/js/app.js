@@ -1,7 +1,7 @@
 //  GERE L'AFFICHAGE REACTIF DU FORMULAIRE SELON LE CHOIX DE CONCLUSION SELECTIONNE.
 function displayCalendar() {
 //  récupère la valeur de la selectBox des conclusions.
-    var result = document.getElementById('NEWCONTACTCONCLUSION').value;
+    var conclusionValue = document.getElementById('NEWCONTACTCONCLUSION').value;
 //  récupère le composant <div> qui englobe le calendrier rdv.
     var meetingDiv = document.getElementById('displayMeetingDiv');
 //  récupère le composant <div> qui englobe le calendrier de relance manuelle.
@@ -19,7 +19,7 @@ function displayCalendar() {
 //  récupère le composant <button> servant à soumettre le formulaire.
     var submitBtn = document.getElementById('submitFormBtn');
 //  °°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°
-    if (result === '0') {
+    if (conclusionValue === '0') {
         meetingDiv.style.display = "none";
         recallDiv.style.display = "none";
         meetingCalendar.removeAttribute("required");
@@ -28,7 +28,7 @@ function displayCalendar() {
         comment.innerHTML = "";
         comment.placeholder = "Veuillez sélectionner une conclusion.";
         submitBtn.style.display = "none";
-    } else if (result === '1') {
+    } else if (conclusionValue === '1') {
         meetingDiv.style.display = "none";
         recallDiv.style.display = "none";
         meetingCalendar.removeAttribute("required");
@@ -37,7 +37,7 @@ function displayCalendar() {
         comment.innerHTML = "";
         comment.placeholder = "Vous avez obtenu un barrage secrétaire ? Expliquez brièvement.";
         submitBtn.style.display = "inline";
-    } else if (result ==='2') {
+    } else if (conclusionValue ==='2') {
         meetingDiv.style.display = "none";
         recallDiv.style.display = "none";
         meetingCalendar.removeAttribute("required");
@@ -46,7 +46,7 @@ function displayCalendar() {
         comment.innerHTML = "";
         comment.innerHTML = "Refus catégorique, ce professionnel n'a pas besoin de nos services actuellement.";
         submitBtn.style.display = "inline";
-    } else if (result === '3') {
+    } else if (conclusionValue === '3') {
         meetingDiv.style.display = "none";
         recallDiv.style.display = "none";
         meetingCalendar.removeAttribute("required");
@@ -55,7 +55,7 @@ function displayCalendar() {
         comment.innerHTML = "";
         comment.placeholder = "Quelle(s) information(s) avez-vous obtenue(s) / renseignée(s) ?"; 
         submitBtn.style.display = "inline";
-    } else if (result === '4') {
+    } else if (conclusionValue === '4') {
         meetingDiv.style.display = "none";
         recallDiv.style.display = "none";
         meetingCalendar.removeAttribute("required");
@@ -64,7 +64,7 @@ function displayCalendar() {
         comment.innerHTML = "";
         comment.placeholder = "Résumez brièvement le propos du message laissé.";
         submitBtn.style.display = "inline";
-    } else if (result === '5') {
+    } else if (conclusionValue === '5') {
         meetingCalendarLabel.innerHTML = "Date du rendez-vous :";
         recallDiv.style.display = "none";
         meetingDiv.style.display = "inline";
@@ -74,7 +74,7 @@ function displayCalendar() {
         comment.innerHTML = "";
         comment.placeholder = "Décrivez succintement le sujet du rendez-vous à venir.";
         submitBtn.style.display = "inline";
-    } else if (result === '6') {
+    } else if (conclusionValue === '6') {
         meetingDiv.style.display = "none";
         recallDiv.style.display = "none";
         meetingCalendar.removeAttribute("required");
@@ -83,7 +83,7 @@ function displayCalendar() {
         comment.innerHTML = "";
         comment.innerHTML = "Devis envoyé.";
         submitBtn.style.display = "inline";
-    } else if (result === '7') {
+    } else if (conclusionValue === '7') {
         recallCalendarLabel.innerHTML = "Date de relance :" ;
         meetingDiv.style.display = "none";
         recallDiv.style.display = "inline";
@@ -93,7 +93,7 @@ function displayCalendar() {
         comment.innerHTML = "";
         comment.placeholder = "Sélectionnez une date dans le calendrier puis résumez brièvement.";
         submitBtn.style.display = "inline";
-    } else if (result === '8') {
+    } else if (conclusionValue === '8') {
         meetingCalendar.removeAttribute("required");
         recallCalendar.removeAttribute("required");
         meetingDiv.style.display = "none";

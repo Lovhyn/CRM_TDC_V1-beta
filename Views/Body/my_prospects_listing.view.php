@@ -28,7 +28,7 @@ $userConnected = (int) $_SESSION['idUser'];
                 </tr>
             </thead>
 <?php
-//      Récupère la liste des prospects.
+//      Récupère la liste des prospects de l'utilisateur connecté.
         $tProspects = Pro_Mgr::getMyProspectsList($userConnected);
         foreach($tProspects as $tProspect) {
             
@@ -53,6 +53,8 @@ $userConnected = (int) $_SESSION['idUser'];
                         <input type="hidden" name="pro_adress2" value="' . $tProspect['adresse_2']. '">
                         <input type="hidden" name="pro_observation" value="' . $tProspect['observation']. '">
                         <input type="hidden" name="pro_status" value="' . $tProspect['prospect_ou_client']. '">
+                        <input type="hidden" name="first_contact" value="' . $tProspect['date_debut_suivi']. '">
+                        <input type="hidden" name="last_contact" value="' . $tProspect['date_derniere_pdc']. '">
                         <input class="proNameBtn" type="submit" name="pro_ID" value="' . $tProspect['libelle_entreprise']. '"> 
                     </form>
                 </td> 
@@ -94,6 +96,7 @@ $userConnected = (int) $_SESSION['idUser'];
                         <input type="hidden" name="pro_adress" value="' . $tProspect['adresse']. '">
                         <input type="hidden" name="pro_adress2" value="' . $tProspect['adresse_2']. '">
                         <input type="hidden" name="pro_observation" value="' . $tProspect['observation']. '">
+                        <input type="hidden" name="pro_status" value="' . $tProspect['prospect_ou_client']. '">
                         <button class="updIcon" type="submit" name="action" value="updPro">
                             <i class="far fa-edit"></i>
                         </button>

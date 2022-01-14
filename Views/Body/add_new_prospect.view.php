@@ -35,7 +35,7 @@
                         <div class="w-75 mb-2">
                             <label for="NEWACTIVITYAREA" class="form-label">Secteur d'activité :</label>
                             <select class="form-select" name="newActivityArea" id="NEWACTIVITYAREA">
-                                <option selected value="notDefined">Choisissez un secteur</option>
+                                <option selected value="0">Choisissez un secteur :</option>
 <?php
 //                      Récupère la liste des secteurs d'activité.
                         $tActivityAreas = ActivityArea_Mgr::getActivityAreaList();

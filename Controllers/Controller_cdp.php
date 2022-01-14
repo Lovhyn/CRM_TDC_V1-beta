@@ -32,7 +32,11 @@
                 $followedBy = (int) $_SESSION['idUser'];       
                 $newProspectName = $_POST['newProspectName'];
                 $newProspectDecisionMakerName = $_POST['newDecisionMakerName'];
-                $newProspectActivityArea = $_POST['newActivityArea'];
+                if ($_POST['newActivityArea'] === '0') {
+                    $newProspectActivityArea = '';
+                } else {
+                    $newProspectActivityArea = $_POST['newActivityArea'];
+                }
                 $newProspectMail = $_POST['newProspectMail'];
                 $newProspectMainPhone = $_POST['newProspectMainPhone'];
                 $newProspectSecondaryPhone = $_POST['newProspectSecondaryPhone'];

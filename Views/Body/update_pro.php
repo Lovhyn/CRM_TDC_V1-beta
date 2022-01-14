@@ -189,6 +189,62 @@ $unknown = 'Non renseigné';
                 <button type="submit" class="btn" onclick="return confirm('Etes-vous sûr(e) de vouloir modifier ces informations ?')"><span>Valider</span></button>
             </div>
         </form>
+        <!----------------------------------------BACK RETURN BUTTON-------------------------------------->
+<?php
+            if ($_POST['pro_status'] === "0") {
+                if ($_SESSION['rights'] === "1") {
+?>
+                    <form action="/outils/Controllers/Controller_admin.php?action=prospectsListing" method="post">
+                        <div class="d-flex justify-content-center">
+                            <button type="submit" class="btn"><span>Retour</span></button>
+                        </div>
+                    </form>
+<?php
+                } elseif ($_SESSION['rights'] === "2") {
+?>
+                    <form action="/outils/Controllers/Controller_responsable.php?action=myProspectsListing" method="post">
+                        <div class="d-flex justify-content-center">
+                            <button type="submit" class="btn"><span>Retour</span></button>
+                        </div>
+                    </form>
+<?php
+                } elseif ($_SESSION['rights'] === "3") {
+?>
+                    <form action="/outils/Controllers/Controller_cdp.php?action=myProspectsListing" method="post">
+                        <div class="d-flex justify-content-center">
+                            <button type="submit" class="btn"><span>Retour</span></button>
+                        </div>
+                    </form>
+<?php
+                }
+            } else {
+                if ($_SESSION['rights'] === "1") {
+?>
+                    <form action="/outils/Controllers/Controller_admin.php?action=clientsListing" method="post">
+                        <div class="d-flex justify-content-center">
+                            <button type="submit" class="btn"><span>Retour</span></button>
+                        </div>
+                    </form>
+<?php
+                } elseif ($_SESSION['rights'] === "2") {
+?>
+                    <form action="/outils/Controllers/Controller_responsable.php?action=myClientsListing" method="post">
+                        <div class="d-flex justify-content-center">
+                            <button type="submit" class="btn"><span>Retour</span></button>
+                        </div>
+                    </form>
+<?php
+                } elseif ($_SESSION['rights'] === "3") {
+?>
+                    <form action="/outils/Controllers/Controller_cdp.php?action=myClientsListing" method="post">
+                        <div class="d-flex justify-content-center">
+                            <button type="submit" class="btn"><span>Retour</span></button>
+                        </div>
+                    </form>
+<?php
+                }
+            }
+?>
     </fieldset>
 </div>
 </div>

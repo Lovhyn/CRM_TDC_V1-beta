@@ -8,23 +8,25 @@
                 data-toggle="table" data-search="true" data-show-columns="true" data-pagination="true">
             <thead>
                 <tr>
-                    <th class="text-center">Nom</th>
-                    <th class="text-center">Interlocuteur</th>
-                    <th class="text-center">Téléphone</th>
-                    <th class="text-center" data-sortable="true">Suivi</th>
-                    <th class="text-center">Observation</th>
-                    <th class="text-center">Modifier</th>
-                    <th class="text-center">Voir suivi</th>
+                    <th>Nom</th>
+                    <th>Décideur</th>
+                    <th>Lieu</th>
+                    <th>Téléphone</th>
+                    <th data-sortable="true">Dernier contact</th>
+                    <th data-sortable="true">Date</th>
+                    <th>Modifier</th>
+                    <th>Voir suivi</th>
                 </tr>
             </thead>
 <?php
-//      Récupère la liste des prospects.
+//      Récupère la liste de tous les prospects.
         $tProspects = Pro_Mgr::getFullProspectsList();
         foreach($tProspects as $tProspect) {
+            
             echo
             '<tr>
-                <td class="text-center">
-                    <form id="fullInfosProLink" class="d-flex justify-content-center" action="/outils/Controllers/Controller_admin.php?action=fullInfosPro" method="post">
+                <td class="">
+                    <form id="fullInfosProLink" action="/outils/Controllers/Controller_admin.php?action=fullInfosPro" method="post">
                         <input type="hidden" name="pro_ID" value="' . $tProspect['ID_professionnel']. '">
                         <input type="hidden" name="pro_name" value="' . $tProspect['libelle_entreprise']. '">
                         <input type="hidden" name="user_ID" value="' . $tProspect['ID_utilisateur']. '">
@@ -42,15 +44,33 @@
                         <input type="hidden" name="pro_adress2" value="' . $tProspect['adresse_2']. '">
                         <input type="hidden" name="pro_observation" value="' . $tProspect['observation']. '">
                         <input type="hidden" name="pro_status" value="' . $tProspect['prospect_ou_client']. '">
+                        <input type="hidden" name="first_contact" value="' . $tProspect['date_debut_suivi']. '">
+                        <input type="hidden" name="last_contact" value="' . $tProspect['date_derniere_pdc']. '">
                         <input class="proNameBtn" type="submit" name="pro_ID" value="' . $tProspect['libelle_entreprise']. '"> 
                     </form>
                 </td> 
-                <td class="text-center">' . $tProspect['nom_decideur'] . '</td>
-                <td class="text-center"><a class="linkTel" href="tel:">' . $tProspect['tel'] . '</a></td>
-                <td class="text-center">' . $tProspect['suivi'] . '</td>
-                <td class="text-center">' . $tProspect['observation'] . '</td>
+                <td>' . $tProspect['nom_decideur'] . '</td>';
+                
+            if ($tProspect['cp'] === '') {
+                echo 
+                '<td>' . $tProspect['ville'] . '</td>';
+                if ($tProspect['ville' === '']) {
+                    echo 
+                    '<td>' . ' ' . '</td>';
+                }
+            } elseif ($tProspect['ville'] === '') {
+                echo
+                '<td>' . $tProspect['cp'] . '</td>';
+            } else {
+                echo
+                '<td>' . $tProspect['lieu'] . '</td>';
+            }
+                echo
+                '<td><a class="linkTel" href="tel:">' . $tProspect['tel'] . '</a></td>
+                <td>' . $tProspect['libelle_conclusion'] . '</td>
+                <td>' . $lastContactDate = Dates_Mgr::dateFormatDayMonthYear($tProspect['date_derniere_pdc']) . '</td>
                 <td>
-                    <form class="d-flex justify-content-center" action="/outils/Controllers/Controller_admin.php?action=updatePro" method="post">
+                    <form class="d-flex justify-content-center" action="/outils/Controllers/Controller_cdp.php?action=updatePro" method="post">
                         <input type="hidden" name="pro_ID" value="' . $tProspect['ID_professionnel']. '">
                         <input type="hidden" name="pro_name" value="' . $tProspect['libelle_entreprise']. '">
                         <input type="hidden" name="user_ID" value="' . $tProspect['ID_utilisateur']. '">
@@ -67,13 +87,14 @@
                         <input type="hidden" name="pro_adress" value="' . $tProspect['adresse']. '">
                         <input type="hidden" name="pro_adress2" value="' . $tProspect['adresse_2']. '">
                         <input type="hidden" name="pro_observation" value="' . $tProspect['observation']. '">
+                        <input type="hidden" name="pro_status" value="' . $tProspect['prospect_ou_client']. '">
                         <button class="updIcon" type="submit" name="action" value="updPro">
                             <i class="far fa-edit"></i>
                         </button>
                     </form>
                 </td>
                 <td>
-                    <form action="/outils/Controllers/Controller_admin.php?action=prospectActivity" method="post">
+                    <form class="d-flex justify-content-center" action="/outils/Controllers/Controller_cdp.php?action=myProspectActivity" method="post">
                         <button class="followIcon" type="submit" name="action" value="followPro">
                             <i class="fas fa-glasses"></i>
                         </button>
