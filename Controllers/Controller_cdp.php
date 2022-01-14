@@ -81,7 +81,7 @@
                                                                 $firstContactDate, $lastContactDate, $meetingDate);
                         } else {
                             if ((isset($_POST['recallCalendar'])) AND ($newContactConclusion === '7')) {
-                                $meetingDate = Dates_Mgr::paramToUnixString($_POST['recallCalendar']);
+                                $recallDate = Dates_Mgr::paramToUnixString($_POST['recallCalendar']);
 //                          Sinon, on automatise l'enregistrement d'une date de relance suivant la conclusion sélectionnée. 
                             } elseif (($newContactConclusion === '1') OR ($newContactConclusion === '4') OR ($newContactConclusion === '8')) {
                                 $recallDate = (string) strtotime('+3 days', time());

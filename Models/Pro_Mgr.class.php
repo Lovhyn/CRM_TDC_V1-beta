@@ -19,7 +19,8 @@ class Pro_Mgr {
                             u.nom, u.prenom,
                             s.libelle_secteur, p.observation, p.prospect_ou_client,
                             p.ID_professionnel, p.ID_utilisateur, p.ID_secteur,
-                            f.date_debut_suivi, f.date_derniere_pdc, c.libelle_conclusion
+                            f.date_debut_suivi, f.date_derniere_pdc, f.commentaire, 
+                            c.libelle_conclusion
                             FROM professionnel p
                             INNER JOIN suivre f ON f.ID_professionnel = p.ID_professionnel
                             INNER JOIN conclusion c ON c.ID_conclusion = f.ID_conclusion

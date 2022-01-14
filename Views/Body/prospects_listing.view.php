@@ -1,7 +1,7 @@
 <div class="container">
 <hr>
     <div class="d-flex justify-content-center mt-3">
-        <h2 >Liste des prospects</h2>
+        <h2 >Prospects</h2>
     </div>
     <div class="d-flex justify-content-center">
         <table class="table table-hover table-striped table-dark mt-3 w-auto" 
@@ -9,11 +9,10 @@
             <thead>
                 <tr>
                     <th>Nom</th>
-                    <th>Décideur</th>
-                    <th>Lieu</th>
-                    <th>Téléphone</th>
+                    <th>Suivi par</th>
                     <th data-sortable="true">Dernier contact</th>
                     <th data-sortable="true">Date</th>
+                    <th>Téléphone</th>
                     <th>Modifier</th>
                     <th>Voir suivi</th>
                 </tr>
@@ -49,28 +48,12 @@
                         <input class="proNameBtn" type="submit" name="pro_ID" value="' . $tProspect['libelle_entreprise']. '"> 
                     </form>
                 </td> 
-                <td>' . $tProspect['nom_decideur'] . '</td>';
-                
-            if ($tProspect['cp'] === '') {
-                echo 
-                '<td>' . $tProspect['ville'] . '</td>';
-                if ($tProspect['ville' === '']) {
-                    echo 
-                    '<td>' . ' ' . '</td>';
-                }
-            } elseif ($tProspect['ville'] === '') {
-                echo
-                '<td>' . $tProspect['cp'] . '</td>';
-            } else {
-                echo
-                '<td>' . $tProspect['lieu'] . '</td>';
-            }
-                echo
-                '<td><a class="linkTel" href="tel:">' . $tProspect['tel'] . '</a></td>
+                <td>' . $tProspect['suivi'] . '</td>
                 <td>' . $tProspect['libelle_conclusion'] . '</td>
                 <td>' . $lastContactDate = Dates_Mgr::dateFormatDayMonthYear($tProspect['date_derniere_pdc']) . '</td>
+                <td><a class="linkTel" href="tel:">' . $tProspect['tel'] . '</a></td>
                 <td>
-                    <form class="d-flex justify-content-center" action="/outils/Controllers/Controller_cdp.php?action=updatePro" method="post">
+                    <form class="d-flex justify-content-center" action="/outils/Controllers/Controller_admin.php?action=updatePro" method="post">
                         <input type="hidden" name="pro_ID" value="' . $tProspect['ID_professionnel']. '">
                         <input type="hidden" name="pro_name" value="' . $tProspect['libelle_entreprise']. '">
                         <input type="hidden" name="user_ID" value="' . $tProspect['ID_utilisateur']. '">
@@ -94,7 +77,7 @@
                     </form>
                 </td>
                 <td>
-                    <form class="d-flex justify-content-center" action="/outils/Controllers/Controller_cdp.php?action=myProspectActivity" method="post">
+                    <form class="d-flex justify-content-center" action="/outils/Controllers/Controller_admin.php?action=prospectActivity" method="post">
                         <button class="followIcon" type="submit" name="action" value="followPro">
                             <i class="fas fa-glasses"></i>
                         </button>
