@@ -39,10 +39,10 @@
                                         <a class="nav-link active" aria-current="page" href="/outils/Controllers/Controller_cdp.php?action=home" id="navLinks">Accueil</a>
                                     </li>
                                     <li class="nav-item dropdown">
-                                        <a class="nav-link dropdown-toggle" href="#" id="navbarSuiviMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">Mes suivis</a>
+                                        <a class="nav-link dropdown-toggle" href="#" id="navbarSuiviMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">Suivi</a>
                                         <ul class="dropdown-menu" aria-labelledby="navbarSuiviMenuLink">
-                                            <li><a class="dropdown-item" href="/outils/Controllers/Controller_cdp.php?action=myProspectsListing">Mes prospects</a></li>
-                                            <li><a class="dropdown-item" href="/outils/Controllers/Controller_cdp.php?action=myClientsListing">Mes clients</a></li>
+                                            <li><a class="dropdown-item" href="/outils/Controllers/Controller_cdp.php?action=myProspectsListing">Prospects</a></li>
+                                            <li><a class="dropdown-item" href="/outils/Controllers/Controller_cdp.php?action=myClientsListing">Clients</a></li>
                                         </ul>
                                     </li>
                                     <li class="nav-item">

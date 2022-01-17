@@ -5,7 +5,7 @@ $userConnected = (int) $_SESSION['idUser'];
 <div class="container">
 <hr>
     <div class="d-flex justify-content-center mt-3">
-        <h2 >Mes prospects</h2>
+        <h2 >Prospects</h2>
     </div>
     <form class="d-flex justify-content-center mt-3" action="/outils/Controllers/Controller_cdp.php?action=addNewProspectForm" method="post">
         <button type="submit" value="addNewProspect" class="addNewProspectIcon">
@@ -20,16 +20,17 @@ $userConnected = (int) $_SESSION['idUser'];
                     <th>Nom</th>
                     <th>Décideur</th>
                     <th>Lieu</th>
-                    <th>Téléphone</th>
+                    <th>Suivi par</th>
                     <th data-sortable="true">Dernier contact</th>
                     <th data-sortable="true">Date</th>
                     <th>Modifier</th>
                     <th>Voir suivi</th>
+                    <th>Appeler</th>
                 </tr>
             </thead>
 <?php
 //      Récupère la liste des prospects de l'utilisateur connecté.
-        $tProspects = Pro_Mgr::getMyProspectsList($userConnected);
+        $tProspects = Pro_Mgr::getFullProspectsList();
         foreach($tProspects as $tProspect) {
             
             echo
@@ -75,11 +76,13 @@ $userConnected = (int) $_SESSION['idUser'];
                 '<td>' . $tProspect['lieu'] . '</td>';
             }
                 echo
-                '<td><a class="linkTel" href="tel:">' . $tProspect['tel'] . '</a></td>
+                '<td>' . $tProspect['suivi'] . '</td>
                 <td>' . $tProspect['libelle_conclusion'] . '</td>
                 <td>' . $lastContactDate = Dates_Mgr::dateFormatDayMonthYear($tProspect['date_derniere_pdc']) . '</td>
-                <td>
-                    <form class="d-flex justify-content-center" action="/outils/Controllers/Controller_cdp.php?action=updatePro" method="post">
+                <td>';
+                if ($userConnected == $tProspect['ID_utilisateur']) {
+                    echo
+                    '<form class="d-flex justify-content-center" action="/outils/Controllers/Controller_cdp.php?action=updatePro" method="post">
                         <input type="hidden" name="pro_ID" value="' . $tProspect['ID_professionnel']. '">
                         <input type="hidden" name="pro_name" value="' . $tProspect['libelle_entreprise']. '">
                         <input type="hidden" name="user_ID" value="' . $tProspect['ID_utilisateur']. '">
@@ -100,8 +103,10 @@ $userConnected = (int) $_SESSION['idUser'];
                         <button class="updIcon" type="submit" name="action" value="updPro">
                             <i class="far fa-edit"></i>
                         </button>
-                    </form>
-                </td>
+                    </form>';
+                }
+                echo
+                '</td>
                 <td>
                     <form class="d-flex justify-content-center" action="/outils/Controllers/Controller_cdp.php?action=myProspectActivity" method="post">
                         <button class="followIcon" type="submit" name="action" value="followPro">
@@ -109,6 +114,18 @@ $userConnected = (int) $_SESSION['idUser'];
                         </button>
                     </form>
                 </td>
+                <td>';
+                if ($tProspect['tel'] != '') {
+                    echo
+                    '<div class="d-flex justify-content-center">
+                        <button class="phoneIcon">
+                            <a title="'.$tProspect['tel'].'" href="tel:'.$tProspect['tel'].'">
+                                <i id="iconPhone" class="fas fa-phone"></i>
+                            </a>
+                        </button>
+                    </div>';
+                }
+                '</td>
             </tr>';
         }
 ?>
