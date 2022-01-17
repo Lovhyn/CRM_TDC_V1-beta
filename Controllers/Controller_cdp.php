@@ -32,11 +32,7 @@
                 $followedBy = (int) $_SESSION['idUser'];       
                 $newProspectName = $_POST['newProspectName'];
                 $newProspectDecisionMakerName = $_POST['newDecisionMakerName'];
-                if ($_POST['newActivityArea'] === '0') {
-                    $newProspectActivityArea = '';
-                } else {
-                    $newProspectActivityArea = $_POST['newActivityArea'];
-                }
+                $newProspectActivityArea = (int) $_POST['newActivityArea'];
                 $newProspectMail = $_POST['newProspectMail'];
                 $newProspectMainPhone = $_POST['newProspectMainPhone'];
                 $newProspectSecondaryPhone = $_POST['newProspectSecondaryPhone'];
@@ -45,54 +41,82 @@
                 $newProspectCP = $_POST['newProspectCP'];
                 $newProspectCity = $_POST['newProspectCity'];
                 $newProspectObservation = $_POST['newProspectObservation'];
-                $newContactInterlocutor = $_POST['newContactInterlocutor'];
-                $newContactType = $_POST['newContactType'];
-                $newContactConclusion = $_POST['newContactConclusion'];
+                $newContactInterlocutor = (int) $_POST['newContactInterlocutor'];
+                if ($newContactInterlocutor === 3) {
+                    $newContactType = 3;
+                } else {
+                    $newContactType = (int) $_POST['newContactType'];
+                }
+                $newContactConclusion = (int) $_POST['newContactConclusion'];
                 $newContactComment = $_POST['newContactComment'];
-                $newContactInterlocutorName = $_POST['newContactInterlocutorName'];
-                $newContactInterlocutorContact = $_POST['newContactInterlocutorContact'];
+                if (isset($_POST['newContactInterlocutorName'])) {
+                    $newContactInterlocutorName = $_POST['newContactInterlocutorName'];
+                } else {
+                    $newContactInterlocutorName = '';
+                }
+                if (isset($_POST['newContactInterlocutorInfoTel'])) {
+                    $newContactInterlocutorContact = $_POST['newContactInterlocutorInfoTel'];
+                } elseif (isset($_POST['newContactInterlocutorInfoMail'])) {
+                    $newContactInterlocutorContact = $_POST['newContactInterlocutorInfoMail'];
+                } else {
+                    $newContactInterlocutorContact = '';
+                }
                 $msg = '';
 //              Avant l'ajout, on contrôle qu'aucun professionnel n'a un nom semblable.
                 if (Pro_Mgr::checkIfExists($newProspectName) === 0) {
-//                  Récupère la prochaine valeur de l'auto-increment avant l'insert.
-                    $resultBefore = Pro_Mgr::getLastAutoIncrementValue();
-//                  Convertit le résultat en entier.
-                    $lastValueBefore = (int) $resultBefore[0]["AUTO_INCREMENT"];
-                    Pro_Mgr::createNewPro($followedBy, $newProspectActivityArea, $newProspectName, 
-                                        $newProspectDecisionMakerName, $newProspectMainPhone, 
-                                        $newProspectSecondaryPhone, $newProspectMail, 
-                                        $newProspectMainAdress, $newProspectSecondaryAdress, 
-                                        $newProspectCP, $newProspectCity, $newProspectObservation);
-//                  Récupère la prochaine valeur de l'auto-increment après l'insert.
-                    $resultAfter = Pro_Mgr::getLastAutoIncrementValue();
-//                  Convertit le résultat en entier.
-                    $lastValueAfter = (int) $resultAfter[0]["AUTO_INCREMENT"];
+                    try {
+//                      Récupère la prochaine valeur de l'auto-increment avant l'insert.
+                        $resultBefore = Pro_Mgr::getLastAutoIncrementValue();
+//                      Convertit le résultat en entier.
+                        $lastValueBefore = (int) $resultBefore[0]["AUTO_INCREMENT"];
+                        Pro_Mgr::createNewPro($followedBy, $newProspectActivityArea, $newProspectName, 
+                                            $newProspectDecisionMakerName, $newProspectMainPhone, 
+                                            $newProspectSecondaryPhone, $newProspectMail, 
+                                            $newProspectMainAdress, $newProspectSecondaryAdress, 
+                                            $newProspectCP, $newProspectCity, $newProspectObservation);
+//                      Récupère la prochaine valeur de l'auto-increment après l'insert.
+                        $resultAfter = Pro_Mgr::getLastAutoIncrementValue();
+//                      Convertit le résultat en entier.
+                        $lastValueAfter = (int) $resultAfter[0]["AUTO_INCREMENT"];
 /*
-                    Contrôle que l'insert du professionnel a correctement été effectué
-                    avant d'insérer un suivi dans la base de données.
+                        Contrôle que l'insert du professionnel a correctement été effectué
+                        avant d'insérer un suivi dans la base de données.
 */               
-                    if ($lastValueAfter === ($lastValueBefore + 1)) {
-                        $firstContactDate = Dates_Mgr::nowToUnixString();
-//                      A la création d'un nouveau suivi, les date de début de suivi et de dernier contact sont identiques.
-                        $lastContactDate = $firstContactDate;
-//                      Si l'utilisateur a validé une date depuis le calendrier rdv, on enregistre une date de rdv. 
-                        if ((isset($_POST['meetingCalendar'])) AND ($newContactConclusion === '5')) {
-                            $meetingDate = Dates_Mgr::paramToUnixString($_POST['meetingCalendar']);
-                            Contacting_Mgr::createNewContactMeeting($followedBy, $lastValueBefore, $newContactInterlocutor,
-                                                                $newContactType, $newContactConclusion, $newContactComment,
-                                                                $firstContactDate, $lastContactDate, $meetingDate);
-                        } elseif (isset($_POST['recallCalendar'])) {   
-                            $recallDate = Dates_Mgr::paramToUnixString($_POST['recallCalendar']);
-                            Contacting_Mgr::createNewContactRecall($followedBy, $lastValueBefore, $newContactInterlocutor,
-                                                                $newContactType, $newContactConclusion, $newContactComment,
-                                                                $firstContactDate, $lastContactDate, $recallDate);
-                        }  
+                        if ($lastValueAfter === ($lastValueBefore + 1)) {
+                            $firstContactDate = Dates_Mgr::nowToUnixString();
+//                          A la création d'un nouveau suivi, les date de début de suivi et de dernier contact sont identiques.
+                            $lastContactDate = $firstContactDate;
+//                          Si l'utilisateur a validé une date depuis le calendrier rdv, on enregistre une date de rdv. 
+                            if ((isset($_POST['meetingCalendar'])) AND ($newContactConclusion === '5')) {
+                                $meetingDate = Dates_Mgr::paramToUnixString($_POST['meetingCalendar']);
+                                Contacting_Mgr::createNewContactMeeting($followedBy, $lastValueBefore, $newContactInterlocutor,
+                                                                    $newContactType, $newContactConclusion, $newContactComment,
+                                                                    $firstContactDate, $lastContactDate, $meetingDate);
+//                          Sinon, l'utilisateur saisit obligatoirement une date de relance.
+                            } elseif (isset($_POST['recallCalendar'])) {   
+                                $recallDate = Dates_Mgr::paramToUnixString($_POST['recallCalendar']);
+                                Contacting_Mgr::createNewContactRecall($followedBy, $lastValueBefore, $newContactInterlocutor,
+                                                                    $newContactType, $newContactConclusion, $newContactComment,
+                                                                    $firstContactDate, $lastContactDate, $recallDate);
+                            }  
+                            InfosInterlocutor_Mgr::createInterlocutorInfos($newContactInterlocutorName, $newContactInterlocutorContact);
+                            $msg = '<div class="text-center" style="color: #46ec4e">Nouveau suivi enregistré.</div>';
+                            require("../Views/Header/header_cdp.view.php");  
+                            echo($msg);
+                            require("../Views/Body/prospects_listing.view.php");
+                            require("../Views/Footer/footer.view.php"); 
+                            break;
+                        }
+                        
+                        
+                    } catch (Exception $e) {
+                        $msg = '<div class="text-center" style="color: #E84E0E">Erreur : Echec de l\'enregistrement.</div>';
+                        require("../Views/Header/header_cdp.view.php");
+                        echo($msg);
+                        require("../Views/Body/add_new_prospect.view.php");
+                        require("../Views/Footer/footer.view.php");
+                        break;
                     }
-                    $msg = '<div class="text-center" style="color: #46ec4e">Nouveau suivi enregistré.</div>';
-                    require("../Views/Header/header_cdp.view.php");  
-                    echo($msg);
-                    require("../Views/Body/prospects_listing.view.php");
-                    require("../Views/Footer/footer.view.php"); 
                 } else {
                     $msg = '<div class="text-center" style="color: #E84E0E">Erreur : un professionnel portant le même nom a déjà été enregistré.</div>';
                     require("../Views/Header/header_cdp.view.php");

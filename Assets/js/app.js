@@ -1,3 +1,4 @@
+//  ***********************************************************************************************
 //  GERE L'AFFICHAGE REACTIF DU FORMULAIRE SELON LE CHOIX DE CONCLUSION SELECTIONNE.
 function displayCalendar() {
 //  récupère la valeur de la selectBox des conclusions.
@@ -100,15 +101,107 @@ function displayCalendar() {
         submitBtn.style.display = "inline";
     } 
 }
+//  ***********************************************************************************************
+function displayInterlocutorInfosInputs(){
+//  récupère le composant <div> qui englobe les deux inputs d'informations sur l'interlocuteur.
+    var fullDiv = document.getElementById("displayInterlocutorInfosDiv");
+    var typeOfContactDiv = document.getElementById("displayContactTypeDiv");
+//  récupère le composant <div> qui englobe l'input du nom de l'interlocuteur.
+    var nameDiv = document.getElementById("displayInputInterlocutorName");
+//  récupère le composant <div> qui englobe l'input du n°tel de l'interlocuteur.
+    var telDiv = document.getElementById("displayInputInterlocutorTel");
+//  récupère le composant <div> qui englobe l'input du mail de l'interlocuteur.
+    var mailDiv = document.getElementById("displayInputInterlocutorMail");
+//  récupère la valeur de la selectBox des types d'interlocuteurs.
+    var selectedInterlocutor = document.getElementById("NEWCONTACTINTERLOCUTOR").value;
+//  récupère la valeur de la selectBox des types de contact.
+    var selectedTypeOfContact = document.getElementById("NEWCONTACTTYPE").value;
+//  récupère le composant <label> qui affiche le libellé du champs "nom" de l'interlocuteur.
+    var interlocutorNameLabel = document.getElementById("interlocutorNameLabel");
+//  récupère le composant <label> qui affiche le libellé du champs "tel" de l'interlocuteur.
+    var interlocutorTelLabel = document.getElementById("interlocutorTelLabel");
+//  récupère le composant <label> qui affiche le libellé du champs "mail" de l'interlocuteur.
+    var interlocutorMailLabel = document.getElementById("interlocutorMailLabel");
+//  °°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°
+    switch (selectedInterlocutor) {
+        case '1' : 
+            typeOfContactDiv.style.display = "inline";
+            fullDiv.style.display = "none";
+        break;
+        case '2' : 
+            typeOfContactDiv.style.display = "inline";
+            fullDiv.style.display = "inline";
+            interlocutorNameLabel.innerHTML = "Nom secrétaire : ";
+            if (selectedTypeOfContact === '3') {
+                interlocutorTelLabel.innerHTML = "Tel secrétaire";
+                telDiv.style.display = "inline";
+                mailDiv.style.display = "none";
+            } else if (selectedTypeOfContact === '4') {
+                interlocutorMailLabel.innerHTML = "Mail secrétaire";
+                telDiv.style.display = "none";
+                mailDiv.style.display = "inline";
+            } else {
+                telDiv.style.display = "none";
+                mailDiv.style.display = "none";
+            }
+        break;
+        case '3' :
+            fullDiv.style.display = "none";
+            typeOfContactDiv.style.display = "none";
+        break;
+        case '4' :
+            typeOfContactDiv.style.display = "inline";
+            fullDiv.style.display = "inline";
+            interlocutorNameLabel.innerHTML = "Nom de l'interlocuteur : ";
+            if (selectedTypeOfContact === '3') {
+                interlocutorTelLabel.innerHTML = "Tel de l'interlocuteur :";
+                telDiv.style.display = "inline";
+                mailDiv.style.display = "none";
+            } else if (selectedTypeOfContact === '4') {
+                interlocutorMailLabel.innerHTML = "Mail de l'interlocuteur";
+                telDiv.style.display = "none";
+                mailDiv.style.display = "inline";
+            } else {
+                telDiv.style.display = "none";
+                mailDiv.style.display = "none";
+            }
+        break;
+    }
 
-//  GERE L'AFFICHAGE REACTIF DU FORMULAIRE DE MAJ UTILISATEUR SELON.
-function displayInputConfirmPassword () {
-//  récupère le composant <div> du champ de saisie d'un nouveau mot de passe. 
-    var newPasswordDiv = document.getElementById("newPasswordDiv");
-//  récupère le composant <div> du champ de saisie de la confirmation du nouveau mot de passe.
-    var confirmNewPasswordDiv = document.getElementById("confirmNewPasswordDiv");
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    // if (selectedInterlocutor === '1') {
+    //     fullDiv.style.display = "none";
+    // } else if (selectedInterlocutor === '3') {
+    //     typeOfContactDiv.style.display = "none";
+    // } else {
+    //     typeOfContactDiv.style.display = "inline";
+    // }
+    
+    // if ((selectedTypeOfContact === '1') || (selectedTypeOfContact === '2')) {
+    //     fullDiv.style.display = "none";
+    // } else {
+    //     fullDiv.style.display = "inline";
+    //     if (selectedTypeOfContact === '3') {
+    //         mailDiv.style.display = "none";
+    //         telDiv.style.display = "inline";
+    //     } else if (selectedTypeOfContact === '4') {
+    //         mailDiv.style.display = "inline";
+    //         telDiv.style.display = "none";
+    //     }
+    // }
 }
-
-
 
     

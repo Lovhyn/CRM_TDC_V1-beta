@@ -24,7 +24,7 @@
 <!-------------------------------------------DECISION MAKER--------------------------------------->
                     <div class="w-50 d-flex justify-content-center">
                         <div class="w-75 mb-2">
-                            <label for="NEWDECISIONMAKERNAME" class="form-label">Nom décideur :</label>
+                            <label for="NEWDECISIONMAKERNAME" class="form-label">Nom du décideur :</label>
                             <input placeholder="Ex : COSSON" type="text" class="form-control" name="newDecisionMakerName" id="NEWDECISIONMAKERNAME" minlength="2" maxlength="50" pattern="^[\w'\-,.]*[^_!¡?÷?¿\/\\+=@#$%ˆ&*(){}|~<>;:[\]]*${1,50}">
                         </div>
                     </div>
@@ -118,8 +118,8 @@
 <!---------------------------------------------INTERLOCUTOR--------------------------------------->
                 <div class="w-100 d-flex justify-content-between">
                     <div class="w-25 mb-4 text-center">
-                        <label for="NEWCONTACTINTERLOCUTOR" class="form-label">Interlocuteur :</label>
-                        <select class="form-select" name="newContactInterlocutor" id="NEWCONTACTINTERLOCUTOR">
+                        <label for="NEWCONTACTINTERLOCUTOR" class="form-label">J'ai été en contact avec :</label>
+                        <select class="form-select" name="newContactInterlocutor" id="NEWCONTACTINTERLOCUTOR" onchange="displayInterlocutorInfosInputs();">
 <?php
 //                  Récupère la liste des types d'interlocuteurs.
                     $tInterlocutors = Contacting_Mgr::getInterlocutorsList();
@@ -132,18 +132,20 @@
                     </div> 
 <!------------------------------------------------TYPE OF----------------------------------------->
                     <div class="w-25 mb-4 text-center">
-                        <label for="NEWCONTACTTYPE" class="form-label">Type de contact :</label>
-                        <select class="form-select" name="newContactType" id="NEWCONTACTTYPE">
+                        <div id="displayContactTypeDiv">
+                            <label for="NEWCONTACTTYPE" class="form-label">Type de contact :</label>
+                            <select class="form-select" name="newContactType" id="NEWCONTACTTYPE" onchange="displayInterlocutorInfosInputs();">
 <?php
-//                  Récupère la liste des types de contact.
-                    $tContactTypes = Contacting_Mgr::getContactTypeList();
-                    foreach($tContactTypes as $tContactType) {
-                        echo
-                            '<option value="';echo($tContactType['ID_nature']);echo'">'.$tContactType['libelle_nature'].'</option>';
-                    }
+    //                  Récupère la liste des types de contact.
+                        $tContactTypes = Contacting_Mgr::getContactTypeList();
+                        foreach($tContactTypes as $tContactType) {
+                            echo
+                                '<option value="';echo($tContactType['ID_nature']);echo'">'.$tContactType['libelle_nature'].'</option>';
+                        }
 ?>
-                        </select>
-                    </div> 
+                            </select>
+                        </div> 
+                    </div>
 <!----------------------------------------------CONCLUSION---------------------------------------->
                     <div class="w-25 mb-4 text-center">
                         <label for="NEWCONTACTCONCLUSION" class="form-label">Conclusion :</label>
@@ -161,14 +163,20 @@
                     </div>
                 </div>
 <!------------------------------------------INFOS INTERLOCUTOR------------------------------------>
-                <div class="w-100 d-flex justify-content-evenly">
-                    <div class="w-25 mb-4 text-center">
-                        <label for="NEWCONTACTINTERLOCUTORNAME" class="form-label">Nom de l'interlocuteur :</label>
-                        <input placeholder="Ex : Mme Truc" type="text" class="form-control" name="newContactInterlocutorName" id="NEWCONTACTINTERLOCUTORNAME" minlength="2" maxlength="60" pattern="^[\w'\-,.]*[^_!¡?÷?¿\/\\+=@#$%ˆ&*(){}|~<>;:[\]]*${1,60}">
-                    </div>
-                    <div class="w-25 mb-4 text-center">
-                        <label for="NEWCONTACTINTERLOCUTORCONTACT" class="form-label">Nom de l'interlocuteur :</label>
-                        <input placeholder="Ex : Mail ou N° de tel" type="text" class="form-control" name="newContactInterlocutorContact" id="NEWCONTACTINTERLOCUTORCONTACT" minlength="2" maxlength="60" pattern="^[\w'\-,.]*[^_!¡?÷?¿\/\\+=@#$%ˆ&*(){}|~<>;:[\]]*${1,60}">
+                <div id="displayInterlocutorInfosDiv">
+                    <div class="w-100 d-flex justify-content-evenly">
+                        <div id="displayInputInterlocutorName" class="w-25 mb-4 text-center">
+                            <label id="interlocutorNameLabel" for="NEWCONTACTINTERLOCUTORNAME" class="form-label">Nom de l'interlocuteur :</label>
+                            <input placeholder="Ex : Mme Truc" type="text" class="form-control" name="newContactInterlocutorName" id="NEWCONTACTINTERLOCUTORNAME" minlength="2" maxlength="60" pattern="^[\w'\-,.]*[^_!¡?÷?¿\/\\+=@#$%ˆ&*(){}|~<>;:[\]]*${1,60}">
+                        </div>
+                        <div id="displayInputInterlocutorTel" class="w-25 mb-4 text-center">
+                            <label id="interlocutorTelLabel" for="NEWCONTACTINTERLOCUTORINFOTEL" class="form-label">Tel de l'interlocuteur :</label>
+                            <input placeholder="Ex : 0612233445" type="text" class="form-control" name="newContactInterlocutorInfoTel" id="NEWCONTACTINTERLOCUTORINFOTEL" minlength="10" maxlength="10" pattern="[0-9]{10}">
+                        </div>
+                        <div id="displayInputInterlocutorMail" class="w-25 mb-4 text-center">
+                            <label id="interlocutorMailLabel" for="NEWCONTACTINTERLOCUTORINFOMAIL" class="form-label">Mail de l'interlocuteur :</label>
+                            <input placeholder="Ex : adresse@mail.com" type="mail" class="form-control" name="newContactInterlocutorInfoMail" id="newContactInterlocutorInfoMail" minlength="5" maxlength="60">
+                        </div>
                     </div>
                 </div>
 <!----------------------------------------------CALENDAR------------------------------------------>
@@ -205,9 +213,9 @@
                 </div>
             </form>
             <form action="/outils/Controllers/Controller_cdp.php?action=prospectsListing" method="post">
-                    <div class="d-flex justify-content-center">
-                        <button type="submit" class="btn"><span>Retour</span></button>
-                    </div>
+                <div class="d-flex justify-content-center">
+                    <button type="submit" class="btn"><span>Retour</span></button>
+                </div>
             </form>
         </fieldset>
     </div>

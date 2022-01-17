@@ -255,7 +255,7 @@ table input, table a {
 thead th {
     color: #ED6DA6;
 }
-#displayMeetingDiv, #displayRecallDiv {
+#displayMeetingDiv, #displayRecallDiv, #displayInterlocutorInfosDiv {
     display: none;
 }
 #submitFormBtn {
