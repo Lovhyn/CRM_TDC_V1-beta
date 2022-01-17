@@ -100,19 +100,19 @@
                     $msg = '<div class="text-center" style="color: #46ec4e">Nouveau suivi enregistré.</div>';
                     require("../Views/Header/header_cdp.view.php");  
                     echo($msg);
-                    require("../Views/Body/my_prospects_listing.view.php");
+                    require("../Views/Body/prospects_listing.view.php");
                     require("../Views/Footer/footer.view.php"); 
                 } else {
                     $msg = '<div class="text-center" style="color: #E84E0E">Erreur : un professionnel portant le même nom a déjà été enregistré.</div>';
                     require("../Views/Header/header_cdp.view.php");
                     echo($msg);
-                    require("../Views/Body/my_prospects_listing.view.php");
+                    require("../Views/Body/prospects_listing.view.php");
                     require("../Views/Footer/footer.view.php");
                 }
                 break;
-            case 'myProspectsListing' : 
+            case 'prospectsListing' : 
                 require("../Views/Header/header_cdp.view.php");
-                require("../Views/Body/my_prospects_listing.view.php");
+                require("../Views/Body/prospects_listing.view.php");
                 require("../Views/Footer/footer.view.php");
                 break; 
             case 'fullInfosPro' : 
@@ -139,7 +139,7 @@
                 $newObservation = $_POST['majProObservation'];
 /*              
                 ATTENTION  : 
-                Un chargé de projet ne pouvant modifier l'utilisateur en charge d'un professionnel, 
+                Un chargé de projet ne pouvant modifier l'utilisateur en charge du suivi d'un professionnel, 
                 nous passerons par défaut l'identifiant de l'utilisateur connecté en argument à la fonction. 
 */
                 $followedBy = (int) $_SESSION['idUser'];
@@ -148,22 +148,22 @@
                                         $newSecondaryAdress, $newCp, $newCity, $newObservation,
                                         $proToUpdate, $followedBy);
                 require("../Views/Header/header_cdp.view.php");
-                require("../Views/Body/my_prospects_listing.view.php");
+                require("../Views/Body/prospects_listing.view.php");
                 require("../Views/Footer/footer.view.php");
                 break;
-            case 'myProspectActivity':
+            case 'prospectActivity':
                 require("../Views/Header/header_cdp.view.php");
-                require("../Views/Body/my_prospect_activity.view.php");
+                require("../Views/Body/prospect_activity.view.php");
                 require("../Views/Footer/footer.view.php");
                 break;
-            case 'myClientsListing' :
+            case 'clientsListing' :
                 require("../Views/Header/header_cdp.view.php");
-                require("../Views/Body/my_clients_listing.view.php");
+                require("../Views/Body/clients_listing.view.php");
                 require("../Views/Footer/footer.view.php");
                 break;
-            case 'myClientActivity' :
+            case 'clientActivity' :
                 require("../Views/Header/header_cdp.view.php");
-                require("../Views/Body/my_client_activity.view.php");
+                require("../Views/Body/client_activity.view.php");
                 require("../Views/Footer/footer.view.php");
                 break;
             case 'myContactRecalls' :

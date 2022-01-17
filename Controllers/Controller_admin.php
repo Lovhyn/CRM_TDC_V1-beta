@@ -26,7 +26,7 @@
 //          ********************************** Management PRO *************************************
             case 'prospectsListing' :
                 require("../Views/Header/header_admin.view.php");
-                require("../Views/Body/prospects_listing.view.php");
+                require("../Views/Body/prospects_listing_admin.view.php");
                 require("../Views/Footer/footer.view.php");
                 break;
             case 'fullInfosPro' : 
@@ -57,22 +57,22 @@
                                         $newSecondaryAdress, $newCp, $newCity, $newObservation,
                                         $proToUpdate, $newFollowedBy);
                 require("../Views/Header/header_admin.view.php");
-                require("../Views/Body/prospects_listing.view.php");
+                require("../Views/Body/prospects_listing_admin.view.php");
                 require("../Views/Footer/footer.view.php");
                 break;
             case 'clientsListing' :
                 require("../Views/Header/header_admin.view.php");
-                require("../Views/Body/clients_listing.view.php");
+                require("../Views/Body/clients_listing_admin.view.php");
                 require("../Views/Footer/footer.view.php");
                 break;
             case 'prospectActivity' :
                 require("../Views/Header/header_admin.view.php");
-                require("../Views/Body/prospect_activity.view.php");
+                require("../Views/Body/prospect_activity_admin.view.php");
                 require("../Views/Footer/footer.view.php");
                 break;
             case 'clientActivity' :
                 require("../Views/Header/header_admin.view.php");
-                require("../Views/Body/client_activity.view.php");
+                require("../Views/Body/client_activity_admin.view.php");
                 require("../Views/Footer/footer.view.php");
                 break;
 //          ********************************** Management USER ************************************

@@ -202,7 +202,7 @@ $unknown = 'Non renseigné';
 <?php
                 } elseif ($_SESSION['rights'] === "2") {
 ?>
-                    <form action="/outils/Controllers/Controller_responsable.php?action=myProspectsListing" method="post">
+                    <form action="/outils/Controllers/Controller_responsable.php?action=prospectsListing" method="post">
                         <div class="d-flex justify-content-center">
                             <button type="submit" class="btn"><span>Retour</span></button>
                         </div>
@@ -210,7 +210,7 @@ $unknown = 'Non renseigné';
 <?php
                 } elseif ($_SESSION['rights'] === "3") {
 ?>
-                    <form action="/outils/Controllers/Controller_cdp.php?action=myProspectsListing" method="post">
+                    <form action="/outils/Controllers/Controller_cdp.php?action=prospectsListing" method="post">
                         <div class="d-flex justify-content-center">
                             <button type="submit" class="btn"><span>Retour</span></button>
                         </div>
@@ -228,7 +228,7 @@ $unknown = 'Non renseigné';
 <?php
                 } elseif ($_SESSION['rights'] === "2") {
 ?>
-                    <form action="/outils/Controllers/Controller_responsable.php?action=myClientsListing" method="post">
+                    <form action="/outils/Controllers/Controller_responsable.php?action=clientsListing" method="post">
                         <div class="d-flex justify-content-center">
                             <button type="submit" class="btn"><span>Retour</span></button>
                         </div>
@@ -236,7 +236,7 @@ $unknown = 'Non renseigné';
 <?php
                 } elseif ($_SESSION['rights'] === "3") {
 ?>
-                    <form action="/outils/Controllers/Controller_cdp.php?action=myClientsListing" method="post">
+                    <form action="/outils/Controllers/Controller_cdp.php?action=clientsListing" method="post">
                         <div class="d-flex justify-content-center">
                             <button type="submit" class="btn"><span>Retour</span></button>
                         </div>

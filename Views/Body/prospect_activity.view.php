@@ -1,4 +1,4 @@
-<div class="body-container">
+<div class="container">
 <hr>
-    <p>suivi du prospect</p>
+    <p>Ici la liste de toutes les prises de contact d'un prospect.</p>
 </div>
