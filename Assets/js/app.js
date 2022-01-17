@@ -26,40 +26,44 @@ function displayCalendar() {
         recallCalendar.removeAttribute("required");
         comment.placeholder = "";
         comment.innerHTML = "";
-        comment.placeholder = "Veuillez sélectionner une conclusion.";
+        comment.placeholder = "Pour valider le formulaire, veuillez sélectionner une conclusion et remplir les champs requis.";
         submitBtn.style.display = "none";
     } else if (conclusionValue === '1') {
+        recallCalendarLabel.innerHTML = "Date de relance :" ;
         meetingDiv.style.display = "none";
-        recallDiv.style.display = "none";
+        recallDiv.style.display = "inline";
+        recallCalendar.setAttribute("required", "");
         meetingCalendar.removeAttribute("required");
-        recallCalendar.removeAttribute("required");
         comment.placeholder = "";
         comment.innerHTML = "";
-        comment.placeholder = "Vous avez obtenu un barrage secrétaire ? Expliquez brièvement.";
+        comment.placeholder = "Vous avez eu un barrage secrétaire ? Séléctionnez une date de relance et expliquez brièvement.";
         submitBtn.style.display = "inline";
     } else if (conclusionValue ==='2') {
+        recallCalendarLabel.innerHTML = "Date de relance :" ;
         meetingDiv.style.display = "none";
-        recallDiv.style.display = "none";
+        recallDiv.style.display = "inline";
+        recallCalendar.setAttribute("required", "");
         meetingCalendar.removeAttribute("required");
-        recallCalendar.removeAttribute("required");
         comment.placeholder = "Résumez brièvement le motif du refus";
         comment.innerHTML = "";
-        comment.innerHTML = "Refus catégorique, ce professionnel n'a pas besoin de nos services actuellement.";
+        comment.innerHTML = "Refus catégorique, ce professionnel n'a guère besoin de nos services pour le moment...";
         submitBtn.style.display = "inline";
     } else if (conclusionValue === '3') {
+        recallCalendarLabel.innerHTML = "Date de relance :" ;
         meetingDiv.style.display = "none";
-        recallDiv.style.display = "none";
+        recallDiv.style.display = "inline";
+        recallCalendar.setAttribute("required", "");
         meetingCalendar.removeAttribute("required");
-        recallCalendar.removeAttribute("required");
         comment.placeholder = "";
         comment.innerHTML = "";
         comment.placeholder = "Quelle(s) information(s) avez-vous obtenue(s) / renseignée(s) ?"; 
         submitBtn.style.display = "inline";
     } else if (conclusionValue === '4') {
+        recallCalendarLabel.innerHTML = "Date de relance :" ;
         meetingDiv.style.display = "none";
-        recallDiv.style.display = "none";
+        recallDiv.style.display = "inline";
+        recallCalendar.setAttribute("required", "");
         meetingCalendar.removeAttribute("required");
-        recallCalendar.removeAttribute("required");
         comment.placeholder = "";
         comment.innerHTML = "";
         comment.placeholder = "Résumez brièvement le propos du message laissé.";
@@ -75,13 +79,14 @@ function displayCalendar() {
         comment.placeholder = "Décrivez succintement le sujet du rendez-vous à venir.";
         submitBtn.style.display = "inline";
     } else if (conclusionValue === '6') {
+        recallCalendarLabel.innerHTML = "Date de relance :" ;
         meetingDiv.style.display = "none";
-        recallDiv.style.display = "none";
+        recallDiv.style.display = "inline";
+        recallCalendar.setAttribute("required", "");
         meetingCalendar.removeAttribute("required");
-        recallCalendar.removeAttribute("required");
         comment.placeholder = "";
         comment.innerHTML = "";
-        comment.innerHTML = "Devis envoyé.";
+        comment.placeholder = "Veuillez renseigner le numéro du devis envoyé.";
         submitBtn.style.display = "inline";
     } else if (conclusionValue === '7') {
         recallCalendarLabel.innerHTML = "Date de relance :" ;
@@ -91,18 +96,9 @@ function displayCalendar() {
         meetingCalendar.removeAttribute("required");
         comment.placeholder = "";
         comment.innerHTML = "";
-        comment.placeholder = "Sélectionnez une date dans le calendrier puis résumez brièvement.";
+        comment.innerHTML = "Absence de réponse, relance prévue.";
         submitBtn.style.display = "inline";
-    } else if (conclusionValue === '8') {
-        meetingCalendar.removeAttribute("required");
-        recallCalendar.removeAttribute("required");
-        meetingDiv.style.display = "none";
-        recallDiv.style.display = "none";
-        comment.placeholder = "";
-        comment.innerHTML = "";
-        comment.innerHTML = "Absence de réponse, relance automatique programmée dans 3 jours.";
-        submitBtn.style.display = "inline";
-    }
+    } 
 }
 
 //  GERE L'AFFICHAGE REACTIF DU FORMULAIRE DE MAJ UTILISATEUR SELON.

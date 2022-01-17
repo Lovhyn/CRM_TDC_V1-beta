@@ -49,8 +49,10 @@
                 $newContactType = $_POST['newContactType'];
                 $newContactConclusion = $_POST['newContactConclusion'];
                 $newContactComment = $_POST['newContactComment'];
+                $newContactInterlocutorName = $_POST['newContactInterlocutorName'];
+                $newContactInterlocutorContact = $_POST['newContactInterlocutorContact'];
                 $msg = '';
-//              Avant l'ajout, on contrôle qu'aucun professionnel n'a un un nom semblable.
+//              Avant l'ajout, on contrôle qu'aucun professionnel n'a un nom semblable.
                 if (Pro_Mgr::checkIfExists($newProspectName) === 0) {
 //                  Récupère la prochaine valeur de l'auto-increment avant l'insert.
                     $resultBefore = Pro_Mgr::getLastAutoIncrementValue();
@@ -79,19 +81,8 @@
                             Contacting_Mgr::createNewContactMeeting($followedBy, $lastValueBefore, $newContactInterlocutor,
                                                                 $newContactType, $newContactConclusion, $newContactComment,
                                                                 $firstContactDate, $lastContactDate, $meetingDate);
-                        } else {
-                            if ((isset($_POST['recallCalendar'])) AND ($newContactConclusion === '7')) {
-                                $recallDate = Dates_Mgr::paramToUnixString($_POST['recallCalendar']);
-//                          Sinon, on automatise l'enregistrement d'une date de relance suivant la conclusion sélectionnée. 
-                            } elseif (($newContactConclusion === '1') OR ($newContactConclusion === '4') OR ($newContactConclusion === '8')) {
-                                $recallDate = (string) strtotime('+3 days', time());
-                            } elseif ($newContactConclusion === '2') {
-                                $recallDate = (string) strtotime('+5 months', time());
-                            } elseif ($newContactConclusion === '3') {
-                                $recallDate = (string) strtotime('+5 days', time());
-                            } elseif ($newContactConclusion === '6') {
-                                $recallDate = (string) strtotime('+8 days', time());
-                            } 
+                        } elseif (isset($_POST['recallCalendar'])) {   
+                            $recallDate = Dates_Mgr::paramToUnixString($_POST['recallCalendar']);
                             Contacting_Mgr::createNewContactRecall($followedBy, $lastValueBefore, $newContactInterlocutor,
                                                                 $newContactType, $newContactConclusion, $newContactComment,
                                                                 $firstContactDate, $lastContactDate, $recallDate);

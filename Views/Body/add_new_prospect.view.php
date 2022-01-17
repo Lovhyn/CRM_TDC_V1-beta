@@ -150,14 +150,25 @@
                         <select class="form-select" name="newContactConclusion" id="NEWCONTACTCONCLUSION" onchange="displayCalendar();">
                             <option selected value="0">Précisez :</option>
 <?php
-//                  Récupère la liste des scénarios (conclusions).
+//                  Récupère la liste des scénarios (conclusions) (le scénario "vente" est exclu via la boucle "for").
                     $tConclusions = Conclusions_Mgr::getConclusionsList();
-                    foreach($tConclusions as $tConclusion) {
+                    for ($i = 0 ; $i < count($tConclusions) -1 ; $i++) {
                         echo
-                            '<option value="';echo($tConclusion['ID_conclusion']);echo'">'.$tConclusion['libelle_conclusion'].'</option>';
+                            '<option value="';echo($tConclusions[$i]['ID_conclusion']);echo'">'.$tConclusions[$i]['libelle_conclusion'].'</option>';
                     }
 ?>
                         </select>
+                    </div>
+                </div>
+<!------------------------------------------INFOS INTERLOCUTOR------------------------------------>
+                <div class="w-100 d-flex justify-content-evenly">
+                    <div class="w-25 mb-4 text-center">
+                        <label for="NEWCONTACTINTERLOCUTORNAME" class="form-label">Nom de l'interlocuteur :</label>
+                        <input placeholder="Ex : Mme Truc" type="text" class="form-control" name="newContactInterlocutorName" id="NEWCONTACTINTERLOCUTORNAME" minlength="2" maxlength="60" pattern="^[\w'\-,.]*[^_!¡?÷?¿\/\\+=@#$%ˆ&*(){}|~<>;:[\]]*${1,60}">
+                    </div>
+                    <div class="w-25 mb-4 text-center">
+                        <label for="NEWCONTACTINTERLOCUTORCONTACT" class="form-label">Nom de l'interlocuteur :</label>
+                        <input placeholder="Ex : Mail ou N° de tel" type="text" class="form-control" name="newContactInterlocutorContact" id="NEWCONTACTINTERLOCUTORCONTACT" minlength="2" maxlength="60" pattern="^[\w'\-,.]*[^_!¡?÷?¿\/\\+=@#$%ˆ&*(){}|~<>;:[\]]*${1,60}">
                     </div>
                 </div>
 <!----------------------------------------------CALENDAR------------------------------------------>
@@ -182,7 +193,7 @@
                     <div class="w-75">
                         <div class="mb-2 text-center">
                             <label for="NEWCONTACTCOMMENT" class="form-label">Compte-rendu :</label>
-                            <textarea required placeholder="Résumez brièvement votre prise de contact (requis)" class="form-control" name="newContactComment" id="NEWCONTACTCOMMENT" maxlength="250"></textarea>
+                            <textarea required placeholder="Pour valider le formulaire, veuillez sélectionner une conclusion et remplir les champs requis." class="form-control" name="newContactComment" id="NEWCONTACTCOMMENT" maxlength="250"></textarea>
                         </div>
                     </div>
                 </div>
@@ -192,6 +203,11 @@
                 <div class="d-flex justify-content-center">
                     <button type="submit" class="btn" onclick="return confirm('Etes-vous sûr(e) de vouloir enregistrer ce nouveau suivi ?')" id="submitFormBtn"><span>Valider</span></button>
                 </div>
+            </form>
+            <form action="/outils/Controllers/Controller_cdp.php?action=prospectsListing" method="post">
+                    <div class="d-flex justify-content-center">
+                        <button type="submit" class="btn"><span>Retour</span></button>
+                    </div>
             </form>
         </fieldset>
     </div>

@@ -62,15 +62,6 @@ header a {
 h1, h2, h3, h4, h5, h6, span {
     color: white;
 }
-/* #linkTel {
-    color: #ED6DA6 ;
-}
-#linkTel:hover {
-    color: #00e344 ;
-} */
-#displayPhoneNumber {
-
-}
 
 .linkPro:hover {
     color: #ED6DA6 !important;
@@ -136,7 +127,7 @@ h1, h2, h3, h4, h5, h6, span {
 }
 .followIcon {
     border: none;
-    color: #fae04c;
+    color: #ffe96c;
     background-color: #21252900;
 }
 .phoneIcon {
@@ -144,7 +135,7 @@ h1, h2, h3, h4, h5, h6, span {
     background-color: #21252900;
 }
 .phoneIcon a {
-    color: #f8a765;
+    color: #e98f46;
 }
 .phoneIcon a:hover {
     color: #2ffc6c;
