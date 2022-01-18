@@ -17,10 +17,10 @@ $userConnected = (int) $_SESSION['idUser'];
                 data-toggle="table" data-search="true" data-show-columns="true" data-pagination="true">
             <thead>
                 <tr>
-                    <th>Nom</th>
+                    <th data-sortable="true">Nom</th>
                     <th>Décideur</th>
                     <th>Lieu</th>
-                    <th>Suivi par</th>
+                    <th data-sortable="true">Suivi par</th>
                     <th data-sortable="true">Dernier contact</th>
                     <th data-sortable="true">Date</th>
                     <th>Modifier</th>
@@ -100,7 +100,7 @@ $userConnected = (int) $_SESSION['idUser'];
                         <input type="hidden" name="pro_adress2" value="' . $tProspect['adresse_2']. '">
                         <input type="hidden" name="pro_observation" value="' . $tProspect['observation']. '">
                         <input type="hidden" name="pro_status" value="' . $tProspect['prospect_ou_client']. '">
-                        <button class="updIcon" type="submit" name="action" value="updPro">
+                        <button class="updIcon" type="submit" name="action" value="updatePro">
                             <i class="far fa-edit"></i>
                         </button>
                     </form>';
@@ -109,7 +109,8 @@ $userConnected = (int) $_SESSION['idUser'];
                 '</td>
                 <td>
                     <form class="d-flex justify-content-center" action="/outils/Controllers/Controller_cdp.php?action=prospectActivity" method="post">
-                        <button class="followIcon" type="submit" name="action" value="followPro">
+                        <input type="hidden" name="pro_ID" value="' . $tProspect['ID_professionnel']. '">
+                        <button class="followIcon" type="submit" name="action" value="prospectActivity">
                             <i class="fas fa-glasses"></i>
                         </button>
                     </form>
