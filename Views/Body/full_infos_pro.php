@@ -16,15 +16,15 @@ $unknown = 'Non renseigné';
                         </div>
 <!--------------------------------------------START----------------------------------------------->
                         <div class="mb-3">
-                            <label id="infosPro" class="form-label">Début du suivi :</label>
+                            <label id="infosPro" class="form-label">Dernière prise de contact :</label>
 <?php
-                            if ($_POST['first_contact'] === "") {
+                            if ($_POST['last_contact'] === "") {
 ?>
                                 <span class="undefined"><?php echo($unknown);?></span>
 <?php
                             } else {                        
 ?>
-                                <span class="infosPro"><?php echo(Dates_Mgr::dateFormatDayMonthYear($_POST['first_contact']));?></span>
+                                <span class="infosPro"><?php echo(Dates_Mgr::dateFormatDayMonthYear($_POST['last_contact']));?></span>
 <?php
                             }
 ?>

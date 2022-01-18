@@ -60,7 +60,7 @@ class Contacting_Mgr {
 //  °°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°
     public static function createNewContactMeeting(Int $userId, Int $proId, Int $interlocutorId, Int $infosInterlocutorId,
                                                 Int $contactTypeId, Int $conclusionId, String $contactComment, 
-                                                String $firstContact, String $lastContact, String $meetingDate) {
+                                                String $lastContact, String $meetingDate) {
         try {
 //          Etablit une connexion à la base de données.
             $PDOconnexion = BddConnexion::getConnexion();
@@ -70,17 +70,17 @@ class Contacting_Mgr {
 */
             $sqlRequest = ' INSERT INTO `suivre` (
                             `ID_utilisateur`, `ID_professionnel`, `ID_interlocuteur`, `ID_infos_interlocuteur`, `ID_nature`, 
-                            `ID_conclusion`, `commentaire`, `date_debut_suivi`, `date_derniere_pdc`, `date_rdv`) 
+                            `ID_conclusion`, `commentaire`, `date_derniere_pdc`, `date_rdv`) 
                             VALUES (
                             :userId, :proId, :interlocutorId, :infosInterlocutorId, :contactTypeId, :conclusionId, :contactComment,
-                            :firstContact, :lastContact, :meetingDate); ';
+                            :lastContact, :meetingDate); ';
 //          Connexion PDO + prépare l'envoi de la requête.
             $repPDO = $PDOconnexion->prepare($sqlRequest);
 //          Exécute la requête en affectant les valeurs données en paramètres aux étiquettes.
             $repPDO->execute(array(':userId' => $userId, ':proId' => $proId, ':interlocutorId' => $interlocutorId, 
                                     ':infosInterlocutorId' => $infosInterlocutorId, ':contactTypeId' => $contactTypeId, 
                                     ':conclusionId' => $conclusionId, ':contactComment' => $contactComment, 
-                                    ':firstContact' => $firstContact, ':lastContact' => $lastContact,
+                                    ':lastContact' => $lastContact,
                                     ':meetingDate' => $meetingDate));
 //          Réinitialise le curseur.
             $repPDO->closeCursor();
@@ -93,7 +93,7 @@ class Contacting_Mgr {
 //  °°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°
     public static function createNewContactRecall(Int $userId, Int $proId, Int $interlocutorId, Int $infosInterlocutorId,
                                                 Int $contactTypeId, Int $conclusionId, String $contactComment, 
-                                                String $firstContact, String $lastContact, String $recallDate) {
+                                                String $lastContact, String $recallDate) {
         try {
 //          Etablit une connexion à la base de données.
             $PDOconnexion = BddConnexion::getConnexion();
@@ -103,17 +103,17 @@ class Contacting_Mgr {
 */
             $sqlRequest = ' INSERT INTO `suivre` (
                             `ID_utilisateur`, `ID_professionnel`, `ID_interlocuteur`, `ID_infos_interlocuteur`, `ID_nature`, 
-                            `ID_conclusion`, `commentaire`, `date_debut_suivi`, `date_derniere_pdc`, `date_relance`) 
+                            `ID_conclusion`, `commentaire`, `date_derniere_pdc`, `date_relance`) 
                             VALUES (
                             :userId, :proId, :interlocutorId, :infosInterlocutorId, :contactTypeId, :conclusionId, :contactComment,
-                            :firstContact, :lastContact,:recallDate); ';
+                            :lastContact,:recallDate); ';
 //          Connexion PDO + prépare l'envoi de la requête.
             $repPDO = $PDOconnexion->prepare($sqlRequest);
 //          Exécute la requête en affectant les valeurs données en paramètres aux étiquettes.
             $repPDO->execute(array(':userId' => $userId, ':proId' => $proId, ':interlocutorId' => $interlocutorId, 
                                     ':infosInterlocutorId' => $infosInterlocutorId, ':contactTypeId' => $contactTypeId, 
                                     ':conclusionId' => $conclusionId, ':contactComment' => $contactComment, 
-                                    ':firstContact' => $firstContact, ':lastContact' => $lastContact,
+                                    ':lastContact' => $lastContact,
                                     ':recallDate' => $recallDate));
 //          Réinitialise le curseur.
             $repPDO->closeCursor();

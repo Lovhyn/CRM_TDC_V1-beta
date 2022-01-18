@@ -43,7 +43,6 @@
                         <input type="hidden" name="pro_adress2" value="' . $tProspect['adresse_2']. '">
                         <input type="hidden" name="pro_observation" value="' . $tProspect['observation']. '">
                         <input type="hidden" name="pro_status" value="' . $tProspect['prospect_ou_client']. '">
-                        <input type="hidden" name="first_contact" value="' . $tProspect['date_debut_suivi']. '">
                         <input type="hidden" name="last_contact" value="' . $tProspect['date_derniere_pdc']. '">
                         <input class="proNameBtn" type="submit" name="pro_ID" value="' . $tProspect['libelle_entreprise']. '"> 
                     </form>
@@ -77,6 +76,8 @@
                 </td>
                 <td>
                     <form class="d-flex justify-content-center" action="/outils/Controllers/Controller_admin.php?action=prospectActivity" method="post">
+                        <input type="hidden" name="pro_ID" value="' . $tProspect['ID_professionnel']. '">
+                        <input type="hidden" name="pro_name" value="' . $tProspect['libelle_entreprise']. '">
                         <button class="followIcon" type="submit" name="action" value="followPro">
                             <i class="fas fa-glasses"></i>
                         </button>

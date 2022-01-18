@@ -50,6 +50,15 @@ hr {
     background: linear-gradient(328deg, rgba(238, 76, 149, 0.647) 0%, rgba(92,36,131,0.4) 100%);
     box-shadow: 7px 7px 10px #000000 !important;
 }
+.fieldsetAddNewContact {
+    border-radius: 10px;
+    width: 850px;
+    margin-top: 50px;
+    padding: 35px;
+    background: rgb(237,109,166);
+    background: linear-gradient(328deg, rgba(238, 76, 149, 0.647) 0%, rgba(92,36,131,0.4) 100%);
+    box-shadow: 7px 7px 10px #000000 !important;
+}
 #infosPro {
     color: rgb(190, 190, 190);
 }
@@ -140,15 +149,15 @@ h1, h2, h3, h4, h5, h6, span {
 .phoneIcon a:hover {
     color: #2ffc6c;
 }
-.addUserIcon, .addConclusionBtn, .addAreaActivityBtn, .addNewProspectIcon {
+.addUserIcon, .addConclusionBtn, .addAreaActivityBtn, .addNewProspectIcon, .addNewCustomerIcon, .addNewContactIcon {
     border: none;
     color: #ED6DA6;
     background-color: #21252900
 }
-.addNewProspectIcon {
+.addNewProspectIcon, .addNewCustomerIcon, .addNewContactIcon {
     transform: scale(1.5);
 }
-.addNewProspectIcon:hover {
+.addNewProspectIcon:hover, .addNewCustomerIcon:hover, .addNewContactIcon:hover {
     transform: scale(1.9);
 }
 .proNameBtn {

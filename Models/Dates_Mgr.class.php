@@ -20,9 +20,13 @@ class Dates_Mgr {
     }
 //  °°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°
 //  Retourne la date donnée en paramètre au format : "jj/mm/yyyy".
-    public static function dateFormatDayMonthYear(String $paramDate) {
-        $paramDate = (int) $paramDate;
-        $dayMonthYear = gmdate('d/m/Y', $paramDate);
+    public static function dateFormatDayMonthYear($paramDate) {
+        if (is_null($paramDate)) {
+            $dayMonthYear = '';
+        } else {
+            $paramDate = (int) $paramDate;
+            $dayMonthYear = gmdate('d/m/Y', $paramDate);
+        }
         return $dayMonthYear;
     }
 //  °°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°

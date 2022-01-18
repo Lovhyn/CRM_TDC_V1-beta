@@ -88,27 +88,23 @@
 //                          Convertit le résultat en entier.
                             $infosInterlocutorIdValue = (int) $lastIdInfosAfter[0]["AUTO_INCREMENT"];
                             $infoInterlocutorId = $infosInterlocutorIdValue - 1;
-                            echo(gettype($infoInterlocutorId));
-                            echo($infoInterlocutorId);
 /*
                             Contrôle que l'insert des infos sur l'interlocuteur a correctement été effectué
                             avant d'insérer un nouveau suivi dans la base de données.
 */ 
-                            $firstContactDate = Dates_Mgr::nowToUnixString();
-//                          A la création d'un nouveau suivi, les date de début de suivi et de dernier contact sont identiques.
-                            $lastContactDate = $firstContactDate;
+                            $lastContactDate = Dates_Mgr::nowToUnixString();;
 //                          Si l'utilisateur a validé une date depuis le calendrier rdv, on enregistre une date de rdv. 
                             if ((isset($_POST['meetingCalendar'])) AND ($newContactConclusion === '5')) {
                                 $meetingDate = Dates_Mgr::paramToUnixString($_POST['meetingCalendar']);
                                 Contacting_Mgr::createNewContactMeeting($followedBy, $lastValueBefore, $newContactInterlocutor, 
                                                                     $infoInterlocutorId, $newContactType, $newContactConclusion, 
-                                                                    $newContactComment, $firstContactDate, $lastContactDate, $meetingDate);
+                                                                    $newContactComment, $lastContactDate, $meetingDate);
 //                          Sinon, l'utilisateur saisit obligatoirement une date de relance.
                             } elseif (isset($_POST['recallCalendar'])) {   
                                 $recallDate = Dates_Mgr::paramToUnixString($_POST['recallCalendar']);
                                 Contacting_Mgr::createNewContactRecall($followedBy, $lastValueBefore, $newContactInterlocutor,
                                                                     $infoInterlocutorId, $newContactType, $newContactConclusion, 
-                                                                    $newContactComment, $firstContactDate, $lastContactDate, $recallDate);
+                                                                    $newContactComment, $lastContactDate, $recallDate);
                             }  
                             $msg = '<div class="text-center" style="color: #46ec4e">Nouveau suivi enregistré.</div>';
                             require("../Views/Header/header_cdp.view.php");  
@@ -177,6 +173,16 @@
             case 'prospectActivity':
                 require("../Views/Header/header_cdp.view.php");
                 require("../Views/Body/prospect_activity.view.php");
+                require("../Views/Footer/footer.view.php");
+                break;
+            case 'addNewContactForm' : 
+                require("../Views/Header/header_cdp.view.php");
+                require("../Views/Body/prospect_activity.view.php");
+                require("../Views/Footer/footer.view.php");
+                break;
+            case 'addedNewContact' : 
+                require("../Views/Header/header_cdp.view.php");
+                require("../Views/Body/add_new_contact.view.php");
                 require("../Views/Footer/footer.view.php");
                 break;
             case 'clientsListing' :
