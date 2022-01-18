@@ -110,6 +110,7 @@ $userConnected = (int) $_SESSION['idUser'];
                     <form class="d-flex justify-content-center" action="/outils/Controllers/Controller_cdp.php?action=prospectActivity" method="post">
                         <input type="hidden" name="pro_ID" value="' . $tProspect['ID_professionnel']. '">
                         <input type="hidden" name="pro_name" value="' . $tProspect['libelle_entreprise']. '">
+                        <input type="hidden" name="user_ID" value="' . $tProspect['ID_utilisateur']. '">
                         <button class="followIcon" type="submit" title="Voir le suivi du prospect" name="action" value="prospectActivity">
                             <i class="fas fa-glasses"></i>
                         </button>

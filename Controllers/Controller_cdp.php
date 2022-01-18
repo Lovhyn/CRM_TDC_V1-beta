@@ -177,12 +177,12 @@
                 break;
             case 'addNewContactForm' : 
                 require("../Views/Header/header_cdp.view.php");
-                require("../Views/Body/prospect_activity.view.php");
+                require("../Views/Body/add_new_contact.view.php");
                 require("../Views/Footer/footer.view.php");
                 break;
             case 'addedNewContact' : 
                 require("../Views/Header/header_cdp.view.php");
-                require("../Views/Body/add_new_contact.view.php");
+                require("../Views/Body/prospect_activity.view.php");
                 require("../Views/Footer/footer.view.php");
                 break;
             case 'clientsListing' :

@@ -1,23 +1,23 @@
 <?php
 $userConnected = (int) $_SESSION['idUser'];
-
 ?>
 <div class="container">
 <hr>
     <div class="d-flex justify-content-center mt-3">
         <h2 >Suivi de <?php echo($_POST['pro_name']);?></h2>
     </div>
-    <form class="d-flex justify-content-center mt-3" action="/outils/Controllers/Controller_cdp.php?action=addNewContactForm" method="post">
-<?php 
+<?php
+    if ($userConnected === (int) $_POST['user_ID']) {
         echo
-        '<input type="hidden" name="pro_ID" value="' . $_POST['pro_ID']. '">
-        <input type="hidden" name="pro_name" value="' . $_POST['pro_name']. '">
-        ';
+        '<form class="d-flex justify-content-center mt-3" action="/outils/Controllers/Controller_cdp.php?action=addNewContactForm" method="post">
+            <input type="hidden" name="pro_ID" value="' . $_POST['pro_ID']. '">
+            <input type="hidden" name="pro_name" value="' . $_POST['pro_name']. '">
+            <button type="submit" name="action" value="addNewContactForm" class="addNewContactIcon">
+                <i class="far fa-comments"></i>
+            </button>
+        </form>';
+    }
 ?>
-        <button type="submit" name="action" value="addNewContactForm" class="addNewContactIcon">
-            <i class="far fa-comments"></i>
-        </button>
-    </form>
     <div class="d-flex justify-content-center">
         <table class="table table-hover table-striped table-dark mt-3 w-auto" 
                 data-toggle="table" data-search="true" data-show-columns="true" data-pagination="true">
