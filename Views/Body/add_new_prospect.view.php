@@ -9,7 +9,21 @@
                 <div class="w-100 d-flex justify-content-between"> 
                 <input type="hidden" name="action" value="addedNewProspect">  
             -->
+<?php 
+            if ($_SESSION['rights'] === '3') {
+?>
             <form name="addNewProspect" action="/outils/Controllers/Controller_cdp.php?action=addedNewProspect" method="post" class="ADDNEWPROSPECT">
+<?php 
+            } elseif ($_SESSION['rights'] === '2') {
+?>
+            <form name="addNewProspect" action="/outils/Controllers/Controller_responsable.php?action=addedNewProspect" method="post" class="ADDNEWPROSPECT">
+<?php 
+            } elseif ($_SESSION['rights'] === '1') {
+?>
+            <form name="addNewProspect" action="/outils/Controllers/Controller_admin.php?action=addedNewProspect" method="post" class="ADDNEWPROSPECT">
+<?php 
+            }
+?>
                 <div class="w-100 d-flex justify-content-between">
 <!-------------->
 <!-----PRO------>
@@ -221,7 +235,7 @@
                 </div>
             </form>
 <?php 
-            } else if ($_SESSION['rights'] === '2') {
+            } elseif ($_SESSION['rights'] === '2') {
 ?>
             <form action="/outils/Controllers/Controller_responsable.php?action=prospectsListing" method="post">
                 <div class="d-flex justify-content-center">
@@ -229,7 +243,7 @@
                 </div>
             </form>
 <?php 
-            } else if ($_SESSION['rights'] === '1') {
+            } elseif ($_SESSION['rights'] === '1') {
 ?>
             <form action="/outils/Controllers/Controller_admin.php?action=prospectsListing" method="post">
                 <div class="d-flex justify-content-center">
