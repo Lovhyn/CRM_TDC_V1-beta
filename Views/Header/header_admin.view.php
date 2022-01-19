@@ -27,7 +27,7 @@
                         <div class="container-fluid">                       
                             <div class="resizeImg">
                                 <a class="navbar-brand" href="/outils/Controllers/Controller_admin.php?action=home">
-                                    <img width="100%" height="100%" src="/outils/Src/Rubis-toile-de-com.png" alt="Logo Toile de Com">
+                                    <img width="100%" height="100%" src="/outils/Src/Rubis-toile-de-com.png" alt="Logo Toile de Com" title="Accueil">
                                 </a>
                             </div>
                             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">

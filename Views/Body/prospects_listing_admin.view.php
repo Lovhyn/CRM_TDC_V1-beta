@@ -3,6 +3,11 @@
     <div class="d-flex justify-content-center mt-3">
         <h2 >Prospects</h2>
     </div>
+    <form class="d-flex justify-content-center mt-3" action="/outils/Controllers/Controller_admin.php?action=addNewProspectForm" method="post">
+        <button type="submit" name="action" value="addNewProspectForm" class="addNewProspectIcon" title="Enregistrer un nouveau prospect">
+            <i class="far fa-handshake"></i>
+        </button>
+    </form>
     <div class="d-flex justify-content-center">
         <table class="table table-hover table-striped table-dark mt-3 w-auto" 
                 data-toggle="table" data-search="true" data-show-columns="true" data-pagination="true">
@@ -44,7 +49,7 @@
                         <input type="hidden" name="pro_observation" value="' . $tProspect['observation']. '">
                         <input type="hidden" name="pro_status" value="' . $tProspect['prospect_ou_client']. '">
                         <input type="hidden" name="last_contact" value="' . $tProspect['date_derniere_pdc']. '">
-                        <input class="proNameBtn" type="submit" name="pro_ID" value="' . $tProspect['libelle_entreprise']. '"> 
+                        <input class="proNameBtn" type="submit" title="Voir fiche détaillée du professionnel" name="pro_ID" value="' . $tProspect['libelle_entreprise']. '"> 
                     </form>
                 </td> 
                 <td>' . $tProspect['suivi'] . '</td>
@@ -69,7 +74,7 @@
                         <input type="hidden" name="pro_adress2" value="' . $tProspect['adresse_2']. '">
                         <input type="hidden" name="pro_observation" value="' . $tProspect['observation']. '">
                         <input type="hidden" name="pro_status" value="' . $tProspect['prospect_ou_client']. '">
-                        <button class="updIcon" type="submit" name="action" value="updPro">
+                        <button class="updIcon" type="submit" title="Modifier / ajouter des informations sur le prospect" name="action" value="updPro">
                             <i class="far fa-edit"></i>
                         </button>
                     </form>
@@ -78,7 +83,7 @@
                     <form class="d-flex justify-content-center" action="/outils/Controllers/Controller_admin.php?action=prospectActivity" method="post">
                         <input type="hidden" name="pro_ID" value="' . $tProspect['ID_professionnel']. '">
                         <input type="hidden" name="pro_name" value="' . $tProspect['libelle_entreprise']. '">
-                        <button class="followIcon" type="submit" name="action" value="followPro">
+                        <button class="followIcon" type="submit" title="Voir le suivi du prospect" name="action" value="followPro">
                             <i class="fas fa-glasses"></i>
                         </button>
                     </form>
@@ -88,7 +93,7 @@
                     echo
                     '<div class="d-flex justify-content-center">
                         <button class="phoneIcon">
-                            <a title="'.$tProspect['tel'].'" href="tel:'.$tProspect['tel'].'">
+                            <a title="Appeler : '.$tProspect['tel'].'" href="tel:'.$tProspect['tel'].'">
                                 <i id="iconPhone" class="fas fa-phone"></i>
                             </a>
                         </button>

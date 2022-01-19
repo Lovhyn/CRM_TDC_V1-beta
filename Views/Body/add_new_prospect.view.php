@@ -212,11 +212,33 @@
                     <button type="submit" class="btn" onclick="return confirm('Etes-vous sûr(e) de vouloir enregistrer ce nouveau suivi ?')" id="submitFormBtn"><span>Valider</span></button>
                 </div>
             </form>
+<?php 
+            if ($_SESSION['rights'] === '3') {
+?>
             <form action="/outils/Controllers/Controller_cdp.php?action=prospectsListing" method="post">
                 <div class="d-flex justify-content-center">
                     <button type="submit" class="btn"><span>Retour</span></button>
                 </div>
             </form>
+<?php 
+            } else if ($_SESSION['rights'] === '2') {
+?>
+            <form action="/outils/Controllers/Controller_responsable.php?action=prospectsListing" method="post">
+                <div class="d-flex justify-content-center">
+                    <button type="submit" class="btn"><span>Retour</span></button>
+                </div>
+            </form>
+<?php 
+            } else if ($_SESSION['rights'] === '1') {
+?>
+            <form action="/outils/Controllers/Controller_admin.php?action=prospectsListing" method="post">
+                <div class="d-flex justify-content-center">
+                    <button type="submit" class="btn"><span>Retour</span></button>
+                </div>
+            </form>
+<?php 
+            } else header('Location: ../index.php');
+?>
         </fieldset>
     </div>
 </div>

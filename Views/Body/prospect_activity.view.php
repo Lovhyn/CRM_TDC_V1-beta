@@ -27,7 +27,7 @@ $userConnected = (int) $_SESSION['idUser'];
                     <th>Qui ?</th>
                     <th>Avec</th>
                     <th>Nom</th>
-                    <th>Comment</th>
+                    <th>Comment ?</th>
                     <th>Tel / Mail</th>
                     <th>Conclusion</th>
                     <th>Compte-rendu</th>

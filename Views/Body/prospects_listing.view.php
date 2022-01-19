@@ -8,7 +8,7 @@ $userConnected = (int) $_SESSION['idUser'];
         <h2 >Prospects</h2>
     </div>
     <form class="d-flex justify-content-center mt-3" action="/outils/Controllers/Controller_cdp.php?action=addNewProspectForm" method="post">
-        <button type="submit" value="addNewProspect" class="addNewProspectIcon" title="Enregistrer un nouveau prospect">
+        <button type="submit" name="action" value="addNewProspectForm" class="addNewProspectIcon" title="Enregistrer un nouveau prospect">
             <i class="far fa-handshake"></i>
         </button>
     </form>
@@ -55,7 +55,7 @@ $userConnected = (int) $_SESSION['idUser'];
                         <input type="hidden" name="pro_observation" value="' . $tProspect['observation']. '">
                         <input type="hidden" name="pro_status" value="' . $tProspect['prospect_ou_client']. '">
                         <input type="hidden" name="last_contact" value="' . $tProspect['date_derniere_pdc']. '">
-                        <input class="proNameBtn" title="Voir fiche détaillée du professionnel" type="submit" name="pro_ID" value="' . $tProspect['libelle_entreprise']. '"> 
+                        <input class="proNameBtn" type="submit" title="Voir fiche détaillée du professionnel" name="pro_ID" value="' . $tProspect['libelle_entreprise']. '"> 
                     </form>
                 </td> 
                 <td>' . $tProspect['nom_decideur'] . '</td>';
@@ -99,7 +99,7 @@ $userConnected = (int) $_SESSION['idUser'];
                         <input type="hidden" name="pro_adress2" value="' . $tProspect['adresse_2']. '">
                         <input type="hidden" name="pro_observation" value="' . $tProspect['observation']. '">
                         <input type="hidden" name="pro_status" value="' . $tProspect['prospect_ou_client']. '">
-                        <button class="updIcon" type="submit" name="action" value="updatePro">
+                        <button class="updIcon" type="submit" title="Modifier / ajouter des informations sur le prospect" name="action" value="updatePro">
                             <i class="far fa-edit"></i>
                         </button>
                     </form>';
@@ -121,7 +121,7 @@ $userConnected = (int) $_SESSION['idUser'];
                     echo
                     '<div class="d-flex justify-content-center">
                         <button class="phoneIcon">
-                            <a title="'.$tProspect['tel'].'" href="tel:'.$tProspect['tel'].'">
+                            <a title="Appeler : '.$tProspect['tel'].'" href="tel:'.$tProspect['tel'].'">
                                 <i id="iconPhone" class="fas fa-phone"></i>
                             </a>
                         </button>

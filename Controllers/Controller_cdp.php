@@ -41,6 +41,10 @@
                 $newProspectCity = $_POST['newProspectCity'];
                 $newProspectObservation = $_POST['newProspectObservation'];
                 $newContactInterlocutor = (int) $_POST['newContactInterlocutor'];
+/*              
+                Définit automatiquement que si le type d'interlocuteur est une messagerie,
+                le type de contact sera obligatoirement par téléphone.
+*/    
                 if ($newContactInterlocutor === 3) {
                     $newContactType = 3;
                 } else {
@@ -48,6 +52,13 @@
                 }
                 $newContactConclusion = (int) $_POST['newContactConclusion'];
                 $newContactComment = $_POST['newContactComment'];
+/*
+                Attention au typage : 
+                Les données concernant l'interlocuteur ne sont pas requises, par conséquent, des
+                valeurs NULL peuvent être envoyées en BDD. Nous contrôlons ici si les variables sont
+                vides ou non. Si elles le sont, nous envoyons des chaînes vides à la fonction 'createInterlocutorInfos'
+                qui elle, se chargera d'envoyer NULL si elle reçoit des chaînes vides en paramètre.
+*/
                 if (isset($_POST['newContactInterlocutorName'])) {
                     $newContactInterlocutorName = $_POST['newContactInterlocutorName'];
                 } else {
@@ -122,14 +133,11 @@
                         break;
                     }
                 } else {
-                    $msg = '<div class="text-center" style="color: #E84E0E">Erreur : un professionnel portant le même nom a déjà été enregistré.</div>';
-                    require("../Views/Header/header_cdp.view.php");
-                    echo($msg);
-                    require("../Views/Body/prospects_listing.view.php");
-                    require("../Views/Footer/footer.view.php");
+                    goto prospectListing;
                 }
                 break;
             case 'prospectsListing' : 
+                prospectListing:
                 require("../Views/Header/header_cdp.view.php");
                 require("../Views/Body/prospects_listing.view.php");
                 require("../Views/Footer/footer.view.php");
