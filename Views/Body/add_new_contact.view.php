@@ -8,6 +8,10 @@ $userConnected = (int) $_SESSION['idUser'];
             <legend class="fw-bold d-flex justify-content-center mb-4">Nouvelle prise de contact avec <?php echo($_POST['pro_name']);?>:</legend>
             <hr>
             <form name="addNewContact" action="/outils/Controllers/Controller_cdp.php?action=addedNewContact" method="post" class="ADDNEWCONTACT">
+<?php
+                echo
+                '<input type="hidden" name="pro_ID" value="' . $_POST['pro_ID']. '">';
+?>
 <!---------------------------------------------INTERLOCUTOR--------------------------------------->
                 <div class="w-100 d-flex justify-content-between">
                     <div class="w-25 mb-4 text-center">

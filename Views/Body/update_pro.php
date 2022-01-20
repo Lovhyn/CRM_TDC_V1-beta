@@ -4,7 +4,7 @@ $unknown = 'Non renseigné';
 <div class="container">
 <hr>
     <div class="container container d-flex justify-content-center">
-        <fieldset class="fieldsetProManagement">
+        <fieldset class="fieldsetManagement">
         <legend class="fw-bold d-flex justify-content-center mb-5">Modifier informations :</legend>
 <?php 
     if ($_SESSION['rights'] === "1") {

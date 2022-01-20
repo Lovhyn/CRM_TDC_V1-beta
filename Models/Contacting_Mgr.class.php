@@ -124,7 +124,7 @@ class Contacting_Mgr {
         }  
     }
 //  °°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°
-    public static function getCdpProspectActivity(Int $paramProId) {
+    public static function getProspectActivity(Int $paramProId) {
         try {
 //          Etablit une connexion à la base de données.
             $PDOconnexion = BddConnexion::getConnexion();
@@ -144,7 +144,8 @@ class Contacting_Mgr {
                             s.`date_derniere_pdc`,
                             s.`date_rdv`,
                             s.`date_relance`,
-                            p.`libelle_entreprise`, p.`nom_decideur`, p.`tel`, p.`tel_2`, p.`mail`
+                            p.ID_professionnel, p.`libelle_entreprise`, p.`nom_decideur`, p.`tel`, p.`tel_2`, p.`mail`,
+                            p.prospect_ou_client
                             FROM `suivre` s
                             INNER JOIN `utilisateur` u ON s.`ID_utilisateur` = u.`ID_utilisateur`
                             INNER JOIN `interlocuteur` i ON s.`ID_interlocuteur` = i.`ID_interlocuteur`

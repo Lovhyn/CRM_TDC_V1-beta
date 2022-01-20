@@ -32,7 +32,7 @@ hr {
     background: linear-gradient(328deg, rgba(238, 76, 149, 0.647) 0%, rgba(92,36,131,0.4) 100%);
     box-shadow: 7px 7px 10px #000000 !important;
 }
-.fieldsetProManagement {
+.fieldsetManagement {
     border-radius: 10px;
     width: 850px;
     margin-top: 50px;
@@ -160,11 +160,11 @@ h1, h2, h3, h4, h5, h6, span {
 .addNewProspectIcon:hover, .addNewCustomerIcon:hover, .addNewContactIcon:hover {
     transform: scale(1.9);
 }
-.proNameBtn {
+.fullInfosBtn {
     border: none;
     background-color: #21252900;
 }
-.proNameBtn:hover {
+.fullInfosBtn:hover {
     color: #ED6DA6;
     transform: scale(1.1);
     text-decoration: underline;

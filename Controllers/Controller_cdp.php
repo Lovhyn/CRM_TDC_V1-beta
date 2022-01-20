@@ -189,8 +189,70 @@
                 require("../Views/Footer/footer.view.php");
                 break;
             case 'addedNewContact' : 
+                $followedBy = (int) $_SESSION['idUser'];
+                $proId = (int) $_POST['pro_ID']; 
+                $newContactInterlocutor = (int) $_POST['newContactInterlocutor'];
+/*              
+                Définit automatiquement que si le type d'interlocuteur est une messagerie,
+                le type de contact sera obligatoirement par téléphone.
+*/    
+                if ($newContactInterlocutor === 3) {
+                    $newContactType = 3;
+                } else {
+                    $newContactType = (int) $_POST['newContactType'];
+                }
+                $newContactConclusion = (int) $_POST['newContactConclusion'];
+                $newContactComment = $_POST['newContactComment'];
+/*
+                Attention au typage : 
+                Les données concernant l'interlocuteur ne sont pas requises, par conséquent, des
+                valeurs NULL peuvent être envoyées en BDD. Nous contrôlons ici si les variables sont
+                vides ou non. Si elles le sont, nous envoyons des chaînes vides à la fonction 'createInterlocutorInfos'
+                qui elle, se chargera d'envoyer NULL si elle reçoit des chaînes vides en paramètre.
+*/
+                if (isset($_POST['newContactInterlocutorName'])) {
+                    $newContactInterlocutorName = $_POST['newContactInterlocutorName'];
+                } else {
+                    $newContactInterlocutorName = '';
+                }
+                if (isset($_POST['newContactInterlocutorInfoTel'])) {
+                    $newContactInterlocutorContact = $_POST['newContactInterlocutorInfoTel'];
+                } elseif (isset($_POST['newContactInterlocutorInfoMail'])) {
+                    $newContactInterlocutorContact = $_POST['newContactInterlocutorInfoMail'];
+                } else {
+                    $newContactInterlocutorContact = '';
+                }
+                InfosInterlocutor_Mgr::createInterlocutorInfos($newContactInterlocutorName, $newContactInterlocutorContact);
+//              Récupère la prochaine valeur de l'auto-increment après l'insert.
+                $lastIdInfosAfter = InfosInterlocutor_Mgr::getLastAutoIncrementValue();
+//              Convertit le résultat en entier.
+                $infosInterlocutorIdValue = (int) $lastIdInfosAfter[0]["AUTO_INCREMENT"];
+                $infoInterlocutorId = $infosInterlocutorIdValue - 1;
+/*
+                Contrôle que l'insert des infos sur l'interlocuteur a correctement été effectué
+                avant d'insérer un nouveau suivi dans la base de données.
+*/ 
+                $lastContactDate = Dates_Mgr::nowToUnixString();;
+//              Si l'utilisateur a validé une date depuis le calendrier rdv, on enregistre une date de rdv. 
+                if ((isset($_POST['meetingCalendar'])) AND ($newContactConclusion === '5')) {
+                    $meetingDate = Dates_Mgr::paramToUnixString($_POST['meetingCalendar']);
+                    Contacting_Mgr::createNewContactMeeting($followedBy, $proId , $newContactInterlocutor, 
+                                                        $infoInterlocutorId, $newContactType, $newContactConclusion, 
+                                                        $newContactComment, $lastContactDate, $meetingDate);
+//              Sinon, l'utilisateur saisit obligatoirement une date de relance.
+                } elseif (isset($_POST['recallCalendar'])) {   
+                    $recallDate = Dates_Mgr::paramToUnixString($_POST['recallCalendar']);
+                    Contacting_Mgr::createNewContactRecall($followedBy, $proId, $newContactInterlocutor,
+                                                        $infoInterlocutorId, $newContactType, $newContactConclusion, 
+                                                        $newContactComment, $lastContactDate, $recallDate);
+                }
                 require("../Views/Header/header_cdp.view.php");
                 require("../Views/Body/prospect_activity.view.php");
+                require("../Views/Footer/footer.view.php");
+                break;
+            case 'fullInfosContact' : 
+                require("../Views/Header/header_cdp.view.php");
+                require("../Views/Body/full_infos_contact.view.php");
                 require("../Views/Footer/footer.view.php");
                 break;
             case 'clientsListing' :
