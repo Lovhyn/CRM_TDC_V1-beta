@@ -11,9 +11,12 @@
         Enregistre dans une variable la valeur passée en "GET" de l'action      
         appelée par l'utilisateur.
 */ 
-        if (isset($_GET['action'])) {
+        if (isset($_POST['action'])) {
+            $action = $_POST['action'];
+        } elseif (isset($_GET['action'])) {
             $action = $_GET['action'];
         }
+        
 //      -------------------------------------------------------------------------------------------
 //      --------------------------------------Switch $action---------------------------------------
 //      -------------------------------------------------------------------------------------------
@@ -247,7 +250,10 @@
                 $phoneUserToUpdate = $_POST['majUserPhone'];
                 $mailUserToUpdate = $_POST['majUserMail'];
                 $rightsUserToUpdate = $_POST['majUserRights'];
-                $idUserToUpdate = $_POST['userId'];
+                $idUserToUpdate = (int) $_POST['userId'];
+                $oldPasswordUser = $_POST['oldUserPassword'];
+                $newUserPassword = $_POST['newUserPassword'];
+                $newUserPasswordConfirmation = $_POST['confirmNewUserPassword'];
                 if ($_POST['majUserRights'] === 'admin') {
                     $rightsUserToUpdate = 1;
                 } elseif ($_POST['majUserRights'] === 'responsable') {
@@ -255,34 +261,31 @@
                 } else {
                     $rightsUserToUpdate = 3;                   
                 }
-                if ((isset($_POST['majUserPassword'])) AND (isset($_POST['majUserPassword²']))) {
-                    $passwordUserToUpdate = $_POST['majUserPassword'];
-                    $passwordUserToUpdateConfirmation = $_POST['majUserPassword²'];
-                    if ($passwordUserToUpdate === $passwordUserToUpdateConfirmation) {
-                        User_Mgr::updateUser($nameUserToUpdate, $surnameUserToUpdate, $passwordUserToUpdate, 
-                                    $mailUserToUpdate, $phoneUserToUpdate, $rightsUserToUpdate, $idUserToUpdate);
-                        require("../Views/Header/header_admin.view.php");
-                        echo('<div class="text-center" style="color: #46ec4e">L\'utilisateur a bien été mis à jour.</div>');
-                        require("../Views/Body/user_management.view.php");
-                        require("../Views/Footer/footer.view.php");
-                    break;
+                if (($newUserPassword != '') OR ($newUserPasswordConfirmation != '')) {
+                    if ($newUserPassword === $newUserPasswordConfirmation) {
+                        User_Mgr::updateUserPassword($idUserToUpdate, $newUserPassword);
                     } else {
                         require("../Views/Header/header_admin.view.php");
-                        echo('<div class="text-center" style="color: #E84E0E">Erreur : l\'utilisateur n\'a pas pu être mis à jour.</div>');
+                        echo('<div class="text-center" style="color: #E84E0E">Erreur : le mot de passe n\'a pas pu être modifié.</div>');
                         require("../Views/Body/user_management.view.php");
                         require("../Views/Footer/footer.view.php");
                         break;
                     }
-                } else {
-                    $oldPasswordUser = $_POST['oldUserPassword'];
-                    User_Mgr::updateUser($nameUserToUpdate, $surnameUserToUpdate, $oldPasswordUser, 
-                                    $mailUserToUpdate, $phoneUserToUpdate, $rightsUserToUpdate, $idUserToUpdate);
+                }
+                User_Mgr::updateUser($nameUserToUpdate, $surnameUserToUpdate, $mailUserToUpdate, 
+                                    $phoneUserToUpdate, $rightsUserToUpdate, $idUserToUpdate);
                     require("../Views/Header/header_admin.view.php");
                     echo('<div class="text-center" style="color: #46ec4e">L\'utilisateur a bien été mis à jour.</div>');
                     require("../Views/Body/user_management.view.php");
                     require("../Views/Footer/footer.view.php");
                     break;
-                }
+            case 'deleteUser' : 
+                $userID = (int) $_POST['idUser'];
+                User_Mgr::deleteUser($userID);
+                require("../Views/Header/header_admin.view.php");
+                require("../Views/Body/user_management.view.php");
+                require("../Views/Footer/footer.view.php");
+                break;
 //          *********************************** Management ACTIVITYAREA ***************************
             case 'activityAreaManagement' :
                 require("../Views/Header/header_admin.view.php");
@@ -308,7 +311,7 @@
                     require("../Views/Footer/footer.view.php");
                 }
                 break;
-            case 'updateActivityArea' :
+            case 'majActivityArea' :
                 $idActivityAreaToUpdate = $_POST['idActivityArea'];
                 $newActivityAreaLabel = $_POST['updActivityArea'];
                 ActivityArea_Mgr::updateActivityAreaById($idActivityAreaToUpdate, $newActivityAreaLabel);

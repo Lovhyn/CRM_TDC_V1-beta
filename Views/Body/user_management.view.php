@@ -1,9 +1,11 @@
+<!--$_POST = OK-->
 <div class="container">
 <hr>
     <div class="d-flex justify-content-center mt-3">
         <h2 >Gestion des utilisateurs</h2>
     </div>
-    <form class="d-flex justify-content-center mt-3" action="/outils/Controllers/Controller_admin.php?action=addUser" method="post">
+    <form class="d-flex justify-content-center mt-3" action="/outils/Controllers/Controller_admin.php" method="post">
+        <input type="hidden" name="action" value="addUser">
         <button type="submit" value="addUser" class="addUserIcon">
             <i class="fas fa-user-plus"></i>
         </button>
@@ -13,25 +15,26 @@
                 data-toggle="table" data-search="true" data-show-columns="true" data-pagination="true">
             <thead>
                 <th>Nom</th>
-                <th class="text-center">Prénom</th>
-                <th class="text-center">Mail</th>
-                <th class="text-center">Rôle</th>
-                <th class="text-center">Modifier</th>
-                <th class="text-center">Appeler</th>
-                <!-- <th class="text-center">Supprimer</th> -->
+                <th>Prénom</th>
+                <th>Mail</th>
+                <th>Rôle</th>
+                <th>Modifier</th>
+                <th>Supprimer</th>
             </thead>
 <?php
+//      Récupère une liste permettant de contrôler quels utilisateurs ne sont pas affectés à un professionnel.
+        $tUndeletableUsers = User_Mgr::getUndeletableUsersList();
 //      Récupère la liste des utilisateurs.
         $tUsers = User_Mgr::getUsersList();
         foreach($tUsers as $tUser) {
             echo
             '<tr>
                 <td>' . $tUser['nom'] . '</td>
-                <td class="text-center">' . $tUser['prenom'] . '</td>
-                <td class="text-center">' . $tUser['mail'] . '</td>
-                <td class="text-center">' . $tUser['libelle_droit'] . '</td>
+                <td>' . $tUser['prenom'] . '</td>
+                <td>' . $tUser['mail'] . '</td>
+                <td>' . $tUser['libelle_droit'] . '</td>
                 <td>
-                    <form class="d-flex justify-content-center" action="/outils/Controllers/Controller_admin.php?action=updateUser" method="post">
+                    <form class="d-flex justify-content-center" action="/outils/Controllers/Controller_admin.php" method="post">
                         <input type="hidden" name="userId" value="' . $tUser['ID_utilisateur']. '">
                         <input type="hidden" name="userName" value="' . $tUser['nom']. '">
                         <input type="hidden" name="userSurname" value="' . $tUser['prenom']. '">
@@ -40,34 +43,33 @@
                         <input type="hidden" name="userPhone" value="' . $tUser['tel']. '">
                         <input type="hidden" name="userIdRights" value="' . $tUser['ID_droit']. '">
                         <input type="hidden" name="userLibRights" value="' . $tUser['libelle_droit']. '">
-                        <button class="updIcon" type="submit" name="action" value="updUser">
+                        <input type="hidden" name="action" value="updateUser">
+                        <button class="updIcon" type="submit">
                             <i class="far fa-edit"></i>
                         </button>
                     </form>
-                </td>
-            <td>';
-                if ($tUser['tel'] != '') {
-                    echo
-                    '<div class="d-flex justify-content-center">
-                        <button class="phoneIcon">
-                            <a title="'.$tUser['tel'].'" href="tel:'.$tUser['tel'].'">
-                                <i id="iconPhone" class="fas fa-phone"></i>
-                            </a>
-                        </button>
-                    </div>';
+                </td>';
+            $flag = false;
+            foreach($tUndeletableUsers as $tUndeletableUser ) {
+                if ($tUndeletableUser['ID_utilisateur'] == $tUser['ID_utilisateur']) {
+                    $flag = true;
+                    break;
                 }
-                '</td>
-            </tr>';
-/*
-                <td>
-                    <form class="d-flex justify-content-center" action="/outils/Controllers/Controller_admin.php?action=deleteUser" method="post">
-                        <button class="delIcon" type="submit" name="action" value="delUser">
+            }
+            if ($flag == false) {
+                $dialogBoxMsg = 'onclick="return confirm(`Etes-vous sûr(e) de vouloir supprimer cet utilisateur ?`)"';
+                echo
+                '<td>
+                    <form class="d-flex justify-content-center" action="/outils/Controllers/Controller_admin.php" method="post">
+                        <input type="hidden" name="idUser" value="' . $tUser['ID_utilisateur']. '">
+                        <input type="hidden" name="action" value="deleteUser">
+                        <button class="delIcon" type="submit"'; echo($dialogBoxMsg); echo'>
                             <i class="far fa-trash-alt"></i>
                         </button>
-                            <input type="hidden" name="idUser" value="' . $tUser['ID_utilisateur']. '">
                     </form>
-                </td>';
-*/
+                </td>
+            </tr>';
+            }
         }
 ?>
         </table>

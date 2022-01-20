@@ -61,8 +61,8 @@ class User_Mgr {
         }
     }
 //  °°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°
-    public static function updateUser(String $userName, String $userSurname, String $userPassword, 
-                                    String $userMail, String $userPhone, Int $userRights, String $userId) {
+    public static function updateUser(String $userName, String $userSurname, String $userMail, 
+                                    String $userPhone, Int $userRights, Int $userId) {
         try {
 //          Etablit une connexion à la base de données.
             $PDOconnexion = BddConnexion::getConnexion();
@@ -71,15 +71,40 @@ class User_Mgr {
             On souhaite ici mettre à jour un utilisateur dans la base de données. 
 */
             $sqlRequest = ' UPDATE `utilisateur` 
-                            SET `nom`=:userName,`prenom`=:userSurname,`mot_de_passe`=:userPassword,
-                                `mail`=:userMail,`tel`=:userPhone,`ID_droit`=:userRights 
-                            WHERE `ID_utilisateur` = :userID;';
+                            SET `nom`=:userName, `prenom`=:userSurname,
+                                `mail`=:userMail, `tel`=:userPhone, `ID_droit`=:userRights 
+                            WHERE `ID_utilisateur` = :userID; ';
 //          Connexion PDO + prépare l'envoi de la requête.
             $repPDO = $PDOconnexion->prepare($sqlRequest);
 //          Exécute la requête en affectant les valeurs données en paramètres aux étiquettes.
             $repPDO->execute(array(':userName' => $userName, ':userSurname' => $userSurname,
-                                    ':userPassword' => md5($userPassword), ':userMail' => $userMail, 
+                                    ':userMail' => $userMail, 
                                     ':userPhone' => self::phoneFormatToInternational($userPhone), ':userRights' => $userRights,
+                                    ':userID' => $userId));
+//          Réinitialise le curseur.
+            $repPDO->closeCursor();
+//          Ferme la connexion à la bdd.
+            BddConnexion::disconnect();
+        } catch(Exception $e) {
+            die('Erreur : Accès interdit ou connexion impossible.');
+        }
+    }
+//  °°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°
+    public static function updateUserPassword(Int $userId, String $userPassword) {
+        try {
+//          Etablit une connexion à la base de données.
+            $PDOconnexion = BddConnexion::getConnexion();
+/*
+            Prépare la requête SQL et l'enregistre dans une variable =>
+            On souhaite ici mettre à jour un utilisateur dans la base de données. 
+*/
+            $sqlRequest = ' UPDATE `utilisateur` 
+                            SET `mot_de_passe` = :userPassword 
+                            WHERE `ID_utilisateur` = :userID; ';
+//          Connexion PDO + prépare l'envoi de la requête.
+            $repPDO = $PDOconnexion->prepare($sqlRequest);
+//          Exécute la requête en affectant les valeurs données en paramètres aux étiquettes.
+            $repPDO->execute(array(':userPassword' => md5($userPassword),
                                     ':userID' => $userId));
 //          Réinitialise le curseur.
             $repPDO->closeCursor();
@@ -107,6 +132,36 @@ class User_Mgr {
             $repPDO->closeCursor();
 //          Ferme la connexion à la bdd.
             BddConnexion::disconnect();
+        } catch(Exception $e) {
+            die('Erreur : Accès interdit ou connexion impossible.');
+        }
+    }
+//  °°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°
+    public static function getUndeletableUsersList() {
+        try {
+//          Etablit une connexion à la base de données.
+            $PDOconnexion = BddConnexion::getConnexion();
+/*
+            Prépare la requête SQL et l'enregistre dans une variable =>
+            On souhaite ici récupérer : 
+                - une liste non détaillée des utilisateurs qui ne sont pas
+                en charge du suivi d'un professionnel.
+*/
+            $sqlRequest = ' SELECT u.ID_utilisateur, p.ID_utilisateur 
+                            FROM utilisateur u 
+                            INNER JOIN professionnel p ON u.ID_utilisateur = p.ID_utilisateur; ';
+//          Connexion PDO + soumission de la requête.
+            $repPDO = $PDOconnexion->query($sqlRequest);
+//          On définit sous quelle forme nous souhaitons récupérer le résultat.
+            $repPDO->setFetchMode(PDO::FETCH_ASSOC);
+//          On récupère le résultat de la requête sous la forme d'un tableau associatif.
+            $records = $repPDO->fetchAll();
+//          Réinitialise le curseur.
+            $repPDO->closeCursor();
+//          Ferme la connexion à la bdd.
+            BddConnexion::disconnect();
+//          Puis on retourne ce tableau.
+            return $records;
         } catch(Exception $e) {
             die('Erreur : Accès interdit ou connexion impossible.');
         }

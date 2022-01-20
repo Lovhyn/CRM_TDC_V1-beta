@@ -1,9 +1,10 @@
+<!--$_POST = OK-->
 <div class="container">
 <hr>
     <div class="container container d-flex justify-content-center">
         <fieldset class="fieldsetUserManagement">
             <legend class="fw-bold d-flex justify-content-center mb-5">Modifier un utilisateur :</legend>
-            <form name="updUser" action="/outils/Controllers/Controller_admin.php?action=updatedUser" method="post" class="UPDUSER">
+            <form name="updUser" action="/outils/Controllers/Controller_admin.php" method="post">
                     <input type="hidden" name="userId" value="<?php echo $_POST['userId'];?>">
 <!-------------------------------------------USER NAME-------------------------------------------->
                 <div class="mb-3">
@@ -26,18 +27,14 @@
                     <input value="<?php echo $_POST['userMail'];?>" type="mail" class="form-control" name="majUserMail" id="MAJUSERMAIL" minlength="5" maxlength="50">
                 </div>
 <!-----------------------------------------USER PASSWORD------------------------------------------>
-                <div class="mb-3">
-                    <label for="MAJUSERPASSWORD" class="form-label">Ancien mot de passe :</label>
-                    <input value="<?php echo $_POST['userPassword'];?>" type="password" class="form-control" name="majUserPassword" id="MAJUSERPASSWORD" minlength="5" maxlength="50">
-                    <input type="hidden" name="oldUserPassword" value="<?php echo $_POST['userPassword'];?>">
-                </div>     
+                    <input type="hidden" name="oldUserPassword" value="<?php echo($_POST['userPassword']);?>">
                 <div id="newPasswordDiv" class="mb-3">
                     <label for="MAJUSERPASSWORD" class="form-label">Nouveau mot de passe :</label>
-                    <input value="" placeholder="Définir nouveau mot de passe" type="password" class="form-control" name="majUserPassword" id="MAJUSERPASSWORD" minlength="5" maxlength="50">
+                    <input placeholder="Définir nouveau mot de passe" type="password" class="form-control" name="newUserPassword" id="MAJUSERPASSWORD" minlength="5" maxlength="50">
                 </div>
                 <div id="confirmNewPasswordDiv" class="mb-3">
                     <label for="MAJUSERPASSWORD²" class="form-label">Confirmation nouveau mot de passe :</label>
-                    <input value="" placeholder="Confirmer le nouveau mot de passe" type="password" class="form-control" name="majUserPassword²" id="MAJUSERPASSWORD²" minlength="5" maxlength="50">
+                    <input placeholder="Confirmer le nouveau mot de passe" type="password" class="form-control" name="confirmNewUserPassword" id="MAJUSERPASSWORD²" minlength="5" maxlength="50">
                 </div>
 <!-------------------------------------------USER ROLE-------------------------------------------->
                 <div class="mb-3">
@@ -50,6 +47,7 @@
                 </div>
 <!------------------------------------------SUBMIT BTN-------------------------------------------->
                 <div class="d-flex justify-content-center">
+                    <input type="hidden" name="action" value="updatedUser">
                     <button type="submit" class="btn" onclick="return confirm('Etes-vous sûr(e) de vouloir modifier ces informations ?')"><span>Valider</span></button>
                 </div>
             </form>

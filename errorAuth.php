@@ -19,7 +19,7 @@ var_dump($_SESSION);
         <img id="logoLogin" class="rounded mx-auto d-block mb-3" src="/outils/Src/Rubis-toile-de-com.png" alt="logo toile de com">
         <p class="text-center">Adresse mail et / ou mot de passe incorrect(s).</p>
         <legend class="mb-3">Veuillez saisir vos identifiants :</legend>
-            <form name="authentication" action="/outils/Controllers\Controller_login.php" method="post" class="LOGIN">
+            <form name="authentication" action="/outils/Controllers/Controller_login.php" method="post" class="LOGIN">
                 <div class="mb-2">
                     <label for="USERNAMEINPUT" class="form-label">Adresse Mail :</label>
                     <input required placeholder="Saisissez votre adresse Mail" type="email" class="form-control" name="userMail" id="USERNAMEINPUT">
