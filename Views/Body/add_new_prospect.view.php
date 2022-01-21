@@ -1,29 +1,30 @@
+<!--$_POST = OK-->
+<?php 
+$userConnected = (int) $_SESSION['idUser'];
+$rights = (int) $_SESSION['rights'];
+?>
 <div class="container">
 <hr>
     <div class="container d-flex justify-content-center">
         <fieldset class="fieldsetAddNewProspect">
             <legend class="fw-bold d-flex justify-content-center mb-4">NOUVEAU PROSPECT :</legend>
             <hr>
-            <!--
-            <form name="addNewProspect" action="<?php echo($_SERVER['PHP_SELF']);?>" method="post" class="ADDNEWPROSPECT">
-                <div class="w-100 d-flex justify-content-between"> 
-                <input type="hidden" name="action" value="addedNewProspect">  
-            -->
 <?php 
-            if ($_SESSION['rights'] === '3') {
+            if ($rights === 1) {
 ?>
-            <form name="addNewProspect" action="/outils/Controllers/Controller_cdp.php?action=addedNewProspect" method="post" class="ADDNEWPROSPECT">
+            <form action="/outils/Controllers/Controller_admin.php" method="post">
 <?php 
-            } elseif ($_SESSION['rights'] === '2') {
+            } elseif ($rights === 2) {
 ?>
-            <form name="addNewProspect" action="/outils/Controllers/Controller_responsable.php?action=addedNewProspect" method="post" class="ADDNEWPROSPECT">
+            <form action="/outils/Controllers/Controller_responsable.php" method="post">
 <?php 
-            } elseif ($_SESSION['rights'] === '1') {
+            } elseif ($rights === 3) {
 ?>
-            <form name="addNewProspect" action="/outils/Controllers/Controller_admin.php?action=addedNewProspect" method="post" class="ADDNEWPROSPECT">
+            <form action="/outils/Controllers/Controller_cdp.php" method="post">
 <?php 
             }
 ?>
+                <input type="hidden" name="action" value="addedNewProspect">
                 <div class="w-100 d-flex justify-content-between">
 <!-------------->
 <!-----PRO------>
@@ -167,10 +168,10 @@
                             <option selected value="0">Précisez :</option>
 <?php
 //                  Récupère la liste des scénarios (conclusions) (le scénario "vente" est exclu via la boucle "for").
-                    $tConclusions = Conclusions_Mgr::getConclusionsList();
-                    for ($i = 0 ; $i < count($tConclusions) -1 ; $i++) {
+                    $tConclusions = Conclusions_Mgr::getConclusionsListExcept();
+                    foreach ($tConclusions as $tConclusion) {
                         echo
-                            '<option value="';echo($tConclusions[$i]['ID_conclusion']);echo'">'.$tConclusions[$i]['libelle_conclusion'].'</option>';
+                            '<option value="';echo($tConclusion['ID_conclusion']);echo'">'.$tConclusion['libelle_conclusion'].'</option>';
                     }
 ?>
                         </select>
@@ -220,39 +221,31 @@
                     </div>
                 </div>
                 <hr>
-
 <!---------------------------------------------SUBMIT BUTTON-------------------------------------->
                 <div class="d-flex justify-content-center">
                     <button type="submit" class="btn" onclick="return confirm('Etes-vous sûr(e) de vouloir enregistrer ce nouveau suivi ?')" id="submitFormBtn"><span>Valider</span></button>
                 </div>
             </form>
 <?php 
-            if ($_SESSION['rights'] === '3') {
+            if ($rights === 1) {
 ?>
-            <form action="/outils/Controllers/Controller_cdp.php?action=prospectsListing" method="post">
-                <div class="d-flex justify-content-center">
+            <form action="/outils/Controllers/Controller_admin.php" method="post">
+<?php 
+            } elseif ($rights === 2) {
+?>
+            <form action="/outils/Controllers/Controller_responsable.php" method="post">
+<?php 
+            } elseif ($rights === 3) {
+?>
+            <form action="/outils/Controllers/Controller_cdp.php" method="post">
+<?php 
+            } 
+?>
+            <input type="hidden" name="action" value="prospectsListing">
+            <div class="d-flex justify-content-center">
                     <button type="submit" class="btn"><span>Retour</span></button>
                 </div>
             </form>
-<?php 
-            } elseif ($_SESSION['rights'] === '2') {
-?>
-            <form action="/outils/Controllers/Controller_responsable.php?action=prospectsListing" method="post">
-                <div class="d-flex justify-content-center">
-                    <button type="submit" class="btn"><span>Retour</span></button>
-                </div>
-            </form>
-<?php 
-            } elseif ($_SESSION['rights'] === '1') {
-?>
-            <form action="/outils/Controllers/Controller_admin.php?action=prospectsListing" method="post">
-                <div class="d-flex justify-content-center">
-                    <button type="submit" class="btn"><span>Retour</span></button>
-                </div>
-            </form>
-<?php 
-            } else header('Location: ../index.php');
-?>
         </fieldset>
     </div>
 </div>

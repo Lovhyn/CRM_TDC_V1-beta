@@ -99,7 +99,16 @@ function displayCalendar() {
         comment.innerHTML = "";
         comment.innerHTML = "Absence de réponse, relance prévue.";
         submitBtn.style.display = "inline";
-    } 
+    } else {
+        recallCalendarLabel.innerHTML = "Date de relance :" ;
+        meetingDiv.style.display = "none";
+        recallDiv.style.display = "inline";
+        recallCalendar.setAttribute("required", "");
+        meetingCalendar.removeAttribute("required");
+        comment.placeholder = "";
+        comment.innerHTML = "";
+        submitBtn.style.display = "inline";
+    }
 }
 //  ***********************************************************************************************
 function displayInterlocutorInfosInputs(){

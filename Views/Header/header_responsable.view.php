@@ -16,7 +16,7 @@
         <link rel="stylesheet" href="https://unpkg.com/bootstrap-table@1.19.1/dist/bootstrap-table.min.css">
         <!--CSS-->
         <link rel="stylesheet" href="/outils/Assets/css/style.css">
-        <title>Accueil - Bienvenue</title>
+        <title>CRM - Toile de Com</title>
     </head>
     <body class="bg-dark">
         <header class="sticky-top">

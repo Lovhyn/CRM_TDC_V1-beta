@@ -16,7 +16,6 @@
         } elseif (isset($_GET['action'])) {
             $action = $_GET['action'];
         }
-        
 //      -------------------------------------------------------------------------------------------
 //      --------------------------------------Switch $action---------------------------------------
 //      -------------------------------------------------------------------------------------------
@@ -339,6 +338,32 @@
                 require("../Views/Header/header_admin.view.php");
                 require("../Views/Body/conclusions_management.view.php");
                 require("../Views/Footer/footer.view.php");
+            case 'addConclusion' :
+                $newConclusion = $_POST['newConclusion'];
+                if (($newConclusion != '') and (Conclusions_Mgr::checkIfExists($newConclusion) < 1)) {
+                    Conclusions_Mgr::createConclusion($newConclusion);
+                    $msg = '<div class="text-center" style="color: #46ec4e">'.'"'.$newConclusion.'" a bien été ajouté à la liste.'.'</div>';
+                } elseif ($newConclusion == '') {
+                    $msg = '<div class="text-center" style="color: #E84E0E">Erreur : veuillez saisir un scénario</div>';
+                } else {
+                    $msg = '<div class="text-center" style="color: #E84E0E">Erreur : ce scénario existe déjà</div>';
+                }
+                require("../Views/Header/header_admin.view.php");
+                echo($msg);
+                require("../Views/Body/conclusions_management.view.php");
+                require("../Views/Footer/footer.view.php");
+                break;
+            case 'deleteConclusion' :
+                $idConclusionToDelete = (int) $_POST['idConclusion'];
+                $libConclusionToDelete = Conclusions_Mgr::getConclusionLibById($idConclusionToDelete);
+                $libConclusionToDelete = $libConclusionToDelete[0]['libelle_conclusion'];
+                $msg = '<div class="text-center" style="color: #46ec4e">'.'"'.$libConclusionToDelete.'" a bien été supprimé de la liste.'.'</div>';
+                Conclusions_Mgr::deleteConclusionById($idConclusionToDelete);
+                require("../Views/Header/header_admin.view.php");
+                echo($msg);
+                require("../Views/Body/conclusions_management.view.php");
+                require("../Views/Footer/footer.view.php");
+                break;
         }
     } else header('Location: ../index.php');
 ?>

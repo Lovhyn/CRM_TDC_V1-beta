@@ -30,6 +30,35 @@ class Conclusions_Mgr {
         }
     }
 //  °°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°
+    public static function getConclusionsListExcept() {
+        try {
+//          Etablit une connexion à la base de données.
+            $PDOconnexion = BddConnexion::getConnexion();
+/*
+            Prépare la requête SQL et l'enregistre dans une variable =>
+            On souhaite ici récupérer : 
+                - la liste de tous les libellés de conclusions enregistrés dans la bdd
+                SAUF L'ID de la conclusion "vente".
+*/
+            $sqlRequest = " SELECT * 
+                            FROM `conclusion` WHERE libelle_conclusion <> 'Vente'; ";
+//          Connexion PDO + soumission de la requête.
+            $repPDO = $PDOconnexion->query($sqlRequest);
+//          On définit sous quelle forme nous souhaitons récupérer le résultat.
+            $repPDO->setFetchMode(PDO::FETCH_ASSOC);
+//          On récupère le résultat de la requête sous la forme d'un tableau associatif.
+            $records = $repPDO->fetchAll();
+//          Réinitialise le curseur.
+            $repPDO->closeCursor();
+//          Ferme la connexion à la bdd.
+            BddConnexion::disconnect();
+//          Puis on retourne ce tableau.
+            return $records;
+        } catch(Exception $e) {
+            die('Erreur : Accès interdit ou connexion impossible.');
+        }
+    }
+//  °°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°
     public static function createConclusion(String $paramString) {
         try {
 //          Etablit une connexion à la base de données.
@@ -91,6 +120,38 @@ class Conclusions_Mgr {
                             INNER JOIN conclusion c ON c.ID_conclusion = s.ID_conclusion;' ;
 //          Connexion PDO + soumission de la requête.
             $repPDO = $PDOconnexion->query($sqlRequest);
+//          On définit sous quelle forme nous souhaitons récupérer le résultat.
+            $repPDO->setFetchMode(PDO::FETCH_ASSOC);
+//          On récupère le résultat de la requête sous la forme d'un tableau associatif.
+            $records = $repPDO->fetchAll();
+//          Réinitialise le curseur.
+            $repPDO->closeCursor();
+//          Ferme la connexion à la bdd.
+            BddConnexion::disconnect();
+//          Puis on retourne ce tableau.
+            return $records;
+        } catch(Exception $e) {
+            die('Erreur : Accès interdit ou connexion impossible.');
+        }
+    }
+//  °°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°
+    public static function getConclusionLibById(Int $paramId) {
+        try {
+//          Etablit une connexion à la base de données.
+            $PDOconnexion = BddConnexion::getConnexion();
+/*
+            Prépare la requête SQL et l'enregistre dans une variable =>
+            On souhaite ici récupérer une liste non détaillée des professionnels qui nous servira : 
+                - à vérifier si la suppression d'un scénario (conclusion) est possible
+                (si non associé à un professionnel).
+*/
+            $sqlRequest = ' SELECT libelle_conclusion
+                            FROM conclusion
+                            WHERE ID_conclusion = :paramId ;' ;
+//          Connexion PDO + prépare l'envoi de la requête.
+            $repPDO = $PDOconnexion->prepare($sqlRequest);
+//          Exécute la requête en affectant les valeurs données en paramètres aux étiquettes.
+            $repPDO->execute(array(':paramId' => $paramId));
 //          On définit sous quelle forme nous souhaitons récupérer le résultat.
             $repPDO->setFetchMode(PDO::FETCH_ASSOC);
 //          On récupère le résultat de la requête sous la forme d'un tableau associatif.
