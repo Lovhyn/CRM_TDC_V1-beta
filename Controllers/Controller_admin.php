@@ -8,8 +8,8 @@
             include "../Models/" . $classe . ".class.php";
         });
 /*
-        Enregistre dans une variable la valeur passée en "GET" de l'action      
-        appelée par l'utilisateur.
+        Enregistre dans une variable la valeur passée en "GET" ou en "POST" 
+        de l'action appelée par l'utilisateur.
 */ 
         if (isset($_POST['action'])) {
             $action = $_POST['action'];
@@ -125,7 +125,7 @@
                             $msg = '<div class="text-center" style="color: #46ec4e">Nouveau suivi enregistré.</div>';
                             require("../Views/Header/header_admin.view.php");  
                             echo($msg);
-                            require("../Views/Body/prospects_listing_admin.view.php");
+                            require("../Views/Body/prospects_listing.view.php");
                             require("../Views/Footer/footer.view.php"); 
                             break;
                         }   
@@ -175,7 +175,7 @@
                                         $newSecondaryAdress, $newCp, $newCity, $newObservation,
                                         $proToUpdate, $newFollowedBy);
                 require("../Views/Header/header_admin.view.php");
-                require("../Views/Body/prospects_listing_admin.view.php");
+                require("../Views/Body/prospects_listing.view.php");
                 require("../Views/Footer/footer.view.php");
                 break;
             case 'clientsListing' :

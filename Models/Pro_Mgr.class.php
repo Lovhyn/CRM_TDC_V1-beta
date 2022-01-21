@@ -217,7 +217,7 @@ public static function getMyCustomersList(int $paramUserId) {
     public static function updateProspect(String $updName, String $updDecisionMaker, 
                                         String $updMainPhone, String $updSecondaryPhone,
                                         String $updMail, String $updMainAdress, String $updSecondaryAdress,
-                                        $updCp, String $updCity, String $updObservation, Int $proId,
+                                        String $updCp, String $updCity, String $updObservation, Int $proId,
                                         Int $updUserId) {
         try {
 //          Etablit une connexion à la base de données.

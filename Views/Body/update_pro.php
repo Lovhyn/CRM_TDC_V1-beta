@@ -1,5 +1,8 @@
+<!--$_POST = OK-->
 <?php 
 $unknown = 'Non renseigné';
+$userConnected = (int) $_SESSION['idUser'];
+$rights = (int) $_SESSION['rights'];
 ?>
 <div class="container">
 <hr>
@@ -7,38 +10,38 @@ $unknown = 'Non renseigné';
         <fieldset class="fieldsetManagement">
         <legend class="fw-bold d-flex justify-content-center mb-5">Modifier informations :</legend>
 <?php 
-    if ($_SESSION['rights'] === "1") {
+    if ($rights === 1) {
 ?>
-        <form name="updPro" action="/outils/Controllers/Controller_admin.php?action=updatedPro" method="post" class="UPDPRO">
-                <input type="hidden" name="currentProId" value="<?php echo($_POST['pro_ID']);?>">
+        <form action="/outils/Controllers/Controller_admin.php" method="post">
 <?php
-    } elseif ($_SESSION['rights'] === "2") {
+    } elseif ($rights === 2) {
 ?> 
-        <form name="updPro" action="/outils/Controllers/Controller_responsable.php?action=updatedPro" method="post" class="UPDPRO">
-                <input type="hidden" name="currentProId" value="<?php echo($_POST['pro_ID']);?>">
+        <form action="/outils/Controllers/Controller_responsable.php" method="post">
 <?php
-    } elseif ($_SESSION['rights'] === "3") {
+    } elseif ($rights === 3) {
 ?>
-        <form name="updPro" action="/outils/Controllers/Controller_cdp.php?action=updatedPro" method="post" class="UPDPRO">
-                <input type="hidden" name="currentProId" value="<?php echo($_POST['pro_ID']);?>">
+        <form action="/outils/Controllers/Controller_cdp.php" method="post">
+            
 <?php
     } 
 ?>
+            <input type="hidden" name="currentProId" value="<?php echo($_POST['ID_professionnel']);?>">
+            <input type="hidden" name="action" value="updatedPro">
             <div class="mb-3">
                 <label for="MAJPRONAME" class="form-label">Nom (entreprise) :</label>
-                <input required value="<?php echo($_POST['pro_name']);?>" type="text" class="form-control" name="majProName" id="MAJPRONAME" minlength="2" maxlength="50" pattern="^[\w'\-,.]*[^_!¡?÷?¿\/\\+=@#$%ˆ&*(){}|~<>;:[\]]*${1,50}">
+                <input required value="<?php echo($_POST['libelle_entreprise']);?>" type="text" class="form-control" name="majProName" id="MAJPRONAME" minlength="2" maxlength="50" pattern="^[\w'\-,.]*[^_!¡?÷?¿\/\\+=@#$%ˆ&*(){}|~<>;:[\]]*${1,50}">
             </div>
 <!----------------------------------------------------------DECISION MAKER--------------------------------------------------------------------->
             <div class="mb-3">
                 <label for="MAJDECISIONMAKERNAME" class="form-label">Nom de l'interlocuteur principal (décideur) :</label>
 <?php
-                    if ($_POST['pro_decision_maker'] === "") {
+                    if ($_POST['nom_decideur'] === "") {
 ?>
                         <input placeholder="<?php echo($unknown);?>" type="text" class="form-control" name="majDecisionMakerName" id="MAJDECISIONMAKERNAME" minlength="2" maxlength="50" pattern="^[\w'\-,.]*[^_!¡?÷?¿\/\\+=@#$%ˆ&*(){}|~<>;:[\]]*${1,50}">
 <?php               
                     } else { 
 ?>
-                        <input value="<?php echo($_POST['pro_decision_maker']);?>" type="text" class="form-control" name="majDecisionMakerName" id="MAJDECISIONMAKERNAME" minlength="2" maxlength="50" pattern="^[\w'\-,.]*[^_!¡?÷?¿\/\\+=@#$%ˆ&*(){}|~<>;:[\]]*${1,50}">
+                        <input value="<?php echo($_POST['nom_decideur']);?>" type="text" class="form-control" name="majDecisionMakerName" id="MAJDECISIONMAKERNAME" minlength="2" maxlength="50" pattern="^[\w'\-,.]*[^_!¡?÷?¿\/\\+=@#$%ˆ&*(){}|~<>;:[\]]*${1,50}">
 <?php
                     }
 ?>
@@ -47,13 +50,13 @@ $unknown = 'Non renseigné';
             <div class="mb-3">
                 <label for="MAJPROPHONE" class="form-label">Numéro de téléphone principal :</label>
 <?php
-                    if ($_POST['pro_phone'] === "") {
+                    if ($_POST['tel'] === "") {
 ?>
                         <input placeholder="<?php echo($unknown);?>" type="tel" class="form-control" name="majProPhone" id="MAJPROPHONE" minlength="10" maxlength="10" pattern="[0-9]{10}"> 
 <?php               
                     } else { 
 ?>
-                        <input value="<?php echo(User_Mgr::phoneFormatToFrench($_POST['pro_phone'])); ?>" type="tel" class="form-control" name="majProPhone" id="MAJPROPHONE" minlength="10" maxlength="10" pattern="[0-9]{10}">
+                        <input value="<?php echo(User_Mgr::phoneFormatToFrench($_POST['tel'])); ?>" type="tel" class="form-control" name="majProPhone" id="MAJPROPHONE" minlength="10" maxlength="10" pattern="[0-9]{10}">
 <?php
                     }
 ?>
@@ -62,13 +65,13 @@ $unknown = 'Non renseigné';
             <div class="mb-3">
                 <label for="MAJPROPHONE2" class="form-label">Numéro de téléphone secondaire :</label>
 <?php
-                    if ($_POST['pro_phone2'] === "") {
+                    if ($_POST['tel_2'] === "") {
 ?>
                         <input placeholder="<?php echo($unknown);?>" type="tel" class="form-control" name="majProPhone2" id="MAJPROPHONE2" minlength="10" maxlength="10" pattern="[0-9]{10}"> 
 <?php               
                     } else { 
 ?>
-                        <input value="<?php echo(User_Mgr::phoneFormatToFrench($_POST['pro_phone2'])); ?>" type="tel" class="form-control" name="majProPhone2" id="MAJPROPHONE2" minlength="10" maxlength="10" pattern="[0-9]{10}">
+                        <input value="<?php echo(User_Mgr::phoneFormatToFrench($_POST['tel_2'])); ?>" type="tel" class="form-control" name="majProPhone2" id="MAJPROPHONE2" minlength="10" maxlength="10" pattern="[0-9]{10}">
 <?php
                     }
 ?>
@@ -77,13 +80,13 @@ $unknown = 'Non renseigné';
             <div class="mb-3">
                 <label for="MAJPROMAIL" class="form-label">Adresse mail :</label>
 <?php
-                    if ($_POST['pro_phone2'] === "") {
+                    if ($_POST['mail'] === "") {
 ?>
                         <input placeholder="<?php echo($unknown);?>" type="mail" class="form-control" name="majProMail" id="MAJPROMAIL" minlength="5" maxlength="60">
 <?php               
                     } else { 
 ?>
-                        <input value="<?php echo($_POST['pro_mail']);?>" type="mail" class="form-control" name="majProMail" id="MAJPROMAIL" minlength="5" maxlength="60">
+                        <input value="<?php echo($_POST['mail']);?>" type="mail" class="form-control" name="majProMail" id="MAJPROMAIL" minlength="5" maxlength="60">
 <?php
                     }
 ?>
@@ -92,13 +95,13 @@ $unknown = 'Non renseigné';
             <div class="mb-3">
                 <label for="MAJPROADRESS" class="form-label">Adresse principale :</label>
 <?php
-                    if ($_POST['pro_adress'] === "") {
+                    if ($_POST['adresse'] === "") {
 ?>
                         <input placeholder="<?php echo($unknown);?>" type="text" class="form-control" name="majProAdress" id="MAJPROADRESS" minlength="3" maxlength="50">
 <?php               
                     } else { 
 ?>
-                        <input value="<?php echo($_POST['pro_adress']);?>" type="text" class="form-control" name="majProAdress" id="MAJPROADRESS" minlength="3" maxlength="50">
+                        <input value="<?php echo($_POST['adresse']);?>" type="text" class="form-control" name="majProAdress" id="MAJPROADRESS" minlength="3" maxlength="50">
 <?php
                     }
 ?>
@@ -107,13 +110,13 @@ $unknown = 'Non renseigné';
             <div class="mb-3">
                 <label for="MAJPROADRESS2" class="form-label">Complément d'adresse :</label>
 <?php
-                    if ($_POST['pro_adress2'] === "") {
+                    if ($_POST['adresse_2'] === "") {
 ?>
                         <input placeholder="<?php echo($unknown);?>" type="text" class="form-control" name="majProAdress2" id="MAJPROADRESS2" minlength="3" maxlength="50">
 <?php               
                     } else { 
 ?>
-                        <input value="<?php echo($_POST['pro_adress2']);?>" type="text" class="form-control" name="majProAdress2" id="MAJPROADRESS2" minlength="3" maxlength="50">
+                        <input value="<?php echo($_POST['adresse_2']);?>" type="text" class="form-control" name="majProAdress2" id="MAJPROADRESS2" minlength="3" maxlength="50">
 <?php
                     }
 ?>
@@ -122,13 +125,13 @@ $unknown = 'Non renseigné';
             <div class="mb-3">
                 <label for="MAJPROCP" class="form-label">Code postal :</label>
 <?php
-                    if ($_POST['pro_cp'] === "") {
+                    if ($_POST['cp'] === "") {
 ?>                
                         <input placeholder="<?php echo($unknown);?>" type="text" class="form-control" name="majProCp" id="MAJPROCP" minlength="5" maxlength="5" pattern="[0-9]{5}">
 <?php               
                     } else { 
 ?>
-                        <input value="<?php echo($_POST['pro_cp']);?>" type="text" class="form-control" name="majProCp" id="MAJPROCP" minlength="5" maxlength="5" pattern="[0-9]{5}">
+                        <input value="<?php echo($_POST['cp']);?>" type="text" class="form-control" name="majProCp" id="MAJPROCP" minlength="5" maxlength="5" pattern="[0-9]{5}">
 <?php
                     }
 ?>
@@ -137,13 +140,13 @@ $unknown = 'Non renseigné';
             <div class="mb-3">
                 <label for="MAJPROCITY" class="form-label">Ville :</label>
 <?php
-                    if ($_POST['pro_city'] === "") {
+                    if ($_POST['ville'] === "") {
 ?>           
                         <input placeholder="<?php echo($unknown);?>" type="text" class="form-control" name="majProCity" id="MAJPROCITY" minlength="2" maxlength="50">
 <?php               
                     } else { 
 ?>
-                        <input value="<?php echo($_POST['pro_city']);?>" type="text" class="form-control" name="majProCity" id="MAJPROCITY" minlength="2" maxlength="50">
+                        <input value="<?php echo($_POST['ville']);?>" type="text" class="form-control" name="majProCity" id="MAJPROCITY" minlength="2" maxlength="50">
 <?php
                     }
 ?>
@@ -153,31 +156,31 @@ $unknown = 'Non renseigné';
             <div class="mb-3">
                 <label for="MAJPROOBSERVATION" class="form-label">Observation(s) :</label>
 <?php
-                    if ($_POST['pro_observation'] === "") {
+                    if ($_POST['observation'] === "") {
 ?>           
                         <textarea placeholder="<?php echo($unknown);?>" class="form-control" name="majProObservation" id="MAJPROOBSERVATION" maxlength="250"></textarea>
 <?php               
                     } else { 
 ?>
-                        <textarea class="form-control" name="majProObservation" id="MAJPROOBSERVATION" maxlength="250"><?php echo($_POST['pro_observation']);?></textarea>
+                        <textarea class="form-control" name="majProObservation" id="MAJPROOBSERVATION" maxlength="250"><?php echo($_POST['observation']);?></textarea>
 <?php
                     }
 ?>
             </div> 
 <!------------------------------------------------------------FOLLOWED BY---------------------------------------------------------------------->
 <?php
-        if (($_SESSION['rights'] === "1") OR ($_SESSION['rights'] === "2")) {
+        if ($rights === 1) {
 ?>
             <div class="mb-3">
                 <label for="MAJPROFOLLOWEDBY" class="form-label">Suivi par :</label>
                 <select class="form-select" name="majProFollowedBy">
-                    <option selected value="<?php echo($_POST['user_ID']);?>"><?php echo($_POST['user_surname'].' '.$_POST['user_name']);?></option>            
+                    <option selected value="<?php echo($_POST['ID_utilisateur']);?>"><?php echo($_POST['prenom'].' '.$_POST['nom']);?></option>            
 <?php 
 //          Récupère la liste des utilisateurs.
             $tUsers = User_Mgr::getUsersList();
             foreach($tUsers as $tUser) {
                 echo
-                    '<option value="';echo($tUser['ID_utilisateur']);echo'">'.$tUser['nom'].' '.$tUser['prenom'].'</option>';
+                    '<option value="';echo($tUser['ID_utilisateur']);echo'">'.$tUser['prenom'].' '.$tUser['nom'].'</option>';
             }
 ?>
                 </select>
@@ -189,62 +192,53 @@ $unknown = 'Non renseigné';
                 <button type="submit" class="btn" onclick="return confirm('Etes-vous sûr(e) de vouloir modifier ces informations ?')"><span>Valider</span></button>
             </div>
         </form>
-        <!----------------------------------------BACK RETURN BUTTON-------------------------------------->
+<!----------------------------------------BACK RETURN BUTTON-------------------------------------->
 <?php
-            if ($_POST['pro_status'] === "0") {
-                if ($_SESSION['rights'] === "1") {
+            if ($_POST['prospect_ou_client'] === "0") {
+                if ($rights === 1) {
 ?>
-                    <form action="/outils/Controllers/Controller_admin.php?action=prospectsListing" method="post">
-                        <div class="d-flex justify-content-center">
-                            <button type="submit" class="btn"><span>Retour</span></button>
-                        </div>
-                    </form>
+                    <form action="/outils/Controllers/Controller_admin.php" method="post">
 <?php
-                } elseif ($_SESSION['rights'] === "2") {
+                } elseif ($rights === 2) {
 ?>
-                    <form action="/outils/Controllers/Controller_responsable.php?action=prospectsListing" method="post">
-                        <div class="d-flex justify-content-center">
-                            <button type="submit" class="btn"><span>Retour</span></button>
-                        </div>
-                    </form>
+                    <form action="/outils/Controllers/Controller_responsable.php" method="post">
 <?php
-                } elseif ($_SESSION['rights'] === "3") {
+                } elseif ($rights === 3) {
 ?>
-                    <form action="/outils/Controllers/Controller_cdp.php?action=prospectsListing" method="post">
-                        <div class="d-flex justify-content-center">
-                            <button type="submit" class="btn"><span>Retour</span></button>
-                        </div>
-                    </form>
+                    <form action="/outils/Controllers/Controller_cdp.php" method="post">
 <?php
                 }
+?>
+                        <input type="hidden" name="action" value="prospectsListing">
+                        <div class="d-flex justify-content-center">
+                            <button type="submit" class="btn"><span>Retour</span></button>
+                        </div>
+                    </form>
+<?php
             } else {
-                if ($_SESSION['rights'] === "1") {
+                if ($rights === 1) {
 ?>
-                    <form action="/outils/Controllers/Controller_admin.php?action=clientsListing" method="post">
-                        <div class="d-flex justify-content-center">
-                            <button type="submit" class="btn"><span>Retour</span></button>
-                        </div>
-                    </form>
+                    <form action="/outils/Controllers/Controller_admin.php" method="post">
 <?php
-                } elseif ($_SESSION['rights'] === "2") {
+                } elseif ($rights === 2) {
 ?>
-                    <form action="/outils/Controllers/Controller_responsable.php?action=clientsListing" method="post">
-                        <div class="d-flex justify-content-center">
-                            <button type="submit" class="btn"><span>Retour</span></button>
-                        </div>
-                    </form>
+                    <form action="/outils/Controllers/Controller_responsable.php" method="post">
 <?php
-                } elseif ($_SESSION['rights'] === "3") {
+                } elseif ($rights === 3) {
 ?>
-                    <form action="/outils/Controllers/Controller_cdp.php?action=clientsListing" method="post">
-                        <div class="d-flex justify-content-center">
-                            <button type="submit" class="btn"><span>Retour</span></button>
-                        </div>
-                    </form>
+                    <form action="/outils/Controllers/Controller_cdp.php" method="post">
+                        
 <?php
                 }
+?>
+                        <input type="hidden" name="action" value="clientsListing">
+                        <div class="d-flex justify-content-center">
+                            <button type="submit" class="btn"><span>Retour</span></button>
+                        </div>
+                    </form>
+<?php
             }
 ?>
-    </fieldset>
-</div>
+        </fieldset>
+    </div>
 </div>

@@ -1,5 +1,8 @@
+<!--$_POST = OK-->
 <?php
 $unknown = 'Non renseigné';
+$userConnected = (int) $_SESSION['idUser'];
+$rights = (int) $_SESSION['rights'];
 ?>
 <div class="container">
 <hr>
@@ -11,20 +14,20 @@ $unknown = 'Non renseigné';
 <!-------------------------------------------PRO NAME--------------------------------------------->              
                         <div class="mb-3">
                             <label id="infosPro" class="form-label">Professionnel :</label>
-                                <span class="infosPro"><?php echo($_POST['pro_name']);?></span>
+                                <span class="infosPro"><?php echo($_POST['libelle_entreprise']);?></span>
                             <hr>
                         </div>
-<!--------------------------------------------START----------------------------------------------->
+<!-----------------------------------------lAST CONTACT------------------------------------------->
                         <div class="mb-3">
                             <label id="infosPro" class="form-label">Dernière prise de contact :</label>
 <?php
-                            if ($_POST['last_contact'] === "") {
+                            if ($_POST['date_derniere_pdc'] === "") {
 ?>
                                 <span class="undefined"><?php echo($unknown);?></span>
 <?php
                             } else {                        
 ?>
-                                <span class="infosPro"><?php echo(Dates_Mgr::dateFormatDayMonthYear($_POST['last_contact']));?></span>
+                                <span class="infosPro"><?php echo(Dates_Mgr::dateFormatDayMonthYear($_POST['date_derniere_pdc']));?></span>
 <?php
                             }
 ?>
@@ -33,20 +36,20 @@ $unknown = 'Non renseigné';
 <!-----------------------------------------FOLLOWED BY-------------------------------------------->
                         <div class="mb-3">
                             <label id="infosPro" class="form-label">Suivi par :</label>
-                                <span class="infosPro"><?php echo($_POST['user_surname'] . ' ' . $_POST['user_name']);?></span>
+                                <span class="infosPro"><?php echo($_POST['prenom'] . ' ' . $_POST['nom']);?></span>
                             <hr>
                         </div>
 <!----------------------------------------DECISION MAKER------------------------------------------>
                         <div class="mb-3">
                             <label id="infosPro" class="form-label">Interlocuteur principal :</label>
 <?php
-                            if ($_POST['pro_decision_maker'] === "") {
+                            if ($_POST['nom_decideur'] === "") {
 ?>
                                 <span class="undefined"><?php echo($unknown);?></span>
 <?php               
                             } else { 
 ?>
-                                <span class="infosPro"><?php echo($_POST['pro_decision_maker']);?></span>
+                                <span class="infosPro"><?php echo($_POST['nom_decideur']);?></span>
 <?php
                             }
 ?>
@@ -56,13 +59,13 @@ $unknown = 'Non renseigné';
                         <div class="mb-3">
                             <label id="infosPro" class="form-label">Secteur d'activité :</label>
 <?php
-                            if ($_POST['area_lib'] === "") {
+                            if ($_POST['libelle_secteur'] === "") {
 ?>
                                 <span class="undefined"><?php echo($unknown);?></span>
 <?php
                             } else {
 ?>
-                                <span class="infosPro"><?php echo($_POST['area_lib']);?></span>
+                                <span class="infosPro"><?php echo($_POST['libelle_secteur']);?></span>
 <?php
                             }
 ?>
@@ -72,13 +75,13 @@ $unknown = 'Non renseigné';
                         <div class="mb-3">
                             <label id="infosPro" class="form-label">Téléphone principal :</label>
 <?php
-                            if ($_POST['pro_phone'] === "") {
+                            if ($_POST['tel'] === "") {
 ?>
                                 <span class="undefined"><?php echo($unknown);?></span>
 <?php
                             } else {
 ?>
-                                <span class="infosPro"><?php echo($_POST['pro_phone']);?></span>
+                                <span class="infosPro"><?php echo($_POST['tel']);?></span>
 <?php
                             }
 ?>
@@ -90,13 +93,13 @@ $unknown = 'Non renseigné';
                         <div class="mb-3">
                             <label id="infosPro" class="form-label">Téléphone secondaire :</label>
 <?php
-                            if ($_POST['pro_phone2'] === "") {
+                            if ($_POST['tel_2'] === "") {
 ?>
                                 <span class="undefined"><?php echo($unknown);?></span>
 <?php
                             } else {
 ?>
-                                <span class="infosPro"><?php echo($_POST['pro_phone2']);?></span>
+                                <span class="infosPro"><?php echo($_POST['tel_2']);?></span>
 <?php
                             }
 ?>
@@ -106,13 +109,13 @@ $unknown = 'Non renseigné';
                         <div class="mb-3">
                             <label id="infosPro" class="form-label">Mail :</label>
 <?php
-                            if ($_POST['pro_mail'] === "") {
+                            if ($_POST['mail'] === "") {
 ?>
                                 <span class="undefined"><?php echo($unknown);?></span>
 <?php
                             } else {
 ?>
-                                <span class="infosPro"><?php echo($_POST['pro_mail']);?></span>
+                                <span class="infosPro"><?php echo($_POST['mail']);?></span>
 <?php
                             }
 ?>
@@ -122,13 +125,13 @@ $unknown = 'Non renseigné';
                         <div class="mb-3">
                             <label id="infosPro" class="form-label">Adresse principale :</label>
 <?php
-                            if ($_POST['pro_adress'] === "") {
+                            if ($_POST['adresse'] === "") {
 ?>
                                 <span class="undefined"><?php echo($unknown);?></span>
 <?php
                             } else {
 ?>
-                                <span class="infosPro"><?php echo($_POST['pro_adress']);?></span>
+                                <span class="infosPro"><?php echo($_POST['adresse']);?></span>
 <?php
                             }
 ?>
@@ -138,13 +141,13 @@ $unknown = 'Non renseigné';
                         <div class="mb-3">
                             <label id="infosPro" class="form-label">Complément d'adresse :</label>
 <?php
-                            if ($_POST['pro_adress2'] === "") {
+                            if ($_POST['adresse_2'] === "") {
 ?>
                                 <span class="undefined"><?php echo($unknown);?></span>
 <?php
                             } else {
 ?>
-                                <span class="infosPro"><?php echo($_POST['pro_adress2']);?></span>
+                                <span class="infosPro"><?php echo($_POST['adresse_2']);?></span>
 <?php
                             }
 ?>
@@ -154,13 +157,13 @@ $unknown = 'Non renseigné';
                         <div class="mb-3">
                             <label id="infosPro" class="form-label">Code postal :</label>
 <?php
-                            if ($_POST['pro_cp'] === "") {
+                            if ($_POST['cp'] === "") {
 ?>
                                 <span class="undefined"><?php echo($unknown);?></span>
 <?php
                             } else {
 ?>
-                                <span class="infosPro"><?php echo($_POST['pro_cp']);?></span>
+                                <span class="infosPro"><?php echo($_POST['cp']);?></span>
 <?php
                             }
 ?>
@@ -170,13 +173,13 @@ $unknown = 'Non renseigné';
                         <div class="mb-3">
                             <label id="infosPro" class="form-label">Ville :</label>
 <?php
-                            if ($_POST['pro_city'] === "") {
+                            if ($_POST['ville'] === "") {
 ?>
                                 <span class="undefined"><?php echo($unknown);?></span>
 <?php
                             } else {
 ?>
-                                <span class="infosPro"><?php echo($_POST['pro_city']);?></span>
+                                <span class="infosPro"><?php echo($_POST['ville']);?></span>
 <?php
                             }
 ?>
@@ -188,14 +191,14 @@ $unknown = 'Non renseigné';
                 <div class="mb-3 text-center">
                         
 <?php
-                    if ($_POST['pro_observation'] === "") {
+                    if ($_POST['observation'] === "") {
 ?>
                         <label id="infosPro" class="form-label">Observation :</label>
                             <span class="undefined"><?php echo($unknown);?></span>
 <?php
                     } else {
 ?>
-                        <textarea class="w-100 form-control">Observation : <?php echo($_POST['pro_observation']);?></textarea>
+                        <textarea class="w-100 form-control">Observation : <?php echo($_POST['observation']);?></textarea>
 <?php
                     }
 ?>
@@ -203,58 +206,49 @@ $unknown = 'Non renseigné';
                 </div>
 <!----------------------------------------BACK RETURN BUTTON-------------------------------------->
 <?php
-            if ($_POST['pro_status'] === "0") {
-                if ($_SESSION['rights'] === "1") {
+            if ($_POST['prospect_ou_client'] === "0") {
+                if ($rights === 1) {
 ?>
-                    <form action="/outils/Controllers/Controller_admin.php?action=prospectsListing" method="post">
-                        <div class="d-flex justify-content-center">
-                            <button type="submit" class="btn"><span>Retour</span></button>
-                        </div>
-                    </form>
+                    <form action="/outils/Controllers/Controller_admin.php" method="post">
 <?php
-                } elseif ($_SESSION['rights'] === "2") {
+                } elseif ($rights === 2) {
 ?>
-                    <form action="/outils/Controllers/Controller_responsable.php?action=prospectsListing" method="post">
-                        <div class="d-flex justify-content-center">
-                            <button type="submit" class="btn"><span>Retour</span></button>
-                        </div>
-                    </form>
+                    <form action="/outils/Controllers/Controller_responsable.php" method="post">
 <?php
-                } elseif ($_SESSION['rights'] === "3") {
+                } elseif ($rights === 3) {
 ?>
-                    <form action="/outils/Controllers/Controller_cdp.php?action=prospectsListing" method="post">
-                        <div class="d-flex justify-content-center">
-                            <button type="submit" class="btn"><span>Retour</span></button>
-                        </div>
-                    </form>
+                    <form action="/outils/Controllers/Controller_cdp.php" method="post">
 <?php
                 }
+?>
+                        <input type="hidden" name="action" value="prospectsListing">
+                        <div class="d-flex justify-content-center">
+                            <button type="submit" class="btn"><span>Retour</span></button>
+                        </div>
+                    </form>
+<?php
             } else {
-                if ($_SESSION['rights'] === "1") {
+                if ($rights === 1) {
 ?>
-                    <form action="/outils/Controllers/Controller_admin.php?action=clientsListing" method="post">
-                        <div class="d-flex justify-content-center">
-                            <button type="submit" class="btn"><span>Retour</span></button>
-                        </div>
-                    </form>
+                    <form action="/outils/Controllers/Controller_admin.php" method="post">
 <?php
-                } elseif ($_SESSION['rights'] === "2") {
+                } elseif ($rights === 2) {
 ?>
-                    <form action="/outils/Controllers/Controller_responsable.php?action=clientsListing" method="post">
-                        <div class="d-flex justify-content-center">
-                            <button type="submit" class="btn"><span>Retour</span></button>
-                        </div>
-                    </form>
+                    <form action="/outils/Controllers/Controller_responsable.php" method="post">
 <?php
-                } elseif ($_SESSION['rights'] === "3") {
+                } elseif ($rights === 3) {
 ?>
-                    <form action="/outils/Controllers/Controller_cdp.php?action=clientsListing" method="post">
-                        <div class="d-flex justify-content-center">
-                            <button type="submit" class="btn"><span>Retour</span></button>
-                        </div>
-                    </form>
+                    <form action="/outils/Controllers/Controller_cdp.php" method="post">
+                        
 <?php
                 }
+?>
+                        <input type="hidden" name="action" value="clientsListing">
+                        <div class="d-flex justify-content-center">
+                            <button type="submit" class="btn"><span>Retour</span></button>
+                        </div>
+                    </form>
+<?php
             }
 ?>
         </fieldset>

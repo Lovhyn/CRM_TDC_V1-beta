@@ -5,7 +5,7 @@
         <fieldset class="fieldsetUserManagement">
             <legend class="fw-bold d-flex justify-content-center mb-5">Modifier un utilisateur :</legend>
             <form name="updUser" action="/outils/Controllers/Controller_admin.php" method="post">
-                    <input type="hidden" name="userId" value="<?php echo $_POST['userId'];?>">
+                <input type="hidden" name="userId" value="<?php echo $_POST['userId'];?>">
 <!-------------------------------------------USER NAME-------------------------------------------->
                 <div class="mb-3">
                     <label for="MAJUSERNAME" class="form-label">Nom :</label>
@@ -27,7 +27,7 @@
                     <input value="<?php echo $_POST['userMail'];?>" type="mail" class="form-control" name="majUserMail" id="MAJUSERMAIL" minlength="5" maxlength="50">
                 </div>
 <!-----------------------------------------USER PASSWORD------------------------------------------>
-                    <input type="hidden" name="oldUserPassword" value="<?php echo($_POST['userPassword']);?>">
+                <input type="hidden" name="oldUserPassword" value="<?php echo($_POST['userPassword']);?>">
                 <div id="newPasswordDiv" class="mb-3">
                     <label for="MAJUSERPASSWORD" class="form-label">Nouveau mot de passe :</label>
                     <input placeholder="Définir nouveau mot de passe" type="password" class="form-control" name="newUserPassword" id="MAJUSERPASSWORD" minlength="5" maxlength="50">

@@ -1,5 +1,6 @@
 <?php
 $userConnected = (int) $_SESSION['idUser'];
+$rights = (int) $_SESSION['rights'];
 ?>
 <div class="container">
 <hr>
@@ -8,6 +9,7 @@ $userConnected = (int) $_SESSION['idUser'];
             <legend class="fw-bold d-flex justify-content-center mb-4">Nouvelle prise de contact avec <?php echo($_POST['pro_name']);?>:</legend>
             <hr>
             <form name="addNewContact" action="/outils/Controllers/Controller_cdp.php?action=addedNewContact" method="post" class="ADDNEWCONTACT">
+                <input type="hidden" name="action" value="addedNewContact">
 <?php
                 echo
                 '<input type="hidden" name="pro_ID" value="' . $_POST['pro_ID']. '">';
@@ -109,7 +111,8 @@ $userConnected = (int) $_SESSION['idUser'];
                     <button type="submit" class="btn" onclick="return confirm('Etes-vous sûr(e) de vouloir enregistrer ce nouveau suivi ?')" id="submitFormBtn"><span>Valider</span></button>
                 </div>
             </form>
-            <form action="/outils/Controllers/Controller_cdp.php?action=prospectsListing" method="post">
+            <form action="/outils/Controllers/Controller_cdp.php" method="post">
+                <input type="hidden" name="action" value="prospectsListing">
                 <div class="d-flex justify-content-center">
                     <button type="submit" class="btn"><span>Retour</span></button>
                 </div>

@@ -1,3 +1,4 @@
+<!--$_POST = OK-->
 <?php
 $unknown = 'Non renseigné';
 ?>
@@ -206,7 +207,8 @@ $unknown = 'Non renseigné';
             if ($_POST['pro_status'] === "0") {
                 if ($_SESSION['rights'] === "1") {
 ?>
-                    <form action="/outils/Controllers/Controller_admin.php?action=prospectsListing" method="post">
+                    <form action="/outils/Controllers/Controller_admin.php" method="post">
+                        <input type="hidden" name="action" value="prospectsListing">
                         <div class="d-flex justify-content-center">
                             <button type="submit" class="btn"><span>Retour</span></button>
                         </div>
@@ -214,7 +216,8 @@ $unknown = 'Non renseigné';
 <?php
                 } elseif ($_SESSION['rights'] === "2") {
 ?>
-                    <form action="/outils/Controllers/Controller_responsable.php?action=prospectsListing" method="post">
+                    <form action="/outils/Controllers/Controller_responsable.php" method="post">
+                        <input type="hidden" name="action" value="prospectsListing">
                         <div class="d-flex justify-content-center">
                             <button type="submit" class="btn"><span>Retour</span></button>
                         </div>
@@ -222,7 +225,8 @@ $unknown = 'Non renseigné';
 <?php
                 } elseif ($_SESSION['rights'] === "3") {
 ?>
-                    <form action="/outils/Controllers/Controller_cdp.php?action=prospectsListing" method="post">
+                    <form action="/outils/Controllers/Controller_cdp.php" method="post">
+                        <input type="hidden" name="action" value="prospectsListing">
                         <div class="d-flex justify-content-center">
                             <button type="submit" class="btn"><span>Retour</span></button>
                         </div>
@@ -232,7 +236,8 @@ $unknown = 'Non renseigné';
             } else {
                 if ($_SESSION['rights'] === "1") {
 ?>
-                    <form action="/outils/Controllers/Controller_admin.php?action=clientsListing" method="post">
+                    <form action="/outils/Controllers/Controller_admin.php" method="post">
+                        <input type="hidden" name="action" value="clientsListing">
                         <div class="d-flex justify-content-center">
                             <button type="submit" class="btn"><span>Retour</span></button>
                         </div>
@@ -240,7 +245,8 @@ $unknown = 'Non renseigné';
 <?php
                 } elseif ($_SESSION['rights'] === "2") {
 ?>
-                    <form action="/outils/Controllers/Controller_responsable.php?action=clientsListing" method="post">
+                    <form action="/outils/Controllers/Controller_responsable.php" method="post">
+                        <input type="hidden" name="action" value="clientsListing">
                         <div class="d-flex justify-content-center">
                             <button type="submit" class="btn"><span>Retour</span></button>
                         </div>
@@ -248,7 +254,8 @@ $unknown = 'Non renseigné';
 <?php
                 } elseif ($_SESSION['rights'] === "3") {
 ?>
-                    <form action="/outils/Controllers/Controller_cdp.php?action=clientsListing" method="post">
+                    <form action="/outils/Controllers/Controller_cdp.php" method="post">
+                        <input type="hidden" name="action" value="clientsListing">
                         <div class="d-flex justify-content-center">
                             <button type="submit" class="btn"><span>Retour</span></button>
                         </div>

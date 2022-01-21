@@ -8,10 +8,12 @@
             include "../Models/" . $classe . ".class.php";
         });
 /*
-        Enregistre dans une variable la valeur passée en "GET" de l'action      
-        appelée par l'utilisateur.
+        Enregistre dans une variable la valeur passée en "GET" ou en "POST" 
+        de l'action appelée par l'utilisateur.
 */ 
-        if (isset($_GET['action'])) {
+        if (isset($_POST['action'])) {
+            $action = $_POST['action'];
+        } elseif (isset($_GET['action'])) {
             $action = $_GET['action'];
         }
 //  ----------------------------Switch $action---------------------------------
@@ -167,7 +169,9 @@
 /*              
                 ATTENTION  : 
                 Un chargé de projet ne pouvant modifier l'utilisateur en charge du suivi d'un professionnel, 
-                nous passerons par défaut l'identifiant de l'utilisateur connecté en argument à la fonction. 
+                nous passerons par défaut l'identifiant de l'utilisateur connecté en argument à la fonction
+                puisqu'un chargé de projet ne peut modifier seulement les professionnels dont il est 
+                en charge du suivi. 
 */
                 $followedBy = (int) $_SESSION['idUser'];
                 Pro_Mgr::updateProspect($newProName, $newDecisionMakerName, $newMainPhone, 
