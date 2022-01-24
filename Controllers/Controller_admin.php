@@ -295,33 +295,35 @@
                 $newActivityArea = $_POST['newActivityArea'];
                 if (($newActivityArea != '') and (ActivityArea_Mgr::checkIfExists($newActivityArea) < 1)) {
                     ActivityArea_Mgr::createActivityArea($newActivityArea);
-                    require("../Views/Header/header_admin.view.php");
-                    require("../Views/Body/activity_area_management.view.php");
-                    require("../Views/Footer/footer.view.php");
+                    $msg = '<div class="text-center" style="color: #46ec4e">'.'"'.$newActivityArea.'" a bien été ajouté à la liste.'.'</div>';
                 } elseif ($newActivityArea == '') {
-                    require("../Views/Header/header_admin.view.php");
-                    echo('<div class="text-center" style="color: #E84E0E">Erreur : veuillez saisir un secteur</div>');
-                    require("../Views/Body/activity_area_management.view.php");
-                    require("../Views/Footer/footer.view.php");
+                    $msg = '<div class="text-center" style="color: #E84E0E">Erreur : veuillez saisir un secteur.</div>';
                 } else {
-                    require("../Views/Header/header_admin.view.php");
-                    echo('<div class="text-center" style="color: #E84E0E">Erreur : ce secteur existe déjà</div>');
-                    require("../Views/Body/activity_area_management.view.php");
-                    require("../Views/Footer/footer.view.php");
+                    $msg = '<div class="text-center" style="color: #E84E0E">Erreur : ce secteur existe déjà</div>';
                 }
+                require("../Views/Header/header_admin.view.php");
+                echo($msg);
+                require("../Views/Body/activity_area_management.view.php");
+                require("../Views/Footer/footer.view.php");
                 break;
-            case 'majActivityArea' :
+            case 'updateActivityArea' :
                 $idActivityAreaToUpdate = $_POST['idActivityArea'];
                 $newActivityAreaLabel = $_POST['updActivityArea'];
                 ActivityArea_Mgr::updateActivityAreaById($idActivityAreaToUpdate, $newActivityAreaLabel);
+                $msg = '<div class="text-center" style="color: #46ec4e">La modification a bien été effectuée.</div>';
                 require("../Views/Header/header_admin.view.php");
+                echo($msg);
                 require("../Views/Body/activity_area_management.view.php");
                 require("../Views/Footer/footer.view.php");
                 break;
             case 'deleteActivityArea' :
-                $idActivityAreaToDelete = $_POST['idActivityArea'];
+                $idActivityAreaToDelete = (int) $_POST['idActivityArea'];
+                $libActivityAreaToDelete = ActivityArea_Mgr::getActivityAreaLibById($idActivityAreaToDelete);
+                $libActivityAreaToDelete = $libActivityAreaToDelete[0]['libelle_secteur'];
+                $msg = '<div class="text-center" style="color: #46ec4e">'.'"'.$libActivityAreaToDelete.'" a bien été supprimé de la liste.'.'</div>';
                 ActivityArea_Mgr::deleteActivityAreaById($idActivityAreaToDelete);
                 require("../Views/Header/header_admin.view.php");
+                echo($msg);
                 require("../Views/Body/activity_area_management.view.php");
                 require("../Views/Footer/footer.view.php");
                 break;
@@ -335,9 +337,12 @@
                 $idConclusionToUpdate = $_POST['idConclusion'];
                 $newConclusionLabel = $_POST['updConclusion'];
                 Conclusions_Mgr::updateConclusionById($idConclusionToUpdate, $newConclusionLabel);
+                $msg = '<div class="text-center" style="color: #46ec4e">La modification a bien été effectuée.</div>';
                 require("../Views/Header/header_admin.view.php");
+                echo($msg);
                 require("../Views/Body/conclusions_management.view.php");
                 require("../Views/Footer/footer.view.php");
+                break;
             case 'addConclusion' :
                 $newConclusion = $_POST['newConclusion'];
                 if (($newConclusion != '') and (Conclusions_Mgr::checkIfExists($newConclusion) < 1)) {

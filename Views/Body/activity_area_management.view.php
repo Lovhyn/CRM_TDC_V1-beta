@@ -41,7 +41,7 @@
                     <td>
                         <input class="form-control" type="text" name="updActivityArea" value="'.$tSecteur['libelle_secteur'].'" maxlength="50">
                         <input type="hidden" name="idActivityArea" value="'.$tSecteur['ID_secteur'].'">
-                        <input type="hidden" name="action" value="majActivityArea">
+                        <input type="hidden" name="action" value="updateActivityArea">
                     </td>
                     <td class="text-center">
                         <button class="validIcon" type="submit">

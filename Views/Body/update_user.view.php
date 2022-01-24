@@ -9,22 +9,22 @@
 <!-------------------------------------------USER NAME-------------------------------------------->
                 <div class="mb-3">
                     <label for="MAJUSERNAME" class="form-label">Nom :</label>
-                    <input value="<?php echo $_POST['userName'];?>" type="text" class="form-control" name="majUserName" id="MAJUSERNAME" minlength="2" maxlength="40" pattern="^[\w'\-,.]*[^_!¡?÷?¿\/\\+=@#$%ˆ&*(){}|~<>;:[\]]*${1,40}">
+                    <input required value="<?php echo $_POST['userName'];?>" type="text" class="form-control" name="majUserName" id="MAJUSERNAME" minlength="2" maxlength="40" pattern="^[\w'\-,.]*[^_!¡?÷?¿\/\\+=@#$%ˆ&*(){}|~<>;:[\]]*${1,40}">
                 </div>
 <!-----------------------------------------USER SURNAME------------------------------------------->
                 <div class="mb-3">
                     <label for="MAJUSERSURNAME" class="form-label">Prénom :</label>
-                    <input value="<?php echo $_POST['userSurname'];?>" type="text" class="form-control" name="majUserSurname" id="MAJUSERSURNAME" minlength="2" maxlength="40" pattern="^[\w'\-,.]*[^_!¡?÷?¿\/\\+=@#$%ˆ&*(){}|~<>;:[\]]*${1,40}">
+                    <input required value="<?php echo $_POST['userSurname'];?>" type="text" class="form-control" name="majUserSurname" id="MAJUSERSURNAME" minlength="2" maxlength="40" pattern="^[\w'\-,.]*[^_!¡?÷?¿\/\\+=@#$%ˆ&*(){}|~<>;:[\]]*${1,40}">
                 </div>
 <!-------------------------------------------USER PHONE------------------------------------------->
                 <div class="mb-3">
                     <label for="MAJUSERPHONE" class="form-label">Numéro de téléphone :</label>
-                    <input value="<?php echo User_Mgr::phoneFormatToFrench($_POST['userPhone']);?>" type="text" class="form-control" name="majUserPhone" id="MAJUSERPHONE" minlength="10" maxlength="10" pattern="[0-9]{10}">
+                    <input required value="<?php echo User_Mgr::phoneFormatToFrench($_POST['userPhone']);?>" type="text" class="form-control" name="majUserPhone" id="MAJUSERPHONE" minlength="10" maxlength="10" pattern="[0-9]{10}">
                 </div>
 <!-------------------------------------------USER MAIL-------------------------------------------->
                 <div class="mb-3">
                     <label for="MAJUSERMAIL" class="form-label">Adresse mail :</label>
-                    <input value="<?php echo $_POST['userMail'];?>" type="mail" class="form-control" name="majUserMail" id="MAJUSERMAIL" minlength="5" maxlength="50">
+                    <input required value="<?php echo $_POST['userMail'];?>" type="mail" class="form-control" name="majUserMail" id="MAJUSERMAIL" minlength="5" maxlength="50">
                 </div>
 <!-----------------------------------------USER PASSWORD------------------------------------------>
                 <input type="hidden" name="oldUserPassword" value="<?php echo($_POST['userPassword']);?>">
