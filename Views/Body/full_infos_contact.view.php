@@ -1,267 +1,176 @@
 <!--$_POST = OK-->
+
 <?php
+// var_dump($_POST);
 $unknown = 'Non renseigné';
+$userConnected = (int) $_SESSION['idUser'];
+$rights = (int) $_SESSION['rights'];
 ?>
 <div class="container">
 <hr>
     <div class="container container d-flex justify-content-center">
         <fieldset class="fieldsetManagement">
-            <legend class="fw-bold d-flex justify-content-center mb-5">Informations détaillées :</legend>
-                <div class="d-flex justify-content-between">
+            <legend class="fw-bold d-flex justify-content-center mb-5">Détail de la prise de contact :</legend>
+                <div class="d-flex justify-content-center">
                     <div class="w-50 text-center">
-<!-------------------------------------------PRO NAME--------------------------------------------->              
+<!--------------------------------------------DATE------------------------------------------------>              
                         <div class="mb-3">
-                            <label id="infosPro" class="form-label">Professionnel :</label>
-                                <span class="infosPro"><?php echo($_POST['pro_name']);?></span>
-                            <hr>
-                        </div>
-<!--------------------------------------------START----------------------------------------------->
-                        <div class="mb-3">
-                            <label id="infosPro" class="form-label">Dernière prise de contact :</label>
-<?php
-                            if ($_POST['last_contact'] === "") {
-?>
-                                <span class="undefined"><?php echo($unknown);?></span>
-<?php
-                            } else {                        
-?>
-                                <span class="infosPro"><?php echo(Dates_Mgr::dateFormatDayMonthYear($_POST['last_contact']));?></span>
-<?php
-                            }
-?>
+                            <label id="infosContact" class="form-label">Contact effectué le :</label>
+                                <span class="infosContact"><?php echo(Dates_Mgr::dateFormatDayMonthYear($_POST['date_derniere_pdc']));?></span>
                             <hr>
                         </div>
 <!-----------------------------------------FOLLOWED BY-------------------------------------------->
                         <div class="mb-3">
-                            <label id="infosPro" class="form-label">Suivi par :</label>
-                                <span class="infosPro"><?php echo($_POST['user_surname'] . ' ' . $_POST['user_name']);?></span>
+                            <label id="infosContact" class="form-label">Par :</label>
+                                <span class="infosContact"><?php echo($_POST['prenom'] . ' ' . $_POST['nom']);?></span>
                             <hr>
                         </div>
-<!----------------------------------------DECISION MAKER------------------------------------------>
+<!----------------------------------------INTERLOCUTOR TYPE--------------------------------------->
                         <div class="mb-3">
-                            <label id="infosPro" class="form-label">Interlocuteur principal :</label>
-<?php
-                            if ($_POST['pro_decision_maker'] === "") {
-?>
-                                <span class="undefined"><?php echo($unknown);?></span>
-<?php               
-                            } else { 
-?>
-                                <span class="infosPro"><?php echo($_POST['pro_decision_maker']);?></span>
-<?php
-                            }
-?>
+                            <label id="infosContact" class="form-label">Type d'interlocuteur  :</label>
+                            <span class="infosContact"><?php echo($_POST['libelle_interlocuteur']);?></span>
                             <hr>
                         </div>
-<!-----------------------------------------AREA ACTIVITY------------------------------------------>
+<!----------------------------------------INTERLOCUTOR NAME--------------------------------------->
                         <div class="mb-3">
-                            <label id="infosPro" class="form-label">Secteur d'activité :</label>
-<?php
-                            if ($_POST['area_lib'] === "") {
+                            <label id="infosContact" class="form-label">Nom de l'interlocuteur :</label>
+<?php 
+                        if ($_POST['ID_interlocuteur'] === '1') {
+                            if ($_POST['nom_decideur'] === '') {
 ?>
-                                <span class="undefined"><?php echo($unknown);?></span>
+                            <span class="infosContact"><?php echo($unknown);?></span>
 <?php
                             } else {
 ?>
-                                <span class="infosPro"><?php echo($_POST['area_lib']);?></span>
+                            <span class="infosContact"><?php echo($_POST['nom_decideur']);?></span>
 <?php
                             }
+                        } else {
+                            if ($_POST['nom_interlocuteur'] === '') {
 ?>
-                            <hr>
-                        </div>
-<!-------------------------------------------MAIN PHONE------------------------------------------->
-                        <div class="mb-3">
-                            <label id="infosPro" class="form-label">Téléphone principal :</label>
-<?php
-                            if ($_POST['pro_phone'] === "") {
-?>
-                                <span class="undefined"><?php echo($unknown);?></span>
+                            <span class="infosContact"><?php echo($unknown);?></span>
 <?php
                             } else {
 ?>
-                                <span class="infosPro"><?php echo($_POST['pro_phone']);?></span>
+                            <span class="infosContact"><?php echo($_POST['nom_interlocuteur']);?></span>
 <?php
                             }
+                        }
 ?>
                             <hr>
                         </div>
-                    </div>
-                    <div class="w-50 text-center">
-<!----------------------------------------SECONDARY PHONE----------------------------------------->
+<!-----------------------------------------CONTACT TYPE------------------------------------------->
                         <div class="mb-3">
-                            <label id="infosPro" class="form-label">Téléphone secondaire :</label>
-<?php
-                            if ($_POST['pro_phone2'] === "") {
-?>
-                                <span class="undefined"><?php echo($unknown);?></span>
-<?php
-                            } else {
-?>
-                                <span class="infosPro"><?php echo($_POST['pro_phone2']);?></span>
-<?php
-                            }
-?>
+                            <label id="infosContact" class="form-label">Nature du contact :</label>
+                                <span class="infosContact"><?php echo($_POST['libelle_nature']);?></span>
                             <hr>
                         </div>
-<!----------------------------------------------MAIL---------------------------------------------->
+<!-----------------------------------------CONTACT TYPE------------------------------------------->
+<?php
+                        if (($_POST['ID_nature'] === '3') OR ($_POST['ID_nature'] === '4')) {
+?>
+                            <div class="mb-3">
+                                <label id="infosContact" class="form-label">Contacté au / à :</label>
+                                    <span class="infosContact"><?php echo($_POST['contact_interlocuteur']);?></span>
+                                <hr>
+                            </div>
+<?php
+                        }
+?>
+<!------------------------------------------CONCLUSION-------------------------------------------->
                         <div class="mb-3">
-                            <label id="infosPro" class="form-label">Mail :</label>
+                            <label id="infosContact" class="form-label">Conclusion :</label>
+                                <span class="infosContact"><?php echo($_POST['libelle_conclusion']);?></span>
+                            <hr>
+                        </div>
+<!-----------------------------------------MEETING DATE------------------------------------------->
 <?php
-                            if ($_POST['pro_mail'] === "") {
+                        if ($_POST['date_rdv'] != '') {
 ?>
-                                <span class="undefined"><?php echo($unknown);?></span>
+                            <div class="mb-3">
+                                <label id="infosContact" class="form-label">Rendez-vous le :</label>
+                                    <span class="infosContact"><?php echo($_POST['date_rdv']);?></span>
+                                <hr>
+                            </div>
 <?php
-                            } else {
+                        } else {
 ?>
-                                <span class="infosPro"><?php echo($_POST['pro_mail']);?></span>
+                            <div class="mb-3">
+                                <label id="infosContact" class="form-label">Relance prévue le :</label>
+                                    <span class="infosContact"><?php echo(Dates_Mgr::dateFormatDayMonthYear($_POST['date_relance']));?></span>
+                                <hr>
+                            </div>
 <?php
-                            }
+                        }
+?>
+<!-------------------------------------------COMMENTAIRE------------------------------------------>
+                        <div class="mb-3 text-center">
+
+<?php
+                        if ($_POST['commentaire'] === "") {
+?>
+                            <label id="infosContact" class="form-label">Observation :</label>
+                            <span class="infosContact"><?php echo($unknown);?></span>
+<?php
+                        } else {
+?>
+                            <textarea class="w-100 form-control">Commentaire : <?php echo($_POST['commentaire']);?></textarea>
+<?php
+                        }
 ?>
                             <hr>
                         </div>
-<!-------------------------------------------MAIN ADRESS------------------------------------------>
-                        <div class="mb-3">
-                            <label id="infosPro" class="form-label">Adresse principale :</label>
-<?php
-                            if ($_POST['pro_adress'] === "") {
-?>
-                                <span class="undefined"><?php echo($unknown);?></span>
-<?php
-                            } else {
-?>
-                                <span class="infosPro"><?php echo($_POST['pro_adress']);?></span>
-<?php
-                            }
-?>
-                            <hr>
-                        </div>
-<!-----------------------------------------SECONDARY ADRESS--------------------------------------->
-                        <div class="mb-3">
-                            <label id="infosPro" class="form-label">Complément d'adresse :</label>
-<?php
-                            if ($_POST['pro_adress2'] === "") {
-?>
-                                <span class="undefined"><?php echo($unknown);?></span>
-<?php
-                            } else {
-?>
-                                <span class="infosPro"><?php echo($_POST['pro_adress2']);?></span>
-<?php
-                            }
-?>
-                            <hr>
-                        </div>
-<!-----------------------------------------------CP----------------------------------------------->
-                        <div class="mb-3">
-                            <label id="infosPro" class="form-label">Code postal :</label>
-<?php
-                            if ($_POST['pro_cp'] === "") {
-?>
-                                <span class="undefined"><?php echo($unknown);?></span>
-<?php
-                            } else {
-?>
-                                <span class="infosPro"><?php echo($_POST['pro_cp']);?></span>
-<?php
-                            }
-?>
-                            <hr>
-                        </div>
-<!----------------------------------------------CITY---------------------------------------------->
-                        <div class="mb-3">
-                            <label id="infosPro" class="form-label">Ville :</label>
-<?php
-                            if ($_POST['pro_city'] === "") {
-?>
-                                <span class="undefined"><?php echo($unknown);?></span>
-<?php
-                            } else {
-?>
-                                <span class="infosPro"><?php echo($_POST['pro_city']);?></span>
-<?php
-                            }
-?>
-                            <hr>
-                        </div>
-                    </div>
-                </div>
-<!-------------------------------------------OBSERVATION------------------------------------------>
-                <div class="mb-3 text-center">
-                        
-<?php
-                    if ($_POST['pro_observation'] === "") {
-?>
-                        <label id="infosPro" class="form-label">Observation :</label>
-                            <span class="undefined"><?php echo($unknown);?></span>
-<?php
-                    } else {
-?>
-                        <textarea class="w-100 form-control">Observation : <?php echo($_POST['pro_observation']);?></textarea>
-<?php
-                    }
-?>
-                    <hr>
-                </div>
 <!----------------------------------------BACK RETURN BUTTON-------------------------------------->
 <?php
-            if ($_POST['pro_status'] === "0") {
-                if ($_SESSION['rights'] === "1") {
+            if ($_POST['prospect_ou_client'] === "0") {
+                if ($rights === 1) {
 ?>
                     <form action="/outils/Controllers/Controller_admin.php" method="post">
-                        <input type="hidden" name="action" value="prospectsListing">
-                        <div class="d-flex justify-content-center">
-                            <button type="submit" class="btn"><span>Retour</span></button>
-                        </div>
-                    </form>
 <?php
-                } elseif ($_SESSION['rights'] === "2") {
+                } elseif ($rights === 2) {
 ?>
                     <form action="/outils/Controllers/Controller_responsable.php" method="post">
-                        <input type="hidden" name="action" value="prospectsListing">
-                        <div class="d-flex justify-content-center">
-                            <button type="submit" class="btn"><span>Retour</span></button>
-                        </div>
-                    </form>
 <?php
-                } elseif ($_SESSION['rights'] === "3") {
+                } elseif ($rights === 3) {
 ?>
                     <form action="/outils/Controllers/Controller_cdp.php" method="post">
-                        <input type="hidden" name="action" value="prospectsListing">
+<?php
+                }
+?>
+                        <input type="hidden" name="ID_professionnel" value="<?php echo($_POST['ID_professionnel']);?>">
+                        <input type="hidden" name="libelle_entreprise" value="<?php echo($_POST['libelle_entreprise']);?>">
+                        <input type="hidden" name="ID_utilisateur" value="<?php echo($_POST['ID_utilisateur']);?>">
+                        <input type="hidden" name="action" value="prospectActivity">
                         <div class="d-flex justify-content-center">
                             <button type="submit" class="btn"><span>Retour</span></button>
                         </div>
                     </form>
 <?php
-                }
             } else {
-                if ($_SESSION['rights'] === "1") {
+                if ($rights === 1) {
 ?>
                     <form action="/outils/Controllers/Controller_admin.php" method="post">
-                        <input type="hidden" name="action" value="clientsListing">
-                        <div class="d-flex justify-content-center">
-                            <button type="submit" class="btn"><span>Retour</span></button>
-                        </div>
-                    </form>
 <?php
-                } elseif ($_SESSION['rights'] === "2") {
+                } elseif ($rights === 2) {
 ?>
                     <form action="/outils/Controllers/Controller_responsable.php" method="post">
-                        <input type="hidden" name="action" value="clientsListing">
-                        <div class="d-flex justify-content-center">
-                            <button type="submit" class="btn"><span>Retour</span></button>
-                        </div>
-                    </form>
 <?php
-                } elseif ($_SESSION['rights'] === "3") {
+                } elseif ($rights === 3) {
 ?>
                     <form action="/outils/Controllers/Controller_cdp.php" method="post">
-                        <input type="hidden" name="action" value="clientsListing">
+                        
+<?php
+                }
+?>
+                        <input type="hidden" name="ID_professionnel" value="<?php echo($_POST['ID_professionnel']);?>">
+                        <input type="hidden" name="libelle_entreprise" value="<?php echo($_POST['libelle_entreprise']);?>">
+                        <input type="hidden" name="ID_utilisateur" value="<?php echo($_POST['ID_utilisateur']);?>">
+                        <input type="hidden" name="action" value="clientActivity">
                         <div class="d-flex justify-content-center">
                             <button type="submit" class="btn"><span>Retour</span></button>
                         </div>
                     </form>
 <?php
-                }
             }
 ?>
         </fieldset>

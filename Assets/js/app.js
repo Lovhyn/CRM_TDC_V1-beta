@@ -37,7 +37,7 @@ function displayCalendar() {
         meetingCalendar.removeAttribute("required");
         comment.placeholder = "";
         comment.innerHTML = "";
-        comment.placeholder = "Vous avez eu un barrage secrétaire ? Séléctionnez une date de relance et expliquez brièvement.";
+        comment.placeholder = "Vous avez eu un barrage secrétaire ? Définissez une date de relance et expliquez brièvement.";
         submitBtn.style.display = "inline";
     } else if (conclusionValue ==='2') {
         recallCalendarLabel.innerHTML = "Date de relance :" ;
@@ -98,6 +98,16 @@ function displayCalendar() {
         comment.placeholder = "";
         comment.innerHTML = "";
         comment.innerHTML = "Absence de réponse, relance prévue.";
+        submitBtn.style.display = "inline";
+    } else if (conclusionValue === '8') {
+        recallCalendarLabel.innerHTML = "Date de relance :" ;
+        meetingDiv.style.display = "none";
+        recallDiv.style.display = "inline";
+        recallCalendar.setAttribute("required", "");
+        meetingCalendar.removeAttribute("required");
+        comment.placeholder = "";
+        comment.innerHTML = "";
+        comment.placeholder = "Veuillez renseigner la référence du dossier de la vente.";
         submitBtn.style.display = "inline";
     } else {
         recallCalendarLabel.innerHTML = "Date de relance :" ;

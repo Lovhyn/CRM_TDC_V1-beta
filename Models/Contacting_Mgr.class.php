@@ -135,7 +135,8 @@ class Contacting_Mgr {
 */
             $sqlRequest = " SELECT 
                             s.`date_derniere_pdc`, 
-                            s.`ID_utilisateur`, CONCAT(SUBSTRING(u.`nom`, 1, 1), '.', u.`prenom`) as `suivi`, 
+                            s.`ID_utilisateur`, CONCAT(SUBSTRING(u.`nom`, 1, 1), '.', u.`prenom`) as `suivi`,
+                            u.`nom`, u.`prenom`, 
                             s.`ID_interlocuteur`, i.`libelle_interlocuteur`,
                             s.`ID_infos_interlocuteur`, inf.`nom_interlocuteur`, inf.`contact_interlocuteur`,
                             s.`ID_nature`, n.`libelle_nature`,

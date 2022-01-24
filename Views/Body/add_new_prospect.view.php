@@ -6,7 +6,7 @@ $rights = (int) $_SESSION['rights'];
 <div class="container">
 <hr>
     <div class="container d-flex justify-content-center">
-        <fieldset class="fieldsetAddNewProspect">
+        <fieldset class="fieldsetManagement">
             <legend class="fw-bold d-flex justify-content-center mb-4">NOUVEAU PROSPECT :</legend>
             <hr>
 <?php 

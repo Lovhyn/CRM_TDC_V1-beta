@@ -1,12 +1,14 @@
+<!--$_POST = NOK-->
 <?php
+$unknown = 'Non renseigné';
 $userConnected = (int) $_SESSION['idUser'];
 $rights = (int) $_SESSION['rights'];
 ?>
 <div class="container">
 <hr>
     <div class="container d-flex justify-content-center">
-        <fieldset class="fieldsetAddNewContact">
-            <legend class="fw-bold d-flex justify-content-center mb-4">Nouvelle prise de contact avec <?php echo($_POST['pro_name']);?>:</legend>
+        <fieldset class="fieldsetManagement">
+            <legend class="fw-bold d-flex justify-content-center mb-4">Nouvelle prise de contact avec <?php echo($_POST['libelle_entreprise']);?> :</legend>
             <hr>
             <form name="addNewContact" action="/outils/Controllers/Controller_cdp.php?action=addedNewContact" method="post" class="ADDNEWCONTACT">
                 <input type="hidden" name="action" value="addedNewContact">
@@ -111,12 +113,61 @@ $rights = (int) $_SESSION['rights'];
                     <button type="submit" class="btn" onclick="return confirm('Etes-vous sûr(e) de vouloir enregistrer ce nouveau suivi ?')" id="submitFormBtn"><span>Valider</span></button>
                 </div>
             </form>
-            <form action="/outils/Controllers/Controller_cdp.php" method="post">
-                <input type="hidden" name="action" value="prospectsListing">
-                <div class="d-flex justify-content-center">
-                    <button type="submit" class="btn"><span>Retour</span></button>
-                </div>
-            </form>
+<!----------------------------------------BACK RETURN BUTTON-------------------------------------->
+
+<?php
+            $prospectOrCustomer = Pro_Mgr::prospectOrCustomer((int) $_POST['ID_professionnel']); 
+            if ($prospectOrCustomer[0]['prospect_ou_client'] === "0") {
+                if ($rights === 1) {
+?>
+                    <form action="/outils/Controllers/Controller_admin.php" method="post">
+<?php
+                } elseif ($rights === 2) {
+?>
+                    <form action="/outils/Controllers/Controller_responsable.php" method="post">
+<?php
+                } elseif ($rights === 3) {
+?>
+                    <form action="/outils/Controllers/Controller_cdp.php" method="post">
+<?php
+                }
+?>
+                        <input type="hidden" name="ID_professionnel" value="<?php echo($_POST['ID_professionnel']);?>">
+                        <input type="hidden" name="libelle_entreprise" value="<?php echo($_POST['libelle_entreprise']);?>">
+                        <input type="hidden" name="ID_utilisateur" value="<?php echo($_POST['ID_utilisateur']);?>">
+                        <input type="hidden" name="action" value="prospectActivity">
+                        <div class="d-flex justify-content-center">
+                            <button type="submit" class="btn"><span>Retour</span></button>
+                        </div>
+                    </form>
+<?php
+            } else {
+                if ($rights === 1) {
+?>
+                    <form action="/outils/Controllers/Controller_admin.php" method="post">
+<?php
+                } elseif ($rights === 2) {
+?>
+                    <form action="/outils/Controllers/Controller_responsable.php" method="post">
+<?php
+                } elseif ($rights === 3) {
+?>
+                    <form action="/outils/Controllers/Controller_cdp.php" method="post">
+                        
+<?php
+                }
+?>
+                        <input type="hidden" name="ID_professionnel" value="<?php echo($_POST['ID_professionnel']);?>">
+                        <input type="hidden" name="libelle_entreprise" value="<?php echo($_POST['libelle_entreprise']);?>">
+                        <input type="hidden" name="ID_utilisateur" value="<?php echo($_POST['ID_utilisateur']);?>">
+                        <input type="hidden" name="action" value="clientActivity">
+                        <div class="d-flex justify-content-center">
+                            <button type="submit" class="btn"><span>Retour</span></button>
+                        </div>
+                    </form>
+<?php
+            }
+?>
         </fieldset>
     </div>
 </div>

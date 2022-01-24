@@ -2,7 +2,7 @@
 <div class="container">
 <hr>
     <div class="container container d-flex justify-content-center">
-        <fieldset class="fieldsetUserManagement">
+        <fieldset class="fieldsetManagement">
             <legend class="fw-bold d-flex justify-content-center mb-5">Modifier un utilisateur :</legend>
             <form name="updUser" action="/outils/Controllers/Controller_admin.php" method="post">
                 <input type="hidden" name="userId" value="<?php echo $_POST['userId'];?>">

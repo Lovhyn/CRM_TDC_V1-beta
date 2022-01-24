@@ -23,7 +23,7 @@ $rights = (int) $_SESSION['rights'];
 <?php
                             if ($_POST['date_derniere_pdc'] === "") {
 ?>
-                                <span class="undefined"><?php echo($unknown);?></span>
+                                <span class="infosPro"><?php echo($unknown);?></span>
 <?php
                             } else {                        
 ?>
@@ -45,7 +45,7 @@ $rights = (int) $_SESSION['rights'];
 <?php
                             if ($_POST['nom_decideur'] === "") {
 ?>
-                                <span class="undefined"><?php echo($unknown);?></span>
+                                <span class="infosPro"><?php echo($unknown);?></span>
 <?php               
                             } else { 
 ?>
@@ -61,7 +61,7 @@ $rights = (int) $_SESSION['rights'];
 <?php
                             if ($_POST['libelle_secteur'] === "") {
 ?>
-                                <span class="undefined"><?php echo($unknown);?></span>
+                                <span class="infosPro"><?php echo($unknown);?></span>
 <?php
                             } else {
 ?>
@@ -77,7 +77,7 @@ $rights = (int) $_SESSION['rights'];
 <?php
                             if ($_POST['tel'] === "") {
 ?>
-                                <span class="undefined"><?php echo($unknown);?></span>
+                                <span class="infosPro"><?php echo($unknown);?></span>
 <?php
                             } else {
 ?>
@@ -95,7 +95,7 @@ $rights = (int) $_SESSION['rights'];
 <?php
                             if ($_POST['tel_2'] === "") {
 ?>
-                                <span class="undefined"><?php echo($unknown);?></span>
+                                <span class="infosPro"><?php echo($unknown);?></span>
 <?php
                             } else {
 ?>
@@ -111,7 +111,7 @@ $rights = (int) $_SESSION['rights'];
 <?php
                             if ($_POST['mail'] === "") {
 ?>
-                                <span class="undefined"><?php echo($unknown);?></span>
+                                <span class="infosPro"><?php echo($unknown);?></span>
 <?php
                             } else {
 ?>
@@ -127,7 +127,7 @@ $rights = (int) $_SESSION['rights'];
 <?php
                             if ($_POST['adresse'] === "") {
 ?>
-                                <span class="undefined"><?php echo($unknown);?></span>
+                                <span class="infosPro"><?php echo($unknown);?></span>
 <?php
                             } else {
 ?>
@@ -143,7 +143,7 @@ $rights = (int) $_SESSION['rights'];
 <?php
                             if ($_POST['adresse_2'] === "") {
 ?>
-                                <span class="undefined"><?php echo($unknown);?></span>
+                                <span class="infosPro"><?php echo($unknown);?></span>
 <?php
                             } else {
 ?>
@@ -159,7 +159,7 @@ $rights = (int) $_SESSION['rights'];
 <?php
                             if ($_POST['cp'] === "") {
 ?>
-                                <span class="undefined"><?php echo($unknown);?></span>
+                                <span class="infosPro"><?php echo($unknown);?></span>
 <?php
                             } else {
 ?>
@@ -175,7 +175,7 @@ $rights = (int) $_SESSION['rights'];
 <?php
                             if ($_POST['ville'] === "") {
 ?>
-                                <span class="undefined"><?php echo($unknown);?></span>
+                                <span class="infosPro"><?php echo($unknown);?></span>
 <?php
                             } else {
 ?>
@@ -191,16 +191,16 @@ $rights = (int) $_SESSION['rights'];
                 <div class="mb-3 text-center">
                         
 <?php
-                    if ($_POST['observation'] === "") {
+                if ($_POST['observation'] === "") {
 ?>
-                        <label id="infosPro" class="form-label">Observation :</label>
-                            <span class="undefined"><?php echo($unknown);?></span>
+                    <label id="infosPro" class="form-label">Observation :</label>
+                        <span class="infosPro"><?php echo($unknown);?></span>
 <?php
-                    } else {
+                } else {
 ?>
-                        <textarea class="w-100 form-control">Observation : <?php echo($_POST['observation']);?></textarea>
+                    <textarea class="w-100 form-control">Observation : <?php echo($_POST['observation']);?></textarea>
 <?php
-                    }
+                }
 ?>
                     <hr>
                 </div>

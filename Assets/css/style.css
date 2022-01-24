@@ -22,16 +22,6 @@ hr {
     background: linear-gradient(328deg, rgba(238, 76, 149, 0.647) 0%, rgba(92,36,131,0.4) 100%);
     box-shadow: 7px 7px 10px #000000 !important;
 }
-.fieldsetUserManagement {
-    /* border: solid white !important;  */
-    border-radius: 10px;
-    width: 650px;
-    margin-top: 50px;
-    padding: 35px;
-    background: rgb(237,109,166);
-    background: linear-gradient(328deg, rgba(238, 76, 149, 0.647) 0%, rgba(92,36,131,0.4) 100%);
-    box-shadow: 7px 7px 10px #000000 !important;
-}
 .fieldsetManagement {
     border-radius: 10px;
     width: 850px;
@@ -41,25 +31,7 @@ hr {
     background: linear-gradient(328deg, rgba(238, 76, 149, 0.647) 0%, rgba(92,36,131,0.4) 100%);
     box-shadow: 7px 7px 10px #000000 !important;
 }
-.fieldsetAddNewProspect {
-    border-radius: 10px;
-    width: 850px;
-    margin-top: 50px;
-    padding: 35px;
-    background: rgb(237,109,166);
-    background: linear-gradient(328deg, rgba(238, 76, 149, 0.647) 0%, rgba(92,36,131,0.4) 100%);
-    box-shadow: 7px 7px 10px #000000 !important;
-}
-.fieldsetAddNewContact {
-    border-radius: 10px;
-    width: 850px;
-    margin-top: 50px;
-    padding: 35px;
-    background: rgb(237,109,166);
-    background: linear-gradient(328deg, rgba(238, 76, 149, 0.647) 0%, rgba(92,36,131,0.4) 100%);
-    box-shadow: 7px 7px 10px #000000 !important;
-}
-#infosPro {
+#infosPro, #infosContact {
     color: rgb(190, 190, 190);
 }
 .connectedAsRole {

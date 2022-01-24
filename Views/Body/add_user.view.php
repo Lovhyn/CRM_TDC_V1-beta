@@ -2,7 +2,7 @@
 <div class="container">
 <hr>
     <div class="container d-flex justify-content-center">
-        <fieldset class="fieldsetUserManagement">
+        <fieldset class="fieldsetManagement">
             <legend class="fw-bold d-flex justify-content-center mb-5">Nouvel utilisateur :</legend>
             <form name="addUser" action="/outils/Controllers/Controller_admin.php?action=addedUser" method="post" class="ADDUSER">
                 <div class="mb-2">

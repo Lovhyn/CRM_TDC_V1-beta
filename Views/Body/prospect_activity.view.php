@@ -1,8 +1,11 @@
 <!--$_POST = OK-->
 <?php
+
 $userConnected = (int) $_SESSION['idUser'];
 $rights = (int) $_SESSION['rights'];
 $unknown = 'Non renseigné';
+// echo($rights).'<br/>';
+// echo($userConnected);
 ?>
 <div class="container">
 <hr>
@@ -20,23 +23,27 @@ $unknown = 'Non renseigné';
         Un chargé de projet ne peut ajouter une prise de contact sur un 
         prospect / client que s'il est en charge du suivi de ce dernier.
 */
-        if ($userConnected === (int) $_POST['ID_utilisateur']) {
+        $userInChargeOfThisPro = Pro_Mgr::checkWhichUserIsInChargeOfThisPro((int) $_POST['ID_professionnel']);
+        if ((int) $userInChargeOfThisPro[0]['ID_utilisateur'] === (int) $_POST['ID_utilisateur']) {
+            if ($userConnected === (int) $_POST['ID_utilisateur']) {
 //          Si l'utilisateur est un responsable ou un chargé de projet, affiche =>
-            if ($rights === 2) {
+                if ($rights === 2) {
+                    echo
+                    '<form class="d-flex justify-content-center mt-3" action="/outils/Controllers/Controller_responsable.php" method="post">';
+                } else {
+                    echo
+                    '<form class="d-flex justify-content-center mt-3" action="/outils/Controllers/Controller_cdp.php" method="post">';
+                }
                 echo
-                '<form class="d-flex justify-content-center mt-3" action="/outils/Controllers/Controller_responsable.php" method="post">';
-            } else {
-                echo
-                '<form class="d-flex justify-content-center mt-3" action="/outils/Controllers/Controller_cdp.php" method="post">';
+                        '<input type="hidden" name="ID_professionnel" value="'.$_POST['ID_professionnel'].'">
+                        <input type="hidden" name="libelle_entreprise" value="'.$_POST['libelle_entreprise'].'">
+                        <input type="hidden" name="ID_utilisateur" value="'.$_POST['ID_utilisateur'].'">
+                        <input type="hidden" name="action" value="addNewContactForm">
+                        <button type="submit" title="Enregistrer une nouvelle prise de contact" class="addNewContactIcon">
+                            <i class="far fa-comments"></i>
+                        </button>
+                    </form>';
             }
-            echo
-                    '<input type="hidden" name="ID_professionnel" value="'.$_POST['ID_professionnel'].'">
-                    <input type="hidden" name="libelle_entreprise" value="'.$_POST['libelle_entreprise'].'">
-                    <input type="hidden" name="action" value="addNewContactForm">
-                    <button type="submit" title="Enregistrer une nouvelle prise de contact" class="addNewContactIcon">
-                        <i class="far fa-comments"></i>
-                    </button>
-                </form>';
         }
 //°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°
 
@@ -75,6 +82,7 @@ $unknown = 'Non renseigné';
 //      Récupère la liste des prospects de l'utilisateur connecté.
         $proId = (int) $_POST['ID_professionnel'];
         $tProspectActivities = Contacting_Mgr::getProspectActivity($proId);
+        // var_dump($tProspectActivities);
         foreach($tProspectActivities as $tProspectActivity) {
             echo
             '<tr>
@@ -98,9 +106,11 @@ $unknown = 'Non renseigné';
                         <input type="hidden" name="ID_utilisateur" value="'.$tProspectActivity['ID_utilisateur'].'">
                         <input type="hidden" name="nom" value="'.$tProspectActivity['nom'].'">
                         <input type="hidden" name="prenom" value="'.$tProspectActivity['prenom'].'">
+                        <input type="hidden" name="ID_interlocuteur" value="'.$tProspectActivity['ID_interlocuteur'].'">
                         <input type="hidden" name="libelle_interlocuteur" value="'.$tProspectActivity['libelle_interlocuteur'].'">
                         <input type="hidden" name="nom_interlocuteur" value="'.$tProspectActivity['nom_interlocuteur'].'">
                         <input type="hidden" name="contact_interlocuteur" value="'.$tProspectActivity['contact_interlocuteur'].'">
+                        <input type="hidden" name="ID_nature" value="'.$tProspectActivity['ID_nature'].'">
                         <input type="hidden" name="libelle_nature" value="'.$tProspectActivity['libelle_nature'].'">
                         <input type="hidden" name="libelle_conclusion" value="'.$tProspectActivity['libelle_conclusion'].'">
                         <input type="hidden" name="commentaire" value="'.$tProspectActivity['commentaire'].'">
@@ -118,7 +128,7 @@ $unknown = 'Non renseigné';
                 Si l'utilisateur a eu un contact avec le décideur, on affiche directement le nom du décideur.
                 Si le nom du décideur n'a pas été renseigné dans la BDD, on affiche "non renseigné".
 */
-                if ($tProspectActivity['libelle_interlocuteur'] === 'Décideur') {
+                if ($tProspectActivity['ID_interlocuteur'] === '1') {
                     if ($tProspectActivity['nom_decideur'] === '') {
                         echo 
                         '<td>'.$unknown.'</td>';
