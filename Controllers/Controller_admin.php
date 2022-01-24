@@ -63,18 +63,20 @@
                 vides ou non. Si elles le sont, nous envoyons des chaînes vides à la fonction 'createInterlocutorInfos'
                 qui elle, se chargera d'envoyer NULL si elle reçoit des chaînes vides en paramètre.
 */
-                if (isset($_POST['newContactInterlocutorName'])) {
-                    $newContactInterlocutorName = $_POST['newContactInterlocutorName'];
-                } else {
+                if ($_POST['newContactInterlocutorName'] === '') {
                     $newContactInterlocutorName = '';
-                }
-                if (isset($_POST['newContactInterlocutorInfoTel'])) {
-                    $newContactInterlocutorContact = $_POST['newContactInterlocutorInfoTel'];
-                } elseif (isset($_POST['newContactInterlocutorInfoMail'])) {
-                    $newContactInterlocutorContact = $_POST['newContactInterlocutorInfoMail'];
                 } else {
-                    $newContactInterlocutorContact = '';
+                    $newContactInterlocutorName = $_POST['newContactInterlocutorName'];
                 }
+                if ($_POST['newContactInterlocutorInfoTel'] === '') {
+                    if ($_POST['newContactInterlocutorInfoMail'] === '') {
+                        $newContactInterlocutorContact = '';
+                    } else {
+                        $newContactInterlocutorContact = $_POST['newContactInterlocutorInfoMail'];
+                    }
+                } else {
+                    $newContactInterlocutorContact = $_POST['newContactInterlocutorInfoTel'];
+                }         
                 $msg = '';
 //              Avant l'ajout, on contrôle qu'aucun professionnel n'a un nom semblable.
                 if (Pro_Mgr::checkIfExists($newProspectName) === 0) {
@@ -83,7 +85,7 @@
                         $resultBefore = Pro_Mgr::getLastAutoIncrementValue();
 //                      Convertit le résultat en entier.
                         $lastValueBefore = (int) $resultBefore[0]["AUTO_INCREMENT"];
-                        Pro_Mgr::createNewPro($followedBy, $newProspectActivityArea, $newProspectName, 
+                        Pro_Mgr::createNewProspect($followedBy, $newProspectActivityArea, $newProspectName, 
                                             $newProspectDecisionMakerName, $newProspectMainPhone, 
                                             $newProspectSecondaryPhone, $newProspectMail, 
                                             $newProspectMainAdress, $newProspectSecondaryAdress, 
@@ -102,12 +104,13 @@
                             $lastIdInfosAfter = InfosInterlocutor_Mgr::getLastAutoIncrementValue();
 //                          Convertit le résultat en entier.
                             $infosInterlocutorIdValue = (int) $lastIdInfosAfter[0]["AUTO_INCREMENT"];
-                            $infoInterlocutorId = $infosInterlocutorIdValue - 1;
 /*
-                            Contrôle que l'insert des infos sur l'interlocuteur a correctement été effectué
-                            avant d'insérer un nouveau suivi dans la base de données.
+                            Récupère l'identifiant du dernier insert de la table 'infos_interlocuteur'
+                            pour pouvoir l'administrer à l'insert à venir dans la table 'suivre'.
 */ 
-                            $lastContactDate = Dates_Mgr::nowToUnixString();;
+                            $infoInterlocutorId = $infosInterlocutorIdValue - 1;
+//                          Récupère la date du jour et là retourne au format Unix sous forme de String.
+                            $lastContactDate = Dates_Mgr::nowToUnixString();
 //                          Si l'utilisateur a validé une date depuis le calendrier rdv, on enregistre une date de rdv. 
                             if ((isset($_POST['meetingCalendar'])) AND ($newContactConclusion === '5')) {
                                 $meetingDate = Dates_Mgr::paramToUnixString($_POST['meetingCalendar']);
@@ -120,7 +123,7 @@
                                 Contacting_Mgr::createNewContactRecall($followedBy, $lastValueBefore, $newContactInterlocutor,
                                                                     $infoInterlocutorId, $newContactType, $newContactConclusion, 
                                                                     $newContactComment, $lastContactDate, $recallDate);
-                            }  
+                            }   
                             $msg = '<div class="text-center" style="color: #46ec4e">Nouveau suivi enregistré.</div>';
                             require("../Views/Header/header_admin.view.php");  
                             echo($msg);
@@ -176,6 +179,72 @@
                 require("../Views/Header/header_admin.view.php");
                 require("../Views/Body/prospects_listing.view.php");
                 require("../Views/Footer/footer.view.php");
+                break;
+            case 'addNewContactForm' : 
+                require("../Views/Header/header_admin.view.php");
+                require("../Views/Body/add_new_contact.view.php");
+                require("../Views/Footer/footer.view.php");
+                break;
+            case 'addedNewContact' :
+                var_dump($_POST);
+                $idPro = (int) $_POST['ID_professionnel'];
+                $idUser = (int) $_SESSION['idUser'];
+                $idInterlocutorType = (int) $_POST['idInterlocutorType'];
+                $idContactType = (int) $_POST['idContactType'];
+                $contactConclusion = (int) $_POST['contactConclusion'];
+                $meetingCalendar = $_POST['meetingCalendar'];
+                $recallCalendar = $_POST['recallCalendar'];
+                $contactComment = $_POST['contactComment'];
+/*
+                Attention au typage : 
+                Les données concernant l'interlocuteur ne sont pas requises, par conséquent, des
+                valeurs NULL peuvent être envoyées en BDD. Nous contrôlons ici si les variables sont
+                vides ou non. Si elles le sont, nous envoyons des chaînes vides à la fonction 'createInterlocutorInfos'
+                qui elle, se chargera d'envoyer NULL si elle reçoit des chaînes vides en paramètre.
+*/
+                if ($_POST['contactInterlocutorName'] === '') {
+                    $contactInterlocutorName = '';
+                } else {
+                    $contactInterlocutorName = $_POST['contactInterlocutorName'];
+                }
+                if ($_POST['contactInterlocutorInfoTel'] === '') {
+                    if ($_POST['contactInterlocutorInfoMail'] === '') {
+                        $contactInterlocutorInfo = '';
+                    } else {
+                        $contactInterlocutorInfo = $_POST['contactInterlocutorInfoMail'];
+                    }
+                } else {
+                    $contactInterlocutorInfo = $_POST['contactInterlocutorInfoTel'];
+                }
+                InfosInterlocutor_Mgr::createInterlocutorInfos($contactInterlocutorName, $contactInterlocutorInfo);
+//              Récupère la prochaine valeur de l'auto-increment après l'insert.
+                $lastIdInfosAfter = InfosInterlocutor_Mgr::getLastAutoIncrementValue();
+//              Convertit le résultat en entier.
+                $infosInterlocutorIdValue = (int) $lastIdInfosAfter[0]["AUTO_INCREMENT"];
+                $infoInterlocutorId = $infosInterlocutorIdValue - 1;
+/*
+                Contrôle que l'insert des infos sur l'interlocuteur a correctement été effectué
+                avant d'insérer un nouveau suivi dans la base de données.
+*/ 
+                $lastContactDate = Dates_Mgr::nowToUnixString();;
+//              Si l'utilisateur a validé une date depuis le calendrier rdv, on enregistre une date de rdv. 
+                // if ((isset($_POST['meetingCalendar'])) AND ($newContactConclusion === '5')) {
+                //     $meetingDate = Dates_Mgr::paramToUnixString($_POST['meetingCalendar']);
+                //     Contacting_Mgr::createNewContactMeeting($idUser, $idPro, $idInterlocutorType, 
+                //                                         $infoInterlocutorId, $idContactType, $contactConclusion, 
+                //                                         $contactComment, $lastContactDate, $meetingDate);
+//              Sinon, l'utilisateur saisit obligatoirement une date de relance.
+                // } elseif (isset($_POST['recallCalendar'])) {   
+                //     $recallDate = Dates_Mgr::paramToUnixString($_POST['recallCalendar']);
+                //     Contacting_Mgr::createNewContactRecall($followedBy, $lastValueBefore, $newContactInterlocutor,
+                //                                         $infoInterlocutorId, $newContactType, $newContactConclusion, 
+                //                                         $newContactComment, $lastContactDate, $recallDate);
+                // }  
+                $msg = '<div class="text-center" style="color: #46ec4e">Nouvelle prise de contact enregistrée !</div>';
+                require("../Views/Header/header_admin.view.php");  
+                echo($msg);
+                require("../Views/Body/prospect_activity.view.php");
+                require("../Views/Footer/footer.view.php"); 
                 break;
             case 'clientsListing' :
                 require("../Views/Header/header_admin.view.php");

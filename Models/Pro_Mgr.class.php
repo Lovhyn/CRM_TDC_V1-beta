@@ -265,7 +265,7 @@ public static function getMyCustomersList(int $paramUserId) {
     }
 
 //  °°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°
-    public static function createNewPro(Int $userId, Int $proActivityArea, String $proName, String $proDecisionMaker, 
+    public static function createNewProspect(Int $userId, Int $proActivityArea, String $proName, String $proDecisionMaker, 
                                         String $proMainPhone, String $proSecondaryPhone,
                                         String $proMail, String $proMainAdress, String $proSecondaryAdress,
                                         $proCp, String $proCity, String $proObservation) {
