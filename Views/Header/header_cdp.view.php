@@ -45,12 +45,12 @@
                                             <li><a class="dropdown-item" href="/outils/Controllers/Controller_cdp.php?action=clientsListing">Clients</a></li>
                                         </ul>
                                     </li>
-                                    <li class="nav-item">
+                                    <!-- <li class="nav-item">
                                         <a class="nav-link active" aria-current="page" href="/outils/Controllers/Controller_cdp.php?action=myContactRecalls" id="navLinks">Mes relances</a>
                                     </li>
                                     <li class="nav-item">
                                         <a class="nav-link active" aria-current="page" href="/outils/Controllers/Controller_cdp.php?action=myMeetingRecalls" id="navLinks">Mes visites</a>
-                                    </li>
+                                    </li> -->
                                     <li class="nav-item">
                                         <a class="nav-link active" aria-current="page" href="/outils/Controllers/Logout.php" id="navLinks">Déconnexion</a>
                                     </li>
