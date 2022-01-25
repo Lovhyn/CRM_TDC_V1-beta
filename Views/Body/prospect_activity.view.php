@@ -74,7 +74,7 @@ $unknown = 'Non renseigné';
                     <th class="text-center">par</th>
                     <th class="text-center">au / à</th>
                     <th class="text-center">s'est conclue par</th>
-                    <th class="text-center">Date rendez-vous</th>
+                    <th class="text-center">Rendez-vous</th>
                     <th class="text-center">Relance prévue</th>
                 </tr>
             </thead>

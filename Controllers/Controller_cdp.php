@@ -112,7 +112,7 @@
 //                          Récupère la date du jour et là retourne au format Unix sous forme de String.
                             $lastContactDate = Dates_Mgr::nowToUnixString();
 //                          Si l'utilisateur a validé une date depuis le calendrier rdv, on enregistre une date de rdv. 
-                            if ((isset($_POST['meetingCalendar'])) AND ($newContactConclusion === '5')) {
+                            if ((isset($_POST['meetingCalendar'])) AND ($newContactConclusion === 5)) {
                                 $meetingDate = Dates_Mgr::paramToUnixString($_POST['meetingCalendar']);
                                 Contacting_Mgr::createNewContactMeeting($followedBy, $lastValueBefore, $newContactInterlocutor, 
                                                                     $infoInterlocutorId, $newContactType, $newContactConclusion, 
@@ -123,7 +123,7 @@
                                 Contacting_Mgr::createNewContactRecall($followedBy, $lastValueBefore, $newContactInterlocutor,
                                                                     $infoInterlocutorId, $newContactType, $newContactConclusion, 
                                                                     $newContactComment, $lastContactDate, $recallDate);
-                            }
+                            }   
                             $msg = '<div class="text-center" style="color: #46ec4e">Nouveau suivi enregistré.</div>';
                             require("../Views/Header/header_cdp.view.php");  
                             echo($msg);

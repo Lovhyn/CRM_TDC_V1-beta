@@ -15,7 +15,7 @@ class Dates_Mgr {
 //  Retourne la date donnée en paramètre au format : "jj/mm/yyyy hh:mm".
     public static function dateFormatDayMonthYearHourMinutesSeconds(String $paramDate) {
         $paramDate = (int) $paramDate;
-        $dayMonthYearHourMinutesSeconds = gmdate('d/m/Y h:m', $paramDate);
+        $dayMonthYearHourMinutesSeconds = date('d/m/Y \ à \ H:i', $paramDate);
         return $dayMonthYearHourMinutesSeconds;
     }
 //  °°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°

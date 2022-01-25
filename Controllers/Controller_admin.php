@@ -16,22 +16,83 @@
         } elseif (isset($_GET['action'])) {
             $action = $_GET['action'];
         }
+//      Routes : 
+        $header = "../Views/Header/header_admin.view.php";
+        $footer = "../Views/Footer/footer.view.php";
+        $home = "../Views/Body/home_admin.view.php";
+        $prospectListing = "../Views/Body/prospects_listing.view.php";
+        $addNewProspectForm = "../Views/Body/add_new_prospect.view.php";
+        $fullInfosPro = "../Views/Body/full_infos_pro.php";
+        $updateProForm = "../Views/Body/update_pro.php";
+        $prospectActivity = "../Views/Body/prospect_activity.view.php";
+        $fullInfosContact = "../Views/Body/full_infos_contact.view.php";
+        $addNewContactForm = "../Views/Body/add_new_contact.view.php";
+        $clientsListing = "../Views/Body/clients_listing.view.php";
+        $clientActivity = "../Views/Body/client_activity.view.php";
+        $userManagement = "../Views/Body/user_management.view.php";
+        $addUserForm = "../Views/Body/add_user.view.php";
+        $updateUserForm = "../Views/Body/update_user.view.php";
+        $activityAreaManagement = "../Views/Body/activity_area_management.view.php";
+        $conclusionsManagement = "../Views/Body/conclusions_management.view.php";
 //      -------------------------------------------------------------------------------------------
 //      --------------------------------------Switch $action---------------------------------------
 //      -------------------------------------------------------------------------------------------
+//          ************************************** HOME *******************************************
         switch ($action) {
             case 'home' :
-                require("../Views/Header/header_admin.view.php");
-                require("../Views/Body/home_admin.view.php");
-                require("../Views/Footer/footer.view.php");
+                require($header);
+                require($home);
+                require($footer);
                 break;
-//          ********************************** Management PRO *************************************
+//          ****************************** MANAGEMENT PROSPECTS & CLIENTS *************************
+//          READ
+            case 'prospectsListing' :
+                prospectListing:
+                require($header);
+                require($prospectListing);
+                require($footer);
+                break;
+            case 'clientsListing' :
+                require($header);
+                require($clientsListing);
+                require($footer);
+                break;
+            case 'fullInfosPro' : 
+                require($header);
+                require($fullInfosPro);
+                require($footer);
+                break;
+            case 'fullInfosContact' : 
+                require($header);
+                require($fullInfosContact);
+                require($footer);
+                break;
+            case 'prospectActivity' :
+                require($header);
+                require($prospectActivity);
+                require($footer);
+                break;
+            case 'clientActivity' :
+                require($header);
+                require($clientActivity);
+                require($footer);
+                break;
+//          CREATE => [FORM]
             case 'addNewProspectForm' : 
-                require("../Views/Header/header_admin.view.php");
-                require("../Views/Body/add_new_prospect.view.php");
-                require("../Views/Footer/footer.view.php");
+                require($header);
+                require($addNewProspectForm);
+                require($footer);
                 break;
+//          CREATE => [ON SUBMIT]
             case 'addedNewProspect' :
+/*
+                L'opération d'ajout d'un nouveau prospect implique tacitement mais impérativement
+                la création d'un suivi (et donc l'enregistrement d'informations concernant l'interlocuteur).
+                Il faut donc à la validation du formulaire réaliser 3 inserts :
+                - Etape 1 : On insert un nouveau professionnel
+                - Etape 2 : On insert les infos sur l'interlocuteur
+                - Etape 3 : On insert un suivi en récupèrant les identifiants du pro et de l'interlocuteur.
+*/  
                 $followedBy = (int) $_SESSION['idUser'];       
                 $newProspectName = $_POST['newProspectName'];
                 $newProspectDecisionMakerName = $_POST['newDecisionMakerName'];
@@ -64,20 +125,21 @@
                 qui elle, se chargera d'envoyer NULL si elle reçoit des chaînes vides en paramètre.
 */
                 if ($_POST['newContactInterlocutorName'] === '') {
-                    $newContactInterlocutorName = '';
+                    $newInfosInterlocutorName = '';
                 } else {
-                    $newContactInterlocutorName = $_POST['newContactInterlocutorName'];
+                    $newInfosInterlocutorName = $_POST['newContactInterlocutorName'];
                 }
                 if ($_POST['newContactInterlocutorInfoTel'] === '') {
                     if ($_POST['newContactInterlocutorInfoMail'] === '') {
-                        $newContactInterlocutorContact = '';
+                        $newInfosInterlocutorContact = '';
                     } else {
-                        $newContactInterlocutorContact = $_POST['newContactInterlocutorInfoMail'];
+                        $newInfosInterlocutorContact = $_POST['newContactInterlocutorInfoMail'];
                     }
                 } else {
-                    $newContactInterlocutorContact = $_POST['newContactInterlocutorInfoTel'];
+                    $newInfosInterlocutorContact = $_POST['newContactInterlocutorInfoTel'];
                 }         
                 $msg = '';
+//          Etape 1 :
 //              Avant l'ajout, on contrôle qu'aucun professionnel n'a un nom semblable.
                 if (Pro_Mgr::checkIfExists($newProspectName) === 0) {
                     try {
@@ -94,25 +156,20 @@
                         $resultAfter = Pro_Mgr::getLastAutoIncrementValue();
 //                      Convertit le résultat en entier.
                         $lastValueAfter = (int) $resultAfter[0]["AUTO_INCREMENT"];
-/*
-                        Contrôle que l'insert du professionnel a correctement été effectué
-                        avant d'insérer un suivi dans la base de données.
-*/               
+//          Etape 2 :
                         if ($lastValueAfter === ($lastValueBefore + 1)) {
-                            InfosInterlocutor_Mgr::createInterlocutorInfos($newContactInterlocutorName, $newContactInterlocutorContact);
+                            InfosInterlocutor_Mgr::createInterlocutorInfos($newInfosInterlocutorName, $newInfosInterlocutorContact);
 //                          Récupère la prochaine valeur de l'auto-increment après l'insert.
                             $lastIdInfosAfter = InfosInterlocutor_Mgr::getLastAutoIncrementValue();
 //                          Convertit le résultat en entier.
                             $infosInterlocutorIdValue = (int) $lastIdInfosAfter[0]["AUTO_INCREMENT"];
-/*
-                            Récupère l'identifiant du dernier insert de la table 'infos_interlocuteur'
-                            pour pouvoir l'administrer à l'insert à venir dans la table 'suivre'.
-*/ 
+//                          Récupère l'identifiant du dernier insert de la table 'infos_interlocuteur'.
                             $infoInterlocutorId = $infosInterlocutorIdValue - 1;
 //                          Récupère la date du jour et là retourne au format Unix sous forme de String.
+//          Etape 3 :
                             $lastContactDate = Dates_Mgr::nowToUnixString();
 //                          Si l'utilisateur a validé une date depuis le calendrier rdv, on enregistre une date de rdv. 
-                            if ((isset($_POST['meetingCalendar'])) AND ($newContactConclusion === '5')) {
+                            if ((isset($_POST['meetingCalendar'])) AND ($newContactConclusion === 5)) {
                                 $meetingDate = Dates_Mgr::paramToUnixString($_POST['meetingCalendar']);
                                 Contacting_Mgr::createNewContactMeeting($followedBy, $lastValueBefore, $newContactInterlocutor, 
                                                                     $infoInterlocutorId, $newContactType, $newContactConclusion, 
@@ -125,40 +182,31 @@
                                                                     $newContactComment, $lastContactDate, $recallDate);
                             }   
                             $msg = '<div class="text-center" style="color: #46ec4e">Nouveau suivi enregistré.</div>';
-                            require("../Views/Header/header_admin.view.php");  
+                            require($header);  
                             echo($msg);
-                            require("../Views/Body/prospects_listing.view.php");
-                            require("../Views/Footer/footer.view.php"); 
+                            require($prospectListing);
+                            require($footer); 
                             break;
                         }   
                     } catch (Exception $e) {
                         $msg = '<div class="text-center" style="color: #E84E0E">Erreur : Echec de l\'enregistrement.</div>';
-                        require("../Views/Header/header_admin.view.php");
+                        require($header);
                         echo($msg);
-                        require("../Views/Body/add_new_prospect.view.php");
-                        require("../Views/Footer/footer.view.php");
+                        require($addNewProspectForm);
+                        require($footer);
                         break;
                     }
                 } else {
                     goto prospectListing;
                 }
                 break;
-            case 'prospectsListing' :
-                prospectListing:
-                require("../Views/Header/header_admin.view.php");
-                require("../Views/Body/prospects_listing.view.php");
-                require("../Views/Footer/footer.view.php");
-                break;
-            case 'fullInfosPro' : 
-                require("../Views/Header/header_admin.view.php");
-                require("../Views/Body/full_infos_pro.php");
-                require("../Views/Footer/footer.view.php");
-                break;
+//          UPDATE => [FORM]
             case 'updatePro' :
-                require("../Views/Header/header_admin.view.php");
-                require("../Views/Body/update_pro.php");
-                require("../Views/Footer/footer.view.php");
+                require($header);
+                require($updateProForm);
+                require($footer);
                 break;
+//          UPDATE => [ON SUBMIT]
             case 'updatedPro' :
                 $proToUpdate = (int) $_POST['currentProId'];
                 $newProName = $_POST['majProName'];
@@ -176,17 +224,18 @@
                                         $newSecondaryPhone, $newMail, $newMainAdress, 
                                         $newSecondaryAdress, $newCp, $newCity, $newObservation,
                                         $proToUpdate, $newFollowedBy);
-                require("../Views/Header/header_admin.view.php");
-                require("../Views/Body/prospects_listing.view.php");
-                require("../Views/Footer/footer.view.php");
+                require($header);
+                require($prospectListing);
+                require($footer);
                 break;
+//          CREATE => [FORM]
             case 'addNewContactForm' : 
-                require("../Views/Header/header_admin.view.php");
-                require("../Views/Body/add_new_contact.view.php");
-                require("../Views/Footer/footer.view.php");
+                require($header);
+                require($addNewContactForm);
+                require($footer);
                 break;
+//          CREATE => [ON SUBMIT]
             case 'addedNewContact' :
-                var_dump($_POST);
                 $idPro = (int) $_POST['ID_professionnel'];
                 $idUser = (int) $_SESSION['idUser'];
                 $idInterlocutorType = (int) $_POST['idInterlocutorType'];
@@ -221,62 +270,43 @@
                 $lastIdInfosAfter = InfosInterlocutor_Mgr::getLastAutoIncrementValue();
 //              Convertit le résultat en entier.
                 $infosInterlocutorIdValue = (int) $lastIdInfosAfter[0]["AUTO_INCREMENT"];
+//              Récupère l'identifiant du dernier insert de la table 'infos_interlocuteur'.
                 $infoInterlocutorId = $infosInterlocutorIdValue - 1;
-/*
-                Contrôle que l'insert des infos sur l'interlocuteur a correctement été effectué
-                avant d'insérer un nouveau suivi dans la base de données.
-*/ 
+//              Récupère la date du jour et là retourne au format Unix sous forme de String.
                 $lastContactDate = Dates_Mgr::nowToUnixString();;
 //              Si l'utilisateur a validé une date depuis le calendrier rdv, on enregistre une date de rdv. 
-                // if ((isset($_POST['meetingCalendar'])) AND ($newContactConclusion === '5')) {
-                //     $meetingDate = Dates_Mgr::paramToUnixString($_POST['meetingCalendar']);
-                //     Contacting_Mgr::createNewContactMeeting($idUser, $idPro, $idInterlocutorType, 
-                //                                         $infoInterlocutorId, $idContactType, $contactConclusion, 
-                //                                         $contactComment, $lastContactDate, $meetingDate);
+                if ((isset($_POST['meetingCalendar'])) AND ($contactConclusion === 5)) {
+                    $meetingDate = Dates_Mgr::paramToUnixString($meetingCalendar);
+                    Contacting_Mgr::createNewContactMeeting($idUser, $idPro, $idInterlocutorType, 
+                                                        $infoInterlocutorId, $idContactType, $contactConclusion, 
+                                                        $contactComment, $lastContactDate, $meetingDate);
 //              Sinon, l'utilisateur saisit obligatoirement une date de relance.
-                // } elseif (isset($_POST['recallCalendar'])) {   
-                //     $recallDate = Dates_Mgr::paramToUnixString($_POST['recallCalendar']);
-                //     Contacting_Mgr::createNewContactRecall($followedBy, $lastValueBefore, $newContactInterlocutor,
-                //                                         $infoInterlocutorId, $newContactType, $newContactConclusion, 
-                //                                         $newContactComment, $lastContactDate, $recallDate);
-                // }  
+                } elseif (isset($_POST['recallCalendar'])) {   
+                    $recallDate = Dates_Mgr::paramToUnixString($recallCalendar);
+                    Contacting_Mgr::createNewContactRecall($idUser, $idPro, $idInterlocutorType, 
+                                                        $infoInterlocutorId, $idContactType, $contactConclusion, 
+                                                        $contactComment, $lastContactDate, $recallDate);
+                }  
                 $msg = '<div class="text-center" style="color: #46ec4e">Nouvelle prise de contact enregistrée !</div>';
-                require("../Views/Header/header_admin.view.php");  
+                require($header);  
                 echo($msg);
-                require("../Views/Body/prospect_activity.view.php");
-                require("../Views/Footer/footer.view.php"); 
+                require($prospectActivity);
+                require($footer); 
                 break;
-            case 'clientsListing' :
-                require("../Views/Header/header_admin.view.php");
-                require("../Views/Body/clients_listing.view.php");
-                require("../Views/Footer/footer.view.php");
-                break;
-            case 'prospectActivity' :
-                require("../Views/Header/header_admin.view.php");
-                require("../Views/Body/prospect_activity.view.php");
-                require("../Views/Footer/footer.view.php");
-                break;
-            case 'fullInfosContact' : 
-                require("../Views/Header/header_admin.view.php");
-                require("../Views/Body/full_infos_contact.view.php");
-                require("../Views/Footer/footer.view.php");
-                break;
-            case 'clientActivity' :
-                require("../Views/Header/header_admin.view.php");
-                require("../Views/Body/client_activity.view.php");
-                require("../Views/Footer/footer.view.php");
-                break;
-//          ********************************** Management USER ************************************
+//          ********************************** MANAGEMENT USER ************************************
+//          READ
             case 'userManagement' :
-                require("../Views/Header/header_admin.view.php");
-                require("../Views/Body/user_management.view.php");
-                require("../Views/Footer/footer.view.php");
+                require($header);
+                require($userManagement);
+                require($footer);
                 break;
+//          CREATE => [FORM]
             case 'addUser' :
-                require("../Views/Header/header_admin.view.php");
-                require("../Views/Body/add_user.view.php");
-                require("../Views/Footer/footer.view.php");
+                require($header);
+                require($addUserForm);
+                require($footer);
                 break;
+//          CREATE => [ON SUBMIT]
             case 'addedUser' :
 //              Vérifie que les mots de passe saisis sont identiques.
                 if ((isset($_POST['newUserPassword²'])) AND ($_POST['newUserPassword²'] === $_POST['newUserPassword'])) {
@@ -295,23 +325,25 @@
                     }
                     User_Mgr::createUser($newUserName, $newUserSurname, $newUserPassword,
                                         $newUserMail, $newUserPhone, $newUserRights);
-                    require("../Views/Header/header_admin.view.php");
+                    require($header);
                     echo('<div class="text-center" style="color: #46ec4e">Nouvel utilisateur enregistré.</div>');
-                    require("../Views/Body/user_management.view.php");
-                    require("../Views/Footer/footer.view.php");
+                    require($userManagement);
+                    require($footer);
                     break;
                 } else {
-                    require("../Views/Header/header_admin.view.php");
+                    require($header);
                     echo('<div class="text-center" style="color: #E84E0E">Erreur : l\'utilisateur n\'a pas pu être enregistré.</div>');
-                    require("../Views/Body/add_user.view.php");
-                    require("../Views/Footer/footer.view.php");
+                    require($addUserForm);
+                    require($footer);
                     break;
                 }
+//          UPDATE => [FORM]
             case 'updateUser' : 
-                require("../Views/Header/header_admin.view.php");
-                require("../Views/Body/update_user.view.php");
-                require("../Views/Footer/footer.view.php");
+                require($header);
+                require($updateUserForm);
+                require($footer);
                 break;
+//          UPDATE => [ON SUBMIT]
             case 'updatedUser' : 
                 $nameUserToUpdate = $_POST['majUserName'];
                 $surnameUserToUpdate = $_POST['majUserSurname'];
@@ -333,33 +365,36 @@
                     if ($newUserPassword === $newUserPasswordConfirmation) {
                         User_Mgr::updateUserPassword($idUserToUpdate, $newUserPassword);
                     } else {
-                        require("../Views/Header/header_admin.view.php");
+                        require($header);
                         echo('<div class="text-center" style="color: #E84E0E">Erreur : le mot de passe n\'a pas pu être modifié.</div>');
-                        require("../Views/Body/user_management.view.php");
-                        require("../Views/Footer/footer.view.php");
+                        require($userManagement);
+                        require($footer);
                         break;
                     }
                 }
                 User_Mgr::updateUser($nameUserToUpdate, $surnameUserToUpdate, $mailUserToUpdate, 
                                     $phoneUserToUpdate, $rightsUserToUpdate, $idUserToUpdate);
-                    require("../Views/Header/header_admin.view.php");
+                    require($header);
                     echo('<div class="text-center" style="color: #46ec4e">L\'utilisateur a bien été mis à jour.</div>');
-                    require("../Views/Body/user_management.view.php");
-                    require("../Views/Footer/footer.view.php");
+                    require($userManagement);
+                    require($footer);
                     break;
+//          DELETE
             case 'deleteUser' : 
                 $userID = (int) $_POST['idUser'];
                 User_Mgr::deleteUser($userID);
-                require("../Views/Header/header_admin.view.php");
-                require("../Views/Body/user_management.view.php");
-                require("../Views/Footer/footer.view.php");
+                require($header);
+                require($userManagement);
+                require($footer);
                 break;
-//          *********************************** Management ACTIVITYAREA ***************************
+//          *********************************** MANAGEMENT ACTIVITYAREA ***************************
+//          READ
             case 'activityAreaManagement' :
-                require("../Views/Header/header_admin.view.php");
-                require("../Views/Body/activity_area_management.view.php");
-                require("../Views/Footer/footer.view.php");
+                require($header);
+                require($activityAreaManagement);
+                require($footer);
                 break;
+//          CREATE
             case 'addAreaActivity' :
                 $newActivityArea = $_POST['newActivityArea'];
                 if (($newActivityArea != '') and (ActivityArea_Mgr::checkIfExists($newActivityArea) < 1)) {
@@ -370,48 +405,42 @@
                 } else {
                     $msg = '<div class="text-center" style="color: #E84E0E">Erreur : ce secteur existe déjà</div>';
                 }
-                require("../Views/Header/header_admin.view.php");
+                require($header);
                 echo($msg);
-                require("../Views/Body/activity_area_management.view.php");
-                require("../Views/Footer/footer.view.php");
+                require($activityAreaManagement);
+                require($footer);
                 break;
+//          UPDATE
             case 'updateActivityArea' :
                 $idActivityAreaToUpdate = $_POST['idActivityArea'];
                 $newActivityAreaLabel = $_POST['updActivityArea'];
                 ActivityArea_Mgr::updateActivityAreaById($idActivityAreaToUpdate, $newActivityAreaLabel);
                 $msg = '<div class="text-center" style="color: #46ec4e">La modification a bien été effectuée.</div>';
-                require("../Views/Header/header_admin.view.php");
+                require($header);
                 echo($msg);
-                require("../Views/Body/activity_area_management.view.php");
-                require("../Views/Footer/footer.view.php");
+                require($activityAreaManagement);
+                require($footer);
                 break;
+//          DELETE
             case 'deleteActivityArea' :
                 $idActivityAreaToDelete = (int) $_POST['idActivityArea'];
                 $libActivityAreaToDelete = ActivityArea_Mgr::getActivityAreaLibById($idActivityAreaToDelete);
                 $libActivityAreaToDelete = $libActivityAreaToDelete[0]['libelle_secteur'];
                 $msg = '<div class="text-center" style="color: #46ec4e">'.'"'.$libActivityAreaToDelete.'" a bien été supprimé de la liste.'.'</div>';
                 ActivityArea_Mgr::deleteActivityAreaById($idActivityAreaToDelete);
-                require("../Views/Header/header_admin.view.php");
+                require($header);
                 echo($msg);
-                require("../Views/Body/activity_area_management.view.php");
-                require("../Views/Footer/footer.view.php");
+                require($activityAreaManagement);
+                require($footer);
                 break;
-//          *********************************** Management CONCLUSIONS ****************************
+//          *********************************** MANAGEMENT CONCLUSIONS ****************************
+//          READ
             case 'conclusionsManagement' :
-                require("../Views/Header/header_admin.view.php");
-                require("../Views/Body/conclusions_management.view.php");
-                require("../Views/Footer/footer.view.php");
+                require($header);
+                require($conclusionsManagement);
+                require($footer);
                 break;
-            case 'updateConclusion' :
-                $idConclusionToUpdate = $_POST['idConclusion'];
-                $newConclusionLabel = $_POST['updConclusion'];
-                Conclusions_Mgr::updateConclusionById($idConclusionToUpdate, $newConclusionLabel);
-                $msg = '<div class="text-center" style="color: #46ec4e">La modification a bien été effectuée.</div>';
-                require("../Views/Header/header_admin.view.php");
-                echo($msg);
-                require("../Views/Body/conclusions_management.view.php");
-                require("../Views/Footer/footer.view.php");
-                break;
+//          CREATE
             case 'addConclusion' :
                 $newConclusion = $_POST['newConclusion'];
                 if (($newConclusion != '') and (Conclusions_Mgr::checkIfExists($newConclusion) < 1)) {
@@ -422,21 +451,33 @@
                 } else {
                     $msg = '<div class="text-center" style="color: #E84E0E">Erreur : ce scénario existe déjà</div>';
                 }
-                require("../Views/Header/header_admin.view.php");
+                require($header);
                 echo($msg);
-                require("../Views/Body/conclusions_management.view.php");
-                require("../Views/Footer/footer.view.php");
+                require($conclusionsManagement);
+                require($footer);
                 break;
+//          UPDATE
+            case 'updateConclusion' :
+                $idConclusionToUpdate = $_POST['idConclusion'];
+                $newConclusionLabel = $_POST['updConclusion'];
+                Conclusions_Mgr::updateConclusionById($idConclusionToUpdate, $newConclusionLabel);
+                $msg = '<div class="text-center" style="color: #46ec4e">La modification a bien été effectuée.</div>';
+                require($header);
+                echo($msg);
+                require($conclusionsManagement);
+                require($footer);
+                break;
+//          DELETE
             case 'deleteConclusion' :
                 $idConclusionToDelete = (int) $_POST['idConclusion'];
                 $libConclusionToDelete = Conclusions_Mgr::getConclusionLibById($idConclusionToDelete);
                 $libConclusionToDelete = $libConclusionToDelete[0]['libelle_conclusion'];
                 $msg = '<div class="text-center" style="color: #46ec4e">'.'"'.$libConclusionToDelete.'" a bien été supprimé de la liste.'.'</div>';
                 Conclusions_Mgr::deleteConclusionById($idConclusionToDelete);
-                require("../Views/Header/header_admin.view.php");
+                require($header);
                 echo($msg);
-                require("../Views/Body/conclusions_management.view.php");
-                require("../Views/Footer/footer.view.php");
+                require($conclusionsManagement);
+                require($footer);
                 break;
         }
     } else header('Location: ../index.php');

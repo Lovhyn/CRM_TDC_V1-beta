@@ -26,7 +26,7 @@ class Pro_Mgr {
                             INNER JOIN conclusion c ON c.ID_conclusion = f.ID_conclusion
                             INNER JOIN utilisateur u ON u.ID_utilisateur = p.ID_utilisateur
                             INNER JOIN secteur_activite s ON s.ID_secteur = p.ID_secteur
-                            WHERE p.prospect_ou_client = 0 ";
+                            WHERE p.prospect_ou_client = 0 GROUP BY p.ID_professionnel ";
 //          Connexion PDO + soumission de la requête.
             $repPDO = $PDOconnexion->query($sqlRequest);
 //          On définit sous quelle forme nous souhaitons récupérer le résultat.
@@ -416,7 +416,7 @@ public static function getMyCustomersList(int $paramUserId) {
             $launchRequest->closeCursor();
 //          Ferme la connexion.
             BddConnexion::disconnect();
-            return $count;
+            return (int) $count;
         } catch(Exception $e) {
             die('Erreur : Accès interdit ou connexion impossible.');
         }

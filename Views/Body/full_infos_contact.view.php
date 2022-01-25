@@ -1,7 +1,5 @@
 <!--$_POST = OK-->
-
 <?php
-// var_dump($_POST);
 $unknown = 'Non renseigné';
 $userConnected = (int) $_SESSION['idUser'];
 $rights = (int) $_SESSION['rights'];
@@ -28,7 +26,7 @@ $rights = (int) $_SESSION['rights'];
 <!----------------------------------------INTERLOCUTOR TYPE--------------------------------------->
                         <div class="mb-3">
                             <label id="infosContact" class="form-label">Type d'interlocuteur  :</label>
-                            <span class="infosContact"><?php echo($_POST['libelle_interlocuteur']);?></span>
+                                <span class="infosContact"><?php echo($_POST['libelle_interlocuteur']);?></span>
                             <hr>
                         </div>
 <!----------------------------------------INTERLOCUTOR NAME--------------------------------------->
@@ -38,21 +36,21 @@ $rights = (int) $_SESSION['rights'];
                         if ($_POST['ID_interlocuteur'] === '1') {
                             if ($_POST['nom_decideur'] === '') {
 ?>
-                            <span class="infosContact"><?php echo($unknown);?></span>
+                                <span class="infosContact"><?php echo($unknown);?></span>
 <?php
                             } else {
 ?>
-                            <span class="infosContact"><?php echo($_POST['nom_decideur']);?></span>
+                                <span class="infosContact"><?php echo($_POST['nom_decideur']);?></span>
 <?php
                             }
                         } else {
                             if ($_POST['nom_interlocuteur'] === '') {
 ?>
-                            <span class="infosContact"><?php echo($unknown);?></span>
+                                <span class="infosContact"><?php echo($unknown);?></span>
 <?php
                             } else {
 ?>
-                            <span class="infosContact"><?php echo($_POST['nom_interlocuteur']);?></span>
+                                <span class="infosContact"><?php echo($_POST['nom_interlocuteur']);?></span>
 <?php
                             }
                         }
@@ -67,15 +65,25 @@ $rights = (int) $_SESSION['rights'];
                         </div>
 <!-----------------------------------------CONTACT TYPE------------------------------------------->
 <?php
-                        if (($_POST['ID_nature'] === '3') OR ($_POST['ID_nature'] === '4')) {
+                if (($_POST['ID_nature'] === '3') OR ($_POST['ID_nature'] === '4')) {
+                    if ($_POST['contact_interlocuteur'] != '') {
 ?>
-                            <div class="mb-3">
-                                <label id="infosContact" class="form-label">Contacté au / à :</label>
-                                    <span class="infosContact"><?php echo($_POST['contact_interlocuteur']);?></span>
-                                <hr>
-                            </div>
+                        <div class="mb-3">
+                            <label id="infosContact" class="form-label">Contacté au / à :</label>
+                                <span class="infosContact"><?php echo($_POST['contact_interlocuteur']);?></span>
+                            <hr>
+                        </div>
 <?php
-                        }
+                    } else {
+?>
+                        <div class="mb-3">
+                            <label id="infosContact" class="form-label">Contacté au / à :</label>
+                                <span class="infosContact"><?php echo($unknown);?></span>
+                            <hr>
+                        </div>
+<?php
+                    }
+                }
 ?>
 <!------------------------------------------CONCLUSION-------------------------------------------->
                         <div class="mb-3">
@@ -85,23 +93,23 @@ $rights = (int) $_SESSION['rights'];
                         </div>
 <!-----------------------------------------MEETING DATE------------------------------------------->
 <?php
-                        if ($_POST['date_rdv'] != '') {
+                    if ($_POST['date_rdv'] != '') {
 ?>
-                            <div class="mb-3">
-                                <label id="infosContact" class="form-label">Rendez-vous le :</label>
-                                    <span class="infosContact"><?php echo($_POST['date_rdv']);?></span>
-                                <hr>
-                            </div>
+                        <div class="mb-3">
+                            <label id="infosContact" class="form-label">Rendez-vous le :</label>
+                                <span class="infosContact"><?php echo(Dates_Mgr::dateFormatDayMonthYearHourMinutesSeconds($_POST['date_rdv']));?></span>
+                            <hr>
+                        </div>
 <?php
-                        } else {
+                    } else {
 ?>
-                            <div class="mb-3">
-                                <label id="infosContact" class="form-label">Relance prévue le :</label>
-                                    <span class="infosContact"><?php echo(Dates_Mgr::dateFormatDayMonthYear($_POST['date_relance']));?></span>
-                                <hr>
-                            </div>
+                        <div class="mb-3">
+                            <label id="infosContact" class="form-label">Relance prévue le :</label>
+                                <span class="infosContact"><?php echo(Dates_Mgr::dateFormatDayMonthYear($_POST['date_relance']));?></span>
+                            <hr>
+                        </div>
 <?php
-                        }
+                    }
 ?>
 <!-------------------------------------------COMMENTAIRE------------------------------------------>
                         <div class="mb-3 text-center">
@@ -110,11 +118,11 @@ $rights = (int) $_SESSION['rights'];
                         if ($_POST['commentaire'] === "") {
 ?>
                             <label id="infosContact" class="form-label">Observation :</label>
-                            <span class="infosContact"><?php echo($unknown);?></span>
+                                <span class="infosContact"><?php echo($unknown);?></span>
 <?php
                         } else {
 ?>
-                            <textarea class="w-100 form-control">Commentaire : <?php echo($_POST['commentaire']);?></textarea>
+                                <textarea class="w-100 form-control">Commentaire : <?php echo($_POST['commentaire']);?></textarea>
 <?php
                         }
 ?>
@@ -122,56 +130,56 @@ $rights = (int) $_SESSION['rights'];
                         </div>
 <!----------------------------------------BACK RETURN BUTTON-------------------------------------->
 <?php
-            if ($_POST['prospect_ou_client'] === "0") {
-                if ($rights === 1) {
+                if ($_POST['prospect_ou_client'] === "0") {
+                    if ($rights === 1) {
 ?>
-                    <form action="/outils/Controllers/Controller_admin.php" method="post">
+                        <form action="/outils/Controllers/Controller_admin.php" method="post">
 <?php
-                } elseif ($rights === 2) {
+                    } elseif ($rights === 2) {
 ?>
-                    <form action="/outils/Controllers/Controller_responsable.php" method="post">
+                        <form action="/outils/Controllers/Controller_responsable.php" method="post">
 <?php
-                } elseif ($rights === 3) {
+                    } elseif ($rights === 3) {
 ?>
-                    <form action="/outils/Controllers/Controller_cdp.php" method="post">
+                        <form action="/outils/Controllers/Controller_cdp.php" method="post">
 <?php
-                }
+                    }
 ?>
-                        <input type="hidden" name="ID_professionnel" value="<?php echo($_POST['ID_professionnel']);?>">
-                        <input type="hidden" name="libelle_entreprise" value="<?php echo($_POST['libelle_entreprise']);?>">
-                        <input type="hidden" name="ID_utilisateur" value="<?php echo($_POST['ID_utilisateur']);?>">
-                        <input type="hidden" name="action" value="prospectActivity">
-                        <div class="d-flex justify-content-center">
-                            <button type="submit" class="btn"><span>Retour</span></button>
-                        </div>
-                    </form>
+                            <input type="hidden" name="ID_professionnel" value="<?php echo($_POST['ID_professionnel']);?>">
+                            <input type="hidden" name="libelle_entreprise" value="<?php echo($_POST['libelle_entreprise']);?>">
+                            <input type="hidden" name="ID_utilisateur" value="<?php echo($_POST['ID_utilisateur']);?>">
+                            <input type="hidden" name="action" value="prospectActivity">
+                            <div class="d-flex justify-content-center">
+                                <button type="submit" class="btn"><span>Retour</span></button>
+                            </div>
+                        </form>
 <?php
-            } else {
-                if ($rights === 1) {
+                } else {
+                    if ($rights === 1) {
 ?>
-                    <form action="/outils/Controllers/Controller_admin.php" method="post">
+                        <form action="/outils/Controllers/Controller_admin.php" method="post">
 <?php
-                } elseif ($rights === 2) {
+                    } elseif ($rights === 2) {
 ?>
-                    <form action="/outils/Controllers/Controller_responsable.php" method="post">
+                        <form action="/outils/Controllers/Controller_responsable.php" method="post">
 <?php
-                } elseif ($rights === 3) {
+                    } elseif ($rights === 3) {
 ?>
-                    <form action="/outils/Controllers/Controller_cdp.php" method="post">
+                        <form action="/outils/Controllers/Controller_cdp.php" method="post">
                         
 <?php
-                }
+                    }
 ?>
-                        <input type="hidden" name="ID_professionnel" value="<?php echo($_POST['ID_professionnel']);?>">
-                        <input type="hidden" name="libelle_entreprise" value="<?php echo($_POST['libelle_entreprise']);?>">
-                        <input type="hidden" name="ID_utilisateur" value="<?php echo($_POST['ID_utilisateur']);?>">
-                        <input type="hidden" name="action" value="clientActivity">
-                        <div class="d-flex justify-content-center">
-                            <button type="submit" class="btn"><span>Retour</span></button>
-                        </div>
-                    </form>
+                            <input type="hidden" name="ID_professionnel" value="<?php echo($_POST['ID_professionnel']);?>">
+                            <input type="hidden" name="libelle_entreprise" value="<?php echo($_POST['libelle_entreprise']);?>">
+                            <input type="hidden" name="ID_utilisateur" value="<?php echo($_POST['ID_utilisateur']);?>">
+                            <input type="hidden" name="action" value="clientActivity">
+                            <div class="d-flex justify-content-center">
+                                <button type="submit" class="btn"><span>Retour</span></button>
+                            </div>
+                        </form>
 <?php
-            }
+                }
 ?>
         </fieldset>
     </div>
