@@ -204,6 +204,8 @@
                 $activityArea = (int) $_POST['activityArea'];
                 echo($activityArea);
                 echo(gettype($activityArea));
+                echo($decisionMakerName);
+                echo(gettype($decisionMakerName));
                 $clientMail = $_POST['clientMail'];
                 $clientMainPhone = $_POST['clientMainPhone'];
                 $clientSecondaryPhone = $_POST['clientSecondaryPhone'];
