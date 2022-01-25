@@ -24,11 +24,11 @@
         $addNewProspectForm = "../Views/Body/add_new_prospect.view.php";
         $fullInfosPro = "../Views/Body/full_infos_pro.php";
         $updateProForm = "../Views/Body/update_pro.php";
-        $prospectActivity = "../Views/Body/prospect_activity.view.php";
+        $proActivity = "../Views/Body/pro_activity.view.php";
         $fullInfosContact = "../Views/Body/full_infos_contact.view.php";
         $addNewContactForm = "../Views/Body/add_new_contact.view.php";
         $clientsListing = "../Views/Body/clients_listing.view.php";
-        $clientActivity = "../Views/Body/client_activity.view.php";
+        $addNewClientForm = "../Views/Body/add_new_client.view.php";
 //      -------------------------------------------------------------------------------------------
 //      --------------------------------------Switch $action---------------------------------------
 //      -------------------------------------------------------------------------------------------
@@ -62,14 +62,9 @@
                 require($fullInfosContact);
                 require($footer);
                 break;
-            case 'prospectActivity':
+            case 'proActivity':
                 require($header);
-                require($prospectActivity);
-                require($footer);
-                break;
-            case 'clientActivity' :
-                require($header);
-                require($clientActivity);
+                require($proActivity);
                 require($footer);
                 break;
 //          CREATE => [FORM]
@@ -195,6 +190,18 @@
                 goto prospectListing;
                 }
                 break;
+//          CREATE => [FORM]
+            case 'addNewClientForm' : 
+                require($header);
+                require($addNewClientForm);
+                require($footer);
+                break;
+//          CREATE => [ON SUBMIT]
+            case 'addedNewClient' :
+                require($header);
+                require($proActivity);
+                require($footer);
+                break;
 //          UPDATE => [FORM]
             case 'updatePro' :
                 require($header);
@@ -291,7 +298,7 @@
                 $msg = '<div class="text-center" style="color: #46ec4e">Nouvelle prise de contact enregistrée !</div>';
                 require($header);  
                 echo($msg);
-                require($prospectActivity);
+                require($proActivity);
                 require($footer); 
                 break;
 

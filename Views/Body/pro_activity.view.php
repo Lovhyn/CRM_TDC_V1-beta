@@ -3,8 +3,6 @@
 $userConnected = (int) $_SESSION['idUser'];
 $rights = (int) $_SESSION['rights'];
 $unknown = 'Non renseigné';
-// echo($rights).'<br/>';
-// echo($userConnected);
 ?>
 <div class="container">
 <hr>

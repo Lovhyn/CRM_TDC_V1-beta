@@ -107,7 +107,7 @@ if ($rights != 1 ) {
                 }
                 echo
                 '<td>'.$tProspect['suivi'].'</td>
-                <td>'.$tProspect['libelle_conclusion'].'</td>
+                <td title="'.$tProspect['commentaire'].'">'.$tProspect['libelle_conclusion'].'</td>
                 <td>'.$lastContactDate = Dates_Mgr::dateFormatDayMonthYear($tProspect['date_derniere_pdc']).'</td>
                 <td>';
 /*                  
@@ -161,7 +161,7 @@ if ($rights != 1 ) {
                         '<input type="hidden" name="ID_professionnel" value="'.$tProspect['ID_professionnel'].'">
                         <input type="hidden" name="ID_utilisateur" value="'.$tProspect['ID_utilisateur'].'">
                         <input type="hidden" name="libelle_entreprise" value="'.$tProspect['libelle_entreprise'].'">
-                        <input type="hidden" name="action" value="prospectActivity">
+                        <input type="hidden" name="action" value="proActivity">
                         <button class="followIcon" type="submit" title="Voir le suivi du prospect">
                             <i class="fas fa-glasses"></i>
                         </button>
@@ -231,7 +231,7 @@ if ($rights != 1 ) {
                 }
                 echo
                 '<td>'.$tProspect['suivi'].'</td>
-                <td>'.$tProspect['libelle_conclusion'].'</td>
+                <td title="'.$tProspect['commentaire'].'">'.$tProspect['libelle_conclusion'].'</td>
                 <td>'.$lastContactDate = Dates_Mgr::dateFormatDayMonthYear($tProspect['date_derniere_pdc']).'</td>
                 <td>
                     <form class="d-flex justify-content-center" action="/outils/Controllers/Controller_admin.php" method="post">
@@ -263,7 +263,7 @@ if ($rights != 1 ) {
                         <input type="hidden" name="ID_professionnel" value="'.$tProspect['ID_professionnel'].'">
                         <input type="hidden" name="ID_utilisateur" value="'.$tProspect['ID_utilisateur'].'">
                         <input type="hidden" name="libelle_entreprise" value="'.$tProspect['libelle_entreprise'].'">
-                        <input type="hidden" name="action" value="prospectActivity">
+                        <input type="hidden" name="action" value="proActivity">
                         <button class="followIcon" type="submit" title="Voir le suivi du prospect">
                             <i class="fas fa-glasses"></i>
                         </button>

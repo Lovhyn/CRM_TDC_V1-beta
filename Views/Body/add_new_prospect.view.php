@@ -226,6 +226,7 @@ $rights = (int) $_SESSION['rights'];
                     <button type="submit" class="btn" onclick="return confirm('Etes-vous sûr(e) de vouloir enregistrer ce nouveau suivi ?')" id="submitFormBtn"><span>Valider</span></button>
                 </div>
             </form>
+<!---------------------------------------------RETURN BUTTON-------------------------------------->
 <?php 
             if ($rights === 1) {
 ?>

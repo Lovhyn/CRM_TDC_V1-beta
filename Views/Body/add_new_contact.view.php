@@ -129,8 +129,6 @@ $rights = (int) $_SESSION['rights'];
 <!----------------------------------------BACK RETURN BUTTON-------------------------------------->
 
 <?php
-            $prospectOrCustomer = Pro_Mgr::prospectOrCustomer((int) $_POST['ID_professionnel']); 
-            if ($prospectOrCustomer[0]['prospect_ou_client'] === "0") {
                 if ($rights === 1) {
 ?>
                     <form action="/outils/Controllers/Controller_admin.php" method="post">
@@ -148,39 +146,11 @@ $rights = (int) $_SESSION['rights'];
                         <input type="hidden" name="ID_professionnel" value="<?php echo($_POST['ID_professionnel']);?>">
                         <input type="hidden" name="libelle_entreprise" value="<?php echo($_POST['libelle_entreprise']);?>">
                         <input type="hidden" name="ID_utilisateur" value="<?php echo($_POST['ID_utilisateur']);?>">
-                        <input type="hidden" name="action" value="prospectActivity">
+                        <input type="hidden" name="action" value="proActivity">
                         <div class="d-flex justify-content-center">
                             <button type="submit" class="btn"><span>Retour</span></button>
                         </div>
                     </form>
-<?php
-            } else {
-                if ($rights === 1) {
-?>
-                    <form action="/outils/Controllers/Controller_admin.php" method="post">
-<?php
-                } elseif ($rights === 2) {
-?>
-                    <form action="/outils/Controllers/Controller_responsable.php" method="post">
-<?php
-                } elseif ($rights === 3) {
-?>
-                    <form action="/outils/Controllers/Controller_cdp.php" method="post">
-                        
-<?php
-                }
-?>
-                        <input type="hidden" name="ID_professionnel" value="<?php echo($_POST['ID_professionnel']);?>">
-                        <input type="hidden" name="libelle_entreprise" value="<?php echo($_POST['libelle_entreprise']);?>">
-                        <input type="hidden" name="ID_utilisateur" value="<?php echo($_POST['ID_utilisateur']);?>">
-                        <input type="hidden" name="action" value="clientActivity">
-                        <div class="d-flex justify-content-center">
-                            <button type="submit" class="btn"><span>Retour</span></button>
-                        </div>
-                    </form>
-<?php
-            }
-?>
         </fieldset>
     </div>
 </div>
