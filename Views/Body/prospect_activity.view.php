@@ -1,6 +1,5 @@
 <!--$_POST = OK-->
 <?php
-
 $userConnected = (int) $_SESSION['idUser'];
 $rights = (int) $_SESSION['rights'];
 $unknown = 'Non renseigné';
@@ -40,7 +39,7 @@ $unknown = 'Non renseigné';
                         <input type="hidden" name="ID_utilisateur" value="'.$_POST['ID_utilisateur'].'">
                         <input type="hidden" name="action" value="addNewContactForm">
                         <button type="submit" title="Enregistrer une nouvelle prise de contact" class="addNewContactIcon">
-                            <i class="far fa-comments"></i>
+                            <i class="far fa-comment-dots"></i>
                         </button>
                     </form>';
             }
@@ -57,7 +56,7 @@ $unknown = 'Non renseigné';
                 <input type="hidden" name="libelle_entreprise" value="'.$_POST['libelle_entreprise'].'">
                 <input type="hidden" name="action" value="addNewContactForm">
                 <button type="submit" title="Enregistrer une nouvelle prise de contact" class="addNewContactIcon">
-                    <i class="far fa-comments"></i>
+                    <i class="far fa-comment-dots"></i>
                 </button>
             </form>';
     }

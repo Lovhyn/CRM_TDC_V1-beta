@@ -121,15 +121,15 @@ h1, h2, h3, h4, h5, h6, span {
 .phoneIcon a:hover {
     color: #2ffc6c;
 }
-.addUserIcon, .addConclusionBtn, .addAreaActivityBtn, .addNewProspectIcon, .addNewCustomerIcon, .addNewContactIcon {
+.addUserIcon, .addConclusionBtn, .addAreaActivityBtn, .addNewProspectIcon, .addNewClientIcon, .addNewContactIcon {
     border: none;
     color: #ED6DA6;
     background-color: #21252900
 }
-.addNewProspectIcon, .addNewCustomerIcon, .addNewContactIcon {
+.addNewProspectIcon, .addNewClientIcon, .addNewContactIcon {
     transform: scale(1.5);
 }
-.addNewProspectIcon:hover, .addNewCustomerIcon:hover, .addNewContactIcon:hover {
+.addNewProspectIcon:hover, .addNewClientIcon:hover, .addNewContactIcon:hover {
     transform: scale(1.9);
 }
 .fullInfosBtn {
