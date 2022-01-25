@@ -25,8 +25,8 @@ $rights = (int) $_SESSION['rights'];
             }
 ?>
                 <input type="hidden" name="action" value="addedNewClient">
-                <div class="w-100 d-flex justify-content-between">
 <!---------------------------------------------PRO NAME------------------------------------------->
+                <div class="w-100 d-flex justify-content-between">
                     <div class="w-50 d-flex justify-content-center">
                         <div class="w-75 mb-2">
                             <label for="CLIENTNAME" class="form-label">Nom de l'entreprise (requis):</label>
@@ -126,7 +126,7 @@ $rights = (int) $_SESSION['rights'];
                 <hr>
 <!---------------------------------------------SUBMIT BUTTON-------------------------------------->
                 <div class="d-flex justify-content-center">
-                    <button type="submit" class="btn" onclick="return confirm('Etes-vous sûr(e) de vouloir enregistrer ce nouveau suivi ?')" id="submitFormBtn"><span>Valider</span></button>
+                    <button type="submit" class="btn" onclick="return confirm('Etes-vous sûr(e) de vouloir enregistrer ce nouveau suivi ?')"><span>Valider</span></button>
                 </div>
             </form>
 <!---------------------------------------------RETURN BUTTON-------------------------------------->

@@ -198,6 +198,21 @@
                 break;
 //          CREATE => [ON SUBMIT]
             case 'addedNewClient' :
+                $userId = (int) $_SESSION['idUser'];
+                $clientName = $_POST['clientName'];
+                $decisionMakerName = $_POST['decisionMakerName'];
+                $activityArea = (int) $_POST['activityArea'];
+                echo($activityArea);
+                echo(gettype($activityArea));
+                $clientMail = $_POST['clientMail'];
+                $clientMainPhone = $_POST['clientMainPhone'];
+                $clientSecondaryPhone = $_POST['clientSecondaryPhone'];
+                $clientMainAdress = $_POST['clientMainAdress'];
+                $clientSecondaryAdress = $_POST['clientSecondaryAdress'];
+                $clientCp = $_POST['clientCp'];
+                $clientCity = $_POST['clientCity'];
+                $clientObservation['clientObservation'];
+                // Pro_Mgr::createNewCustomer();
                 require($header);
                 require($proActivity);
                 require($footer);

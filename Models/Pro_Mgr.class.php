@@ -68,7 +68,7 @@ class Pro_Mgr {
                             INNER JOIN conclusion c ON c.ID_conclusion = f.ID_conclusion
                             INNER JOIN utilisateur u ON u.ID_utilisateur = p.ID_utilisateur
                             INNER JOIN secteur_activite s ON s.ID_secteur = p.ID_secteur
-                            WHERE p.prospect_ou_client = 1 GROUP BY p.ID_professionnel ;";
+                            WHERE p.prospect_ou_client > 0 GROUP BY p.ID_professionnel ;";
 //          Connexion PDO + soumission de la requête.
             $repPDO = $PDOconnexion->query($sqlRequest);
 //          On définit sous quelle forme nous souhaitons récupérer le résultat.
@@ -88,49 +88,6 @@ class Pro_Mgr {
 //  °°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°
 public static function getMyProspectsList(int $paramUserId) {
     try {
-//          Etablit une connexion à la base de données.
-            $PDOconnexion = BddConnexion::getConnexion();
-/*
-            Prépare la requête SQL et l'enregistre dans une variable =>
-            On souhaite ici récupérer : 
-                - la liste de tous les prospects parmi les professionnels enregistrés pour un utilisateur.
-*/
-            $sqlRequest = " SELECT 
-                            p.libelle_entreprise, p.nom_decideur, 
-                            CONCAT(p.cp, ', ', p.ville) as lieu, p.tel, p.tel_2, p.mail, 
-                            p.adresse, p.adresse_2, p.cp, p.ville,
-                            CONCAT(SUBSTRING(u.nom, 1, 1), '.', u.prenom) as suivi, 
-                            u.nom, u.prenom,
-                            s.libelle_secteur, p.observation, p.prospect_ou_client,
-                            p.ID_professionnel, p.ID_utilisateur, p.ID_secteur,
-                            f.date_derniere_pdc, c.libelle_conclusion
-                            FROM professionnel p
-                            INNER JOIN suivre f ON f.ID_professionnel = p.ID_professionnel
-                            INNER JOIN conclusion c ON c.ID_conclusion = f.ID_conclusion
-                            INNER JOIN utilisateur u ON u.ID_utilisateur = p.ID_utilisateur
-                            INNER JOIN secteur_activite s ON s.ID_secteur = p.ID_secteur
-                            WHERE p.prospect_ou_client = 0 AND p.ID_utilisateur = :idUserConnected ";
-//          Connexion PDO + prépare l'envoi de la requête.
-            $repPDO = $PDOconnexion->prepare($sqlRequest);
-//          Exécute la requête en affectant les valeurs données en paramètres aux étiquettes.
-            $repPDO->execute(array(':idUserConnected' => $paramUserId));
-//          On définit sous quelle forme nous souhaitons récupérer le résultat.
-            $repPDO->setFetchMode(PDO::FETCH_ASSOC);
-//          On récupère le résultat de la requête sous la forme d'un tableau associatif.
-            $records = $repPDO->fetchAll();
-//          Réinitialise le curseur.
-            $repPDO->closeCursor();
-//          Ferme la connexion à la bdd.
-            BddConnexion::disconnect();
-//          Puis on retourne ce tableau.
-            return $records;
-        } catch(Exception $e) {
-            die('Erreur : Accès interdit ou connexion impossible.');
-        }
-    }
-//  °°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°
-    public static function getUpdatableProspectsInMyListing(int $paramUserId) {
-        try {
 //          Etablit une connexion à la base de données.
             $PDOconnexion = BddConnexion::getConnexion();
 /*
@@ -295,6 +252,46 @@ public static function getMyCustomersList(int $paramUserId) {
                                     ':mail' => $proMail, ':adresse' => $proMainAdress, 
                                     ':adresse_2' => $proSecondaryAdress, ':cp' => $proCp, 
                                     ':ville' => $proCity, ':observation' => $proObservation));
+//          Réinitialise le curseur.
+            $repPDO->closeCursor();
+//          Ferme la connexion à la bdd.
+            BddConnexion::disconnect();
+        } catch(Exception $e) {
+            die('Erreur : Accès interdit ou connexion impossible.');
+        }
+    }
+//  °°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°
+    public static function createNewCustomer(Int $userId, Int $proActivityArea, String $proName, String $proDecisionMaker, 
+                                        String $proMainPhone, String $proSecondaryPhone,
+                                        String $proMail, String $proMainAdress, String $proSecondaryAdress,
+                                        $proCp, String $proCity, String $proObservation) {
+        
+        try {
+//          Etablit une connexion à la base de données.
+            $PDOconnexion = BddConnexion::getConnexion();
+/*
+            Prépare la requête SQL et l'enregistre dans une variable =>
+            On souhaite ici insérer un nouveau professionnel dans la base de données. 
+*/
+            $sqlRequest = ' INSERT INTO `professionnel` (
+                            `ID_utilisateur`, `ID_secteur`, `libelle_entreprise`, `nom_decideur`, 
+                            `tel`, `tel_2`, `mail`, `adresse`, `adresse_2`, `cp`, `ville`, 
+                            `observation`, `prospect_ou_client`) 
+                            VALUES (
+                            :ID_utilisateur, :ID_secteur, :libelle_entreprise, :nom_decideur, :tel, 
+                            :tel_2, :mail, :adresse, :adresse_2, 
+                            :cp, :ville, :observation, :prospect_ou_client); ';
+//          Connexion PDO + prépare l'envoi de la requête.
+            $repPDO = $PDOconnexion->prepare($sqlRequest);
+//          Exécute la requête en affectant les valeurs données en paramètres aux étiquettes.
+            $repPDO->execute(array(':ID_utilisateur' => $userId, ':ID_secteur' => $proActivityArea, 
+                                    ':libelle_entreprise' => $proName, ':nom_decideur' => $proDecisionMaker,
+                                    ':tel' => self::phoneFormatToInternational($proMainPhone), 
+                                    ':tel_2' => self::phoneFormatToInternational($proSecondaryPhone), 
+                                    ':mail' => $proMail, ':adresse' => $proMainAdress, 
+                                    ':adresse_2' => $proSecondaryAdress, ':cp' => $proCp, 
+                                    ':ville' => $proCity, ':observation' => $proObservation,
+                                    ':prospect_ou_client' => 1));
 //          Réinitialise le curseur.
             $repPDO->closeCursor();
 //          Ferme la connexion à la bdd.

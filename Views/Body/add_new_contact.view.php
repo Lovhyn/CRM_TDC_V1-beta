@@ -10,25 +10,25 @@ $rights = (int) $_SESSION['rights'];
     <div class="container d-flex justify-content-center">
         <fieldset class="fieldsetManagement">
         <legend class="fw-bold d-flex justify-content-center mb-4">Nouvelle prise de contact avec <?php echo($_POST['libelle_entreprise']);?> :</legend>
-            <hr>
+        <hr>
 <?php 
-    if ($rights === 1) {
+        if ($rights === 1) {
 ?>
-        <form action="/outils/Controllers/Controller_admin.php" method="post">
+            <form action="/outils/Controllers/Controller_admin.php" method="post">
 <?php
-    } elseif ($rights === 2) {
+        } elseif ($rights === 2) {
 ?> 
-        <form action="/outils/Controllers/Controller_responsable.php" method="post">
+            <form action="/outils/Controllers/Controller_responsable.php" method="post">
 <?php
-    } elseif ($rights === 3) {
+        } elseif ($rights === 3) {
 ?>
-        <form action="/outils/Controllers/Controller_cdp.php" method="post">
+            <form action="/outils/Controllers/Controller_cdp.php" method="post">
             
 <?php
-    } 
+        } 
 ?>
-            <input type="hidden" name="action" value="addedNewContact">
-            <input type="hidden" name="ID_professionnel" value="<?php echo($_POST['ID_professionnel']);?>">
+                <input type="hidden" name="action" value="addedNewContact">
+                <input type="hidden" name="ID_professionnel" value="<?php echo($_POST['ID_professionnel']);?>">
 <!---------------------------------------------INTERLOCUTOR--------------------------------------->
                 <div class="w-100 d-flex justify-content-between">
                     <div class="w-25 mb-4 text-center">
@@ -129,28 +129,28 @@ $rights = (int) $_SESSION['rights'];
 <!----------------------------------------BACK RETURN BUTTON-------------------------------------->
 
 <?php
-                if ($rights === 1) {
+        if ($rights === 1) {
 ?>
-                    <form action="/outils/Controllers/Controller_admin.php" method="post">
+            <form action="/outils/Controllers/Controller_admin.php" method="post">
 <?php
-                } elseif ($rights === 2) {
+        } elseif ($rights === 2) {
 ?>
-                    <form action="/outils/Controllers/Controller_responsable.php" method="post">
+            <form action="/outils/Controllers/Controller_responsable.php" method="post">
 <?php
-                } elseif ($rights === 3) {
+        } elseif ($rights === 3) {
 ?>
-                    <form action="/outils/Controllers/Controller_cdp.php" method="post">
+            <form action="/outils/Controllers/Controller_cdp.php" method="post">
 <?php
-                }
+        }
 ?>
-                        <input type="hidden" name="ID_professionnel" value="<?php echo($_POST['ID_professionnel']);?>">
-                        <input type="hidden" name="libelle_entreprise" value="<?php echo($_POST['libelle_entreprise']);?>">
-                        <input type="hidden" name="ID_utilisateur" value="<?php echo($_POST['ID_utilisateur']);?>">
-                        <input type="hidden" name="action" value="proActivity">
-                        <div class="d-flex justify-content-center">
-                            <button type="submit" class="btn"><span>Retour</span></button>
-                        </div>
-                    </form>
+                <input type="hidden" name="ID_professionnel" value="<?php echo($_POST['ID_professionnel']);?>">
+                <input type="hidden" name="libelle_entreprise" value="<?php echo($_POST['libelle_entreprise']);?>">
+                <input type="hidden" name="ID_utilisateur" value="<?php echo($_POST['ID_utilisateur']);?>">
+                <input type="hidden" name="action" value="proActivity">
+                <div class="d-flex justify-content-center">
+                    <button type="submit" class="btn"><span>Retour</span></button>
+                </div>
+            </form>
         </fieldset>
     </div>
 </div>
