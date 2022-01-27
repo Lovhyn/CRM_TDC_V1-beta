@@ -81,7 +81,7 @@ $rights = (int) $_SESSION['rights'];
 <?php
                             } else {
 ?>
-                                <span class="infosPro"><?php echo($_POST['tel']);?></span>
+                                <span class="infosPro"><?php echo(Pro_Mgr::phoneFormatToFrench($_POST['tel']));?></span>
 <?php
                             }
 ?>
@@ -99,7 +99,7 @@ $rights = (int) $_SESSION['rights'];
 <?php
                             } else {
 ?>
-                                <span class="infosPro"><?php echo($_POST['tel_2']);?></span>
+                                <span class="infosPro"><?php echo(Pro_Mgr::phoneFormatToFrench($_POST['tel_2']));?></span>
 <?php
                             }
 ?>

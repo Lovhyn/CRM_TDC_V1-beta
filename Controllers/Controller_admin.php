@@ -88,30 +88,25 @@
                 - Etape 2 : On insert les infos sur l'interlocuteur
                 - Etape 3 : On insert un suivi en récupèrant les identifiants du pro et de l'interlocuteur.
 */  
-                $followedBy = (int) $_SESSION['idUser'];       
-                $newProspectName = $_POST['newProspectName'];
-                $newProspectDecisionMakerName = $_POST['newDecisionMakerName'];
-                $newProspectActivityArea = (int) $_POST['newActivityArea'];
-                $newProspectMail = $_POST['newProspectMail'];
-                $newProspectMainPhone = $_POST['newProspectMainPhone'];
-                $newProspectSecondaryPhone = $_POST['newProspectSecondaryPhone'];
-                $newProspectMainAdress = $_POST['newProspectMainAdress'];
-                $newProspectSecondaryAdress = $_POST['newProspectSecondaryAdress'];
-                $newProspectCP = $_POST['newProspectCP'];
-                $newProspectCity = $_POST['newProspectCity'];
-                $newProspectObservation = $_POST['newProspectObservation'];
-                $newContactInterlocutor = (int) $_POST['newContactInterlocutor'];
-/*              
-                Définit automatiquement que si le type d'interlocuteur est une messagerie,
-                le type de contact sera obligatoirement par téléphone.
-*/    
-                if ($newContactInterlocutor === 3) {
-                    $newContactType = 3;
-                } else {
-                    $newContactType = (int) $_POST['newContactType'];
-                }
-                $newContactConclusion = (int) $_POST['newContactConclusion'];
-                $newContactComment = $_POST['newContactComment'];
+                $idUser = (int) $_SESSION['idUser'];       
+                $newProspectName = $_POST['prospectName'];
+                $newProspectDecisionMakerName = $_POST['prospectDecisionMakerName'];
+                $newProspectActivityArea = (int) $_POST['prospectActivityArea'];
+                $newProspectMail = $_POST['prospectMail'];
+                $newProspectMainPhone = $_POST['prospectMainPhone'];
+                $newProspectSecondaryPhone = $_POST['prospectSecondaryPhone'];
+                $newProspectMainAdress = $_POST['prospectMainAdress'];
+                $newProspectSecondaryAdress = $_POST['prospectSecondaryAdress'];
+                $newProspectCP = $_POST['prospectCp'];
+                $newProspectCity = $_POST['prospectCity'];
+                $newProspectObservation = $_POST['prospectObservation'];
+
+                $idInterlocutorType = (int) $_POST['idInterlocutorType'];
+                $idContactType = (int) $_POST['idContactType'];
+                $contactConclusion = (int) $_POST['contactConclusion'];
+                $meetingCalendar = $_POST['meetingCalendar'];
+                $recallCalendar = $_POST['recallCalendar'];
+                $contactComment = $_POST['contactComment'];
 /*
                 Attention au typage : 
                 Les données concernant l'interlocuteur ne sont pas requises, par conséquent, des
@@ -119,21 +114,75 @@
                 vides ou non. Si elles le sont, nous envoyons des chaînes vides à la fonction 'createInterlocutorInfos'
                 qui elle, se chargera d'envoyer NULL si elle reçoit des chaînes vides en paramètre.
 */
-                if ($_POST['newContactInterlocutorName'] === '') {
-                    $newInfosInterlocutorName = '';
-                } else {
-                    $newInfosInterlocutorName = $_POST['newContactInterlocutorName'];
+                switch ($idInterlocutorType) {
+                    case 1 :
+                        $contactInterlocutorName = $newProspectDecisionMakerName;
+                        if ($idContactType === 3) {
+                            if ((isset($_POST['contactInterlocutorInfoTel'])) AND ($_POST['contactInterlocutorInfoTel'] != '')) {
+                                $contactInterlocutorInfo = $_POST['contactInterlocutorInfoTel'];
+                            } else {
+                                $contactInterlocutorInfo = '';
+                            }
+                        } elseif ($idContactType === 4) {
+                            if ((isset($_POST['contactInterlocutorInfoMail'])) AND ($_POST['contactInterlocutorInfoMail'] != '')) {
+                                $contactInterlocutorInfo = $_POST['contactInterlocutorInfoMail'];
+                            } else {
+                                $contactInterlocutorInfo = '';
+                            } 
+                        } else {
+                            $contactInterlocutorInfo = '';
+                        } 
+                        break;
+                    case 2 :
+                        if (isset($_POST['contactInterlocutorName'])) {
+                            $contactInterlocutorName = $_POST['contactInterlocutorName'];
+                        }
+                        if ($idContactType === 3) {
+                            if ((isset($_POST['contactInterlocutorInfoTel'])) AND ($_POST['contactInterlocutorInfoTel'] != '')) {
+                                $contactInterlocutorInfo = $_POST['contactInterlocutorInfoTel'];
+                            } else {
+                                $contactInterlocutorInfo = '';
+                            }
+                        } elseif ($idContactType === 4) {
+                            if ((isset($_POST['contactInterlocutorInfoMail'])) AND ($_POST['contactInterlocutorInfoMail'] != '')) {
+                                $contactInterlocutorInfo = $_POST['contactInterlocutorInfoMail'];
+                            } else {
+                                $contactInterlocutorInfo = '';
+                            } 
+                        } else {
+                            $contactInterlocutorInfo = '';
+                        } 
+                        break;
+                    case 3 :
+                        $idContactType = 3;
+                        if ((isset($_POST['contactInterlocutorInfoTel'])) AND ($_POST['contactInterlocutorInfoTel'] != '')) {
+                            $contactInterlocutorInfo = $_POST['contactInterlocutorInfoTel'];
+                        } else {
+                            $contactInterlocutorInfo = '';
+                        }
+                        $contactInterlocutorName = '';
+                        break;
+                    case 4 :
+                        if (isset($_POST['contactInterlocutorName'])) {
+                            $contactInterlocutorName = $_POST['contactInterlocutorName'];
+                        }
+                        if ($idContactType === 3) {
+                            if ((isset($_POST['contactInterlocutorInfoTel'])) AND ($_POST['contactInterlocutorInfoTel'] != '')) {
+                                $contactInterlocutorInfo = $_POST['contactInterlocutorInfoTel'];
+                            } else {
+                                $contactInterlocutorInfo = '';
+                            }
+                        } elseif ($idContactType === 4) {
+                            if ((isset($_POST['contactInterlocutorInfoMail'])) AND ($_POST['contactInterlocutorInfoMail'] != '')) {
+                                $contactInterlocutorInfo = $_POST['contactInterlocutorInfoMail'];
+                            } else {
+                                $contactInterlocutorInfo = '';
+                            } 
+                        } else {
+                            $contactInterlocutorInfo = '';
+                        } 
+                        break;
                 }
-                if ($_POST['newContactInterlocutorInfoTel'] === '') {
-                    if ($_POST['newContactInterlocutorInfoMail'] === '') {
-                        $newInfosInterlocutorContact = '';
-                    } else {
-                        $newInfosInterlocutorContact = $_POST['newContactInterlocutorInfoMail'];
-                    }
-                } else {
-                    $newInfosInterlocutorContact = $_POST['newContactInterlocutorInfoTel'];
-                }         
-                $msg = '';
 //          Etape 1 :
 //              Avant l'ajout, on contrôle qu'aucun professionnel n'a un nom semblable.
                 if (Pro_Mgr::checkIfExists($newProspectName) === 0) {
@@ -142,7 +191,7 @@
                         $resultBefore = Pro_Mgr::getLastAutoIncrementValue();
 //                      Convertit le résultat en entier.
                         $lastValueBefore = (int) $resultBefore[0]["AUTO_INCREMENT"];
-                        Pro_Mgr::createNewProspect($followedBy, $newProspectActivityArea, $newProspectName, 
+                        Pro_Mgr::createNewProspect($idUser, $newProspectActivityArea, $newProspectName, 
                                             $newProspectDecisionMakerName, $newProspectMainPhone, 
                                             $newProspectSecondaryPhone, $newProspectMail, 
                                             $newProspectMainAdress, $newProspectSecondaryAdress, 
@@ -153,7 +202,7 @@
                         $lastValueAfter = (int) $resultAfter[0]["AUTO_INCREMENT"];
 //          Etape 2 :
                         if ($lastValueAfter === ($lastValueBefore + 1)) {
-                            InfosInterlocutor_Mgr::createInterlocutorInfos($newInfosInterlocutorName, $newInfosInterlocutorContact);
+                            InfosInterlocutor_Mgr::createInterlocutorInfos($contactInterlocutorName, $contactInterlocutorInfo);
 //                          Récupère la prochaine valeur de l'auto-increment après l'insert.
                             $lastIdInfosAfter = InfosInterlocutor_Mgr::getLastAutoIncrementValue();
 //                          Convertit le résultat en entier.
@@ -164,17 +213,17 @@
 //          Etape 3 :
                             $lastContactDate = Dates_Mgr::nowToUnixString();
 //                          Si l'utilisateur a validé une date depuis le calendrier rdv, on enregistre une date de rdv. 
-                            if ((isset($_POST['meetingCalendar'])) AND ($newContactConclusion === 5)) {
-                                $meetingDate = Dates_Mgr::paramToUnixString($_POST['meetingCalendar']);
-                                Contacting_Mgr::createNewContactMeeting($followedBy, $lastValueBefore, $newContactInterlocutor, 
-                                                                    $infoInterlocutorId, $newContactType, $newContactConclusion, 
-                                                                    $newContactComment, $lastContactDate, $meetingDate);
+                            if ((isset($_POST['meetingCalendar'])) AND ($contactConclusion === 5)) {
+                                $meetingDate = Dates_Mgr::paramToUnixString($meetingCalendar);
+                                Contacting_Mgr::createNewContactMeeting($idUser, $lastValueBefore, $idInterlocutorType, 
+                                                                    $infoInterlocutorId, $idContactType, $contactConclusion, 
+                                                                    $contactComment, $lastContactDate, $meetingDate);
 //                          Sinon, l'utilisateur saisit obligatoirement une date de relance.
-                            } elseif (isset($_POST['recallCalendar'])) {   
-                                $recallDate = Dates_Mgr::paramToUnixString($_POST['recallCalendar']);
-                                Contacting_Mgr::createNewContactRecall($followedBy, $lastValueBefore, $newContactInterlocutor,
-                                                                    $infoInterlocutorId, $newContactType, $newContactConclusion, 
-                                                                    $newContactComment, $lastContactDate, $recallDate);
+                            } elseif (isset($_POST['recallCalendar'])) {
+                                $recallDate = Dates_Mgr::paramToUnixString($recallCalendar);
+                                Contacting_Mgr::createNewContactRecall($idUser, $lastValueBefore, $idInterlocutorType, 
+                                                                    $infoInterlocutorId, $idContactType, $contactConclusion, 
+                                                                    $contactComment, $lastContactDate, $recallDate);
                             }   
                             $msg = '<div class="text-center" style="color: #46ec4e">Nouveau suivi enregistré.</div>';
                             require($header);  
@@ -205,10 +254,8 @@
             case 'addedNewClient' :
                 $userId = (int) $_SESSION['idUser'];
                 $clientName = $_POST['clientName'];
-                $decisionMakerName = $_POST['decisionMakerName'];
-                $activityArea = (int) $_POST['activityArea'];
-                echo($activityArea);
-                echo(gettype($activityArea));
+                $clientDecisionMakerName = $_POST['clientDecisionMakerName'];
+                $clientActivityArea = (int) $_POST['clientActivityArea'];
                 $clientMail = $_POST['clientMail'];
                 $clientMainPhone = $_POST['clientMainPhone'];
                 $clientSecondaryPhone = $_POST['clientSecondaryPhone'];
@@ -216,10 +263,14 @@
                 $clientSecondaryAdress = $_POST['clientSecondaryAdress'];
                 $clientCp = $_POST['clientCp'];
                 $clientCity = $_POST['clientCity'];
-                $clientObservation['clientObservation'];
-                // Pro_Mgr::createNewCustomer();
+                $clientObservation = $_POST['clientObservation'];
+                Pro_Mgr::createNewCustomer($userId, $clientActivityArea, $clientName, $clientDecisionMakerName, 
+                                        $clientMainPhone, $clientSecondaryPhone, $clientMail, $clientMainAdress, 
+                                        $clientSecondaryAdress, $clientCp, $clientCity, $clientObservation );
+                $msg = '<div class="text-center" style="color: #46ec4e">Nouveau client enregistré.</div>';
                 require($header);
-                require($proActivity);
+                echo($msg);
+                require($clientsListing);
                 require($footer);
                 break;
 //          UPDATE => [FORM]
@@ -259,33 +310,114 @@
 //          CREATE => [ON SUBMIT]
             case 'addedNewContact' :
                 $idPro = (int) $_POST['ID_professionnel'];
-                $idUser = (int) $_SESSION['idUser'];
+                $idUser = (int) $_POST['ID_utilisateur'];
                 $idInterlocutorType = (int) $_POST['idInterlocutorType'];
                 $idContactType = (int) $_POST['idContactType'];
                 $contactConclusion = (int) $_POST['contactConclusion'];
                 $meetingCalendar = $_POST['meetingCalendar'];
                 $recallCalendar = $_POST['recallCalendar'];
                 $contactComment = $_POST['contactComment'];
+                $proMail = Pro_Mgr::getProMail($idPro);
+                $proDecisionMakerName = Pro_Mgr::getDecisionMakerName($idPro);
+                $proDecisionMakerName = $proDecisionMakerName[0]['nom_decideur'];
 /*
                 Attention au typage : 
-                Les données concernant l'interlocuteur ne sont pas requises, par conséquent, des
+                Les données concernant l'interlocuteur ne sont pas "requises", par conséquent, des
                 valeurs NULL peuvent être envoyées en BDD. Nous contrôlons ici si les variables sont
-                vides ou non. Si elles le sont, nous envoyons des chaînes vides à la fonction 'createInterlocutorInfos'
+                vides ou non en fonction des champs du formulaire dynamique. 
+                Si elles le sont, nous envoyons des chaînes vides à la fonction 'createInterlocutorInfos'
                 qui elle, se chargera d'envoyer NULL si elle reçoit des chaînes vides en paramètre.
-*/
-                if ($_POST['contactInterlocutorName'] === '') {
-                    $contactInterlocutorName = '';
-                } else {
-                    $contactInterlocutorName = $_POST['contactInterlocutorName'];
-                }
-                if ($_POST['contactInterlocutorInfoTel'] === '') {
-                    if ($_POST['contactInterlocutorInfoMail'] === '') {
-                        $contactInterlocutorInfo = '';
-                    } else {
-                        $contactInterlocutorInfo = $_POST['contactInterlocutorInfoMail'];
-                    }
-                } else {
-                    $contactInterlocutorInfo = $_POST['contactInterlocutorInfoTel'];
+*/              
+                switch ($idInterlocutorType) {
+                    case 1 :
+                        if ($idContactType === 3) {
+                            if ((isset($_POST['proTel'])) AND ($_POST['proTel'] === 'otherPhone')) {
+                                if ((isset($_POST['contactInterlocutorInfoTel'])) AND ($_POST['contactInterlocutorInfoTel'] != '')) {
+                                    $contactInterlocutorInfo = $_POST['contactInterlocutorInfoTel'];
+                                } else {
+                                    $contactInterlocutorInfo = '';
+                                }
+                            } else {
+                                $contactInterlocutorInfo = $_POST['proTel'];
+                            }
+                        } elseif ($idContactType === 4) {
+                            if ((isset($_POST['contactInterlocutorInfoMail'])) AND ($_POST['contactInterlocutorInfoMail'] === $proMail)) {
+                                $contactInterlocutorInfo = $proMail;
+                            } elseif ($_POST['contactInterlocutorInfoMail'] === '') {
+                                $contactInterlocutorInfo = '';
+                            } else {
+                                $contactInterlocutorInfo = $_POST['contactInterlocutorInfoMail'];
+                            }
+                        } else {
+                            $contactInterlocutorInfo = '';
+                        } 
+                        $contactInterlocutorName = $proDecisionMakerName;
+                        break;
+                    case 2 :
+                        if (isset($_POST['contactInterlocutorName'])) {
+                            $contactInterlocutorName = $_POST['contactInterlocutorName'];
+                        }
+                        if ($idContactType === 3) {
+                            if ((isset($_POST['proTel'])) AND ($_POST['proTel'] === 'otherPhone')) {
+                                if ((isset($_POST['contactInterlocutorInfoTel'])) AND ($_POST['contactInterlocutorInfoTel'] != '')) {
+                                    $contactInterlocutorInfo = $_POST['contactInterlocutorInfoTel'];
+                                } else {
+                                    $contactInterlocutorInfo = '';
+                                }
+                            } else {
+                                $contactInterlocutorInfo = $_POST['proTel'];
+                            }
+                        } elseif ($idContactType === 4) {
+                            if ((isset($_POST['contactInterlocutorInfoMail'])) AND ($_POST['contactInterlocutorInfoMail'] === $proMail)) {
+                                $contactInterlocutorInfo = $proMail;
+                            } elseif ($_POST['contactInterlocutorInfoMail'] === '') {
+                                $contactInterlocutorInfo = '';
+                            } else {
+                                $contactInterlocutorInfo = $_POST['contactInterlocutorInfoMail'];
+                            }
+                        } else {
+                            $contactInterlocutorInfo = '';
+                        } 
+                        break;
+                    case 3 :
+                        $idContactType = 3;
+                        if ((isset($_POST['proTel'])) AND ($_POST['proTel'] === 'otherPhone')) {
+                            if ((isset($_POST['contactInterlocutorInfoTel'])) AND ($_POST['contactInterlocutorInfoTel'] != '')) {
+                                $contactInterlocutorInfo = $_POST['contactInterlocutorInfoTel'];
+                            } else {
+                                $contactInterlocutorInfo = '';
+                            }
+                        } else {
+                            $contactInterlocutorInfo = $_POST['proTel'];
+                        }
+                        $contactInterlocutorName = '';
+                        break;
+                    case 4 :
+                        if (isset($_POST['contactInterlocutorName'])) {
+                            $contactInterlocutorName = $_POST['contactInterlocutorName'];
+                        }
+                        if ($idContactType === 3) {
+                            if ((isset($_POST['proTel'])) AND ($_POST['proTel'] === 'otherPhone')) {
+                                if ((isset($_POST['contactInterlocutorInfoTel'])) AND ($_POST['contactInterlocutorInfoTel'] != '')) {
+                                    $contactInterlocutorInfo = $_POST['contactInterlocutorInfoTel'];
+                                } else {
+                                    $contactInterlocutorInfo = '';
+                                }
+                            } else {
+                                $contactInterlocutorInfo = $_POST['proTel'];
+                            }
+                        } elseif ($idContactType === 4) {
+                            if ((isset($_POST['contactInterlocutorInfoMail'])) AND ($_POST['contactInterlocutorInfoMail'] === $proMail)) {
+                                $contactInterlocutorInfo = $proMail;
+                            } elseif ($_POST['contactInterlocutorInfoMail'] === '') {
+                                $contactInterlocutorInfo = '';
+                            } else {
+                                $contactInterlocutorInfo = $_POST['contactInterlocutorInfoMail'];
+                            }
+                        } else {
+                            $contactInterlocutorInfo = '';
+                        } 
+                        break;
                 }
                 InfosInterlocutor_Mgr::createInterlocutorInfos($contactInterlocutorName, $contactInterlocutorInfo);
 //              Récupère la prochaine valeur de l'auto-increment après l'insert.
@@ -295,7 +427,7 @@
 //              Récupère l'identifiant du dernier insert de la table 'infos_interlocuteur'.
                 $infoInterlocutorId = $infosInterlocutorIdValue - 1;
 //              Récupère la date du jour et là retourne au format Unix sous forme de String.
-                $lastContactDate = Dates_Mgr::nowToUnixString();;
+                $lastContactDate = Dates_Mgr::nowToUnixString();
 //              Si l'utilisateur a validé une date depuis le calendrier rdv, on enregistre une date de rdv. 
                 if ((isset($_POST['meetingCalendar'])) AND ($contactConclusion === 5)) {
                     $meetingDate = Dates_Mgr::paramToUnixString($meetingCalendar);
@@ -303,7 +435,7 @@
                                                         $infoInterlocutorId, $idContactType, $contactConclusion, 
                                                         $contactComment, $lastContactDate, $meetingDate);
 //              Sinon, l'utilisateur saisit obligatoirement une date de relance.
-                } elseif (isset($_POST['recallCalendar'])) {   
+                } elseif (isset($_POST['recallCalendar'])) {
                     $recallDate = Dates_Mgr::paramToUnixString($recallCalendar);
                     Contacting_Mgr::createNewContactRecall($idUser, $idPro, $idInterlocutorType, 
                                                         $infoInterlocutorId, $idContactType, $contactConclusion, 
@@ -313,7 +445,7 @@
                 require($header);  
                 echo($msg);
                 require($proActivity);
-                require($footer); 
+                require($footer);
                 break;
 //          ********************************** MANAGEMENT USER ************************************
 //          READ

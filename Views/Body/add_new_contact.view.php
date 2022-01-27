@@ -1,9 +1,10 @@
 <!--$_POST = NOK-->
 <?php
-// var_dump($_POST);
+var_dump($_POST);
 $unknown = 'Non renseigné';
 $userConnected = (int) $_SESSION['idUser'];
 $rights = (int) $_SESSION['rights'];
+$proId = (int) $_POST['ID_professionnel'];
 ?>
 <div class="container">
 <hr>
@@ -28,12 +29,14 @@ $rights = (int) $_SESSION['rights'];
         } 
 ?>
                 <input type="hidden" name="action" value="addedNewContact">
-                <input type="hidden" name="ID_professionnel" value="<?php echo($_POST['ID_professionnel']);?>">
+                <input type="hidden" name="ID_professionnel" value="<?php echo($proId);?>">
+                <input type="hidden" name="ID_utilisateur" value="<?php echo($_POST['ID_utilisateur']);?>">
+                <input type="hidden" name="libelle_entreprise" value="<?php echo($_POST['libelle_entreprise']);?>">
 <!---------------------------------------------INTERLOCUTOR--------------------------------------->
                 <div class="w-100 d-flex justify-content-between">
                     <div class="w-25 mb-4 text-center">
-                        <label for="NEWCONTACTINTERLOCUTOR" class="form-label">J'ai été en contact avec :</label>
-                        <select class="form-select" name="idInterlocutorType" id="NEWCONTACTINTERLOCUTOR" onchange="displayInterlocutorInfosInputs();">
+                        <label for="CONTACTINTERLOCUTOR" class="form-label">J'ai été en contact avec :</label>
+                        <select class="form-select" name="idInterlocutorType" id="CONTACTINTERLOCUTOR" onchange="displayInterlocutorInfosInputs();">
 <?php
 //                  Récupère la liste des types d'interlocuteurs.
                     $tInterlocutors = Contacting_Mgr::getInterlocutorsList();
@@ -47,10 +50,10 @@ $rights = (int) $_SESSION['rights'];
 <!------------------------------------------------TYPE OF----------------------------------------->
                     <div class="w-25 mb-4 text-center">
                         <div id="displayContactTypeDiv">
-                            <label for="NEWCONTACTTYPE" class="form-label">Type de contact :</label>
-                            <select class="form-select" name="idContactType" id="NEWCONTACTTYPE" onchange="displayInterlocutorInfosInputs();">
+                            <label for="CONTACTTYPE" class="form-label">Type de contact :</label>
+                            <select class="form-select" name="idContactType" id="CONTACTTYPE" onchange="displayInterlocutorInfosInputs();">
 <?php
-    //                  Récupère la liste des types de contact.
+//                      Récupère la liste des types de contact.
                         $tContactTypes = Contacting_Mgr::getContactTypeList();
                         foreach($tContactTypes as $tContactType) {
                             echo
@@ -62,8 +65,8 @@ $rights = (int) $_SESSION['rights'];
                     </div>
 <!----------------------------------------------CONCLUSION---------------------------------------->
                     <div class="w-25 mb-4 text-center">
-                        <label for="NEWCONTACTCONCLUSION" class="form-label">Conclusion :</label>
-                        <select class="form-select" name="contactConclusion" id="NEWCONTACTCONCLUSION" onchange="displayCalendar();">
+                        <label for="CONTACTCONCLUSION" class="form-label">Conclusion :</label>
+                        <select class="form-select" name="contactConclusion" id="CONTACTCONCLUSION" onchange="displayCalendar();">
                             <option selected value="0">Précisez :</option>
 <?php
 //                  Récupère la liste des scénarios (conclusions) (le scénario "vente" est exclu via la boucle "for").
@@ -79,17 +82,51 @@ $rights = (int) $_SESSION['rights'];
 <!------------------------------------------INFOS INTERLOCUTOR------------------------------------>
                 <div id="displayInterlocutorInfosDiv">
                     <div class="w-100 d-flex justify-content-evenly">
+<!-- CHAMP NOM-->
                         <div id="displayInputInterlocutorName" class="w-25 mb-4 text-center">
-                            <label id="interlocutorNameLabel" for="NEWCONTACTINTERLOCUTORNAME" class="form-label">Nom de l'interlocuteur :</label>
-                            <input placeholder="Ex : Mme Truc" type="text" class="form-control" name="contactInterlocutorName" id="NEWCONTACTINTERLOCUTORNAME" minlength="2" maxlength="60" pattern="^[\w'\-,.]*[^_!¡?÷?¿\/\\+=@#$%ˆ&*(){}|~<>;:[\]]*${1,60}">
+                            <label id="interlocutorNameLabel" for="CONTACTINTERLOCUTORNAME" class="form-label">Nom de l'interlocuteur :</label>
+                            <input placeholder="Ex : Mme Truc" type="text" class="form-control" name="contactInterlocutorName" id="CONTACTINTERLOCUTORNAME" minlength="2" maxlength="60" pattern="^[\w'\-,.]*[^_!¡?÷?¿\/\\+=@#$%ˆ&*(){}|~<>;:[\]]*${1,60}">
                         </div>
+<!--LISTE TELS-->
+                        <div id="displayProPhoneNumber" class="w-25 mb-4 text-center">
+                            <label id="proTelLabel" for="PROTEL" class="form-label">Numéro de téléphone :</label>
+                            <select class="form-select" name="proTel" id="PROTEL" onchange="displayInterlocutorInfosInputs();">
+                                
+<?php
+//                      Récupère la liste des n°tel du professionnel.
+                        $proPhones = Pro_Mgr::getProPhonesList($proId);
+                        if (($proPhones[0]['tel']) != '') {
+                            echo
+                                '<option value="'.Pro_Mgr::phoneFormatToFrench($proPhones[0]['tel']).'">'.Pro_Mgr::phoneFormatToFrench($proPhones[0]['tel']).'</option>';
+                        } 
+                        if (($proPhones[0]['tel_2']) != '') {
+                            echo
+                                '<option value="'.Pro_Mgr::phoneFormatToFrench($proPhones[0]['tel_2']).'">'.Pro_Mgr::phoneFormatToFrench($proPhones[0]['tel_2']).'</option>';
+                        }
+?>
+                                <option value="otherPhone">Autre</option>
+                            </select>
+                        </div>
+<!-- CHAMP TEL-->
                         <div id="displayInputInterlocutorTel" class="w-25 mb-4 text-center">
-                            <label id="interlocutorTelLabel" for="NEWCONTACTINTERLOCUTORINFOTEL" class="form-label">Tel de l'interlocuteur :</label>
-                            <input placeholder="Ex : 0612233445" type="text" class="form-control" name="contactInterlocutorInfoTel" id="NEWCONTACTINTERLOCUTORINFOTEL" minlength="10" maxlength="10" pattern="[0-9]{10}">
+                            <label id="interlocutorTelLabel" for="CONTACTINTERLOCUTORINFOTEL" class="form-label">Numéro appelé :</label>
+                            <input placeholder="Ex : 0612233445" type="text" class="form-control" name="contactInterlocutorInfoTel" id="CONTACTINTERLOCUTORINFOTEL" minlength="10" maxlength="10" pattern="[0-9]{10}">
                         </div>
+<!-- CHAMP MAIL-->
                         <div id="displayInputInterlocutorMail" class="w-25 mb-4 text-center">
-                            <label id="interlocutorMailLabel" for="NEWCONTACTINTERLOCUTORINFOMAIL" class="form-label">Mail de l'interlocuteur :</label>
-                            <input placeholder="Ex : adresse@mail.com" type="mail" class="form-control" name="contactInterlocutorInfoMail" id="newContactInterlocutorInfoMail" minlength="5" maxlength="60">
+                            <label id="interlocutorMailLabel" for="CONTACTINTERLOCUTORINFOMAIL" class="form-label">Adresse e-mail :</label>
+<?php
+                        $proMail = Pro_Mgr::getProMail($proId);
+                        if (($proMail[0]['mail']) != '') {
+?>
+                            <input value="<?php echo($proMail[0]['mail']);?>" type="mail" class="form-control" name="contactInterlocutorInfoMail" id="CONTACTINTERLOCUTORINFOMAIL" minlength="5" maxlength="60">
+<?php
+                        } else {
+?>
+                            <input placeholder="Ex : adresse@mail.com" type="mail" class="form-control" name="contactInterlocutorInfoMail" id="CONTACTINTERLOCUTORINFOMAIL" minlength="5" maxlength="60">
+<?php
+                        }
+?>
                         </div>
                     </div>
                 </div>
@@ -97,16 +134,16 @@ $rights = (int) $_SESSION['rights'];
                 <div id="displayMeetingDiv">
                     <div class="w-100 d-flex justify-content-center">
                         <div class="w-25 mb-4 text-center">
-                            <label for="meetingCalendar" id="meetingCalendarLabel"></label>
-                            <input class="form-select" type="datetime-local" name="meetingCalendar" id="meetingCalendar">
+                            <label for="MEETINGCALENDAR" id="meetingCalendarLabel"></label>
+                            <input class="form-select" type="datetime-local" name="meetingCalendar" id="MEETINGCALENDAR">
                         </div>
                     </div>
                 </div>
                 <div id="displayRecallDiv">
                     <div class="w-100 d-flex justify-content-center">
                         <div class="w-25 mb-4 text-center">
-                            <label for="recallCalendar" id="recallCalendarLabel"></label>
-                            <input class="form-select" type="date" name="recallCalendar" id="recallCalendar">
+                            <label for="RECALLCALENDAR" id="recallCalendarLabel"></label>
+                            <input class="form-select" type="date" name="recallCalendar" id="RECALLCALENDAR">
                         </div>
                     </div>
                 </div>
@@ -114,20 +151,18 @@ $rights = (int) $_SESSION['rights'];
                 <div class="w-100 d-flex justify-content-center">
                     <div class="w-75">
                         <div class="mb-2 text-center">
-                            <label for="NEWCONTACTCOMMENT" class="form-label">Compte-rendu :</label>
-                            <textarea required placeholder="Pour valider le formulaire, veuillez sélectionner une conclusion et remplir les champs requis." class="form-control" name="contactComment" id="NEWCONTACTCOMMENT" maxlength="250"></textarea>
+                            <label for="CONTACTCOMMENT" class="form-label">Compte-rendu :</label>
+                            <textarea required placeholder="Pour valider le formulaire, veuillez sélectionner une conclusion et remplir les champs requis." class="form-control" name="contactComment" id="CONTACTCOMMENT" maxlength="250"></textarea>
                         </div>
                     </div>
                 </div>
                 <hr>
-
 <!---------------------------------------------SUBMIT BUTTON-------------------------------------->
                 <div class="d-flex justify-content-center">
                     <button type="submit" class="btn" onclick="return confirm('Etes-vous sûr(e) de vouloir enregistrer ce nouveau suivi ?')" id="submitFormBtn"><span>Valider</span></button>
                 </div>
             </form>
 <!----------------------------------------BACK RETURN BUTTON-------------------------------------->
-
 <?php
         if ($rights === 1) {
 ?>

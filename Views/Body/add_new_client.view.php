@@ -36,8 +36,8 @@ $rights = (int) $_SESSION['rights'];
 <!-------------------------------------------DECISION MAKER--------------------------------------->
                     <div class="w-50 d-flex justify-content-center">
                         <div class="w-75 mb-2">
-                            <label for="DECISIONMAKERNAME" class="form-label">Nom du décideur :</label>
-                            <input placeholder="Ex : COSSON" type="text" class="form-control" name="decisionMakerName" id="DECISIONMAKERNAME" minlength="2" maxlength="50" pattern="^[\w'\-,.]*[^_!¡?÷?¿\/\\+=@#$%ˆ&*(){}|~<>;:[\]]*${1,50}">
+                            <label for="CLIENTDECISIONMAKERNAME" class="form-label">Nom du décideur :</label>
+                            <input placeholder="Ex : COSSON" type="text" class="form-control" name="clientDecisionMakerName" id="CLIENTDECISIONMAKERNAME" minlength="2" maxlength="50" pattern="^[\w'\-,.]*[^_!¡?÷?¿\/\\+=@#$%ˆ&*(){}|~<>;:[\]]*${1,50}">
                         </div>
                     </div>
                 </div>
@@ -45,8 +45,8 @@ $rights = (int) $_SESSION['rights'];
                 <div class="w-100 d-flex justify-content-between">
                     <div class="w-50 d-flex justify-content-center">
                         <div class="w-75 mb-2">
-                            <label for="ACTIVITYAREA" class="form-label">Secteur d'activité :</label>
-                            <select class="form-select" name="activityArea" id="ACTIVITYAREA">
+                            <label for="CLIENTACTIVITYAREA" class="form-label">Secteur d'activité :</label>
+                            <select class="form-select" name="clientActivityArea" id="CLIENTACTIVITYAREA">
 <?php
 //                      Récupère la liste des secteurs d'activité.
                         $tActivityAreas = ActivityArea_Mgr::getActivityAreaList();

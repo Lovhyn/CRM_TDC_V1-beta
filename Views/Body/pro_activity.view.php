@@ -1,5 +1,6 @@
 <!--$_POST = OK-->
 <?php
+// var_dump($_POST);
 $userConnected = (int) $_SESSION['idUser'];
 $rights = (int) $_SESSION['rights'];
 $unknown = 'Non renseigné';
@@ -52,6 +53,7 @@ $unknown = 'Non renseigné';
             '<form class="d-flex justify-content-center mt-3" action="/outils/Controllers/Controller_admin.php" method="post">
                 <input type="hidden" name="ID_professionnel" value="'.$_POST['ID_professionnel'].'">
                 <input type="hidden" name="libelle_entreprise" value="'.$_POST['libelle_entreprise'].'">
+                <input type="hidden" name="ID_utilisateur" value="'.$_POST['ID_utilisateur'].'">
                 <input type="hidden" name="action" value="addNewContactForm">
                 <button type="submit" title="Enregistrer une nouvelle prise de contact" class="addNewContactIcon">
                     <i class="far fa-comment-dots"></i>
@@ -70,7 +72,7 @@ $unknown = 'Non renseigné';
                     <th class="text-center">nom</th>
                     <th class="text-center">par</th>
                     <th class="text-center">au / à</th>
-                    <th class="text-center">s'est conclue par</th>
+                    <th class="text-center">s'est conclu par</th>
                     <th class="text-center">Rendez-vous</th>
                     <th class="text-center">Relance prévue</th>
                 </tr>
@@ -78,9 +80,9 @@ $unknown = 'Non renseigné';
 <?php
 //      Récupère la liste des prospects de l'utilisateur connecté.
         $proId = (int) $_POST['ID_professionnel'];
-        $tProspectActivities = Contacting_Mgr::getProspectActivity($proId);
+        $tProActivities = Contacting_Mgr::getProActivity($proId);
         // var_dump($tProspectActivities);
-        foreach($tProspectActivities as $tProspectActivity) {
+        foreach($tProActivities as $tProActivity) {
             echo
             '<tr>
                 <td>';
@@ -95,65 +97,66 @@ $unknown = 'Non renseigné';
                     '<form action="/outils/Controllers/Controller_cdp.php" method="post">';
             }
                 echo
-                        '<input type="hidden" name="ID_professionnel" value="'.$tProspectActivity['ID_professionnel'].'">
-                        <input type="hidden" name="libelle_entreprise" value="'.$tProspectActivity['libelle_entreprise'].'">
-                        <input type="hidden" name="nom_decideur" value="'.$tProspectActivity['nom_decideur'].'">
-                        <input type="hidden" name="tel" value="'.$tProspectActivity['tel'].'">
-                        <input type="hidden" name="mail" value="'.$tProspectActivity['mail'].'">
-                        <input type="hidden" name="ID_utilisateur" value="'.$tProspectActivity['ID_utilisateur'].'">
-                        <input type="hidden" name="nom" value="'.$tProspectActivity['nom'].'">
-                        <input type="hidden" name="prenom" value="'.$tProspectActivity['prenom'].'">
-                        <input type="hidden" name="ID_interlocuteur" value="'.$tProspectActivity['ID_interlocuteur'].'">
-                        <input type="hidden" name="libelle_interlocuteur" value="'.$tProspectActivity['libelle_interlocuteur'].'">
-                        <input type="hidden" name="nom_interlocuteur" value="'.$tProspectActivity['nom_interlocuteur'].'">
-                        <input type="hidden" name="contact_interlocuteur" value="'.$tProspectActivity['contact_interlocuteur'].'">
-                        <input type="hidden" name="ID_nature" value="'.$tProspectActivity['ID_nature'].'">
-                        <input type="hidden" name="libelle_nature" value="'.$tProspectActivity['libelle_nature'].'">
-                        <input type="hidden" name="libelle_conclusion" value="'.$tProspectActivity['libelle_conclusion'].'">
-                        <input type="hidden" name="commentaire" value="'.$tProspectActivity['commentaire'].'">
-                        <input type="hidden" name="date_derniere_pdc" value="'.$tProspectActivity['date_derniere_pdc'].'">
-                        <input type="hidden" name="date_rdv" value="'.$tProspectActivity['date_rdv'].'">
-                        <input type="hidden" name="date_relance" value="'.$tProspectActivity['date_relance'].'">
-                        <input type="hidden" name="prospect_ou_client" value="'.$tProspectActivity['prospect_ou_client'].'">
+                        '<input type="hidden" name="ID_professionnel" value="'.$tProActivity['ID_professionnel'].'">
+                        <input type="hidden" name="libelle_entreprise" value="'.$tProActivity['libelle_entreprise'].'">
+                        <input type="hidden" name="nom_decideur" value="'.$tProActivity['nom_decideur'].'">
+                        <input type="hidden" name="tel" value="'.$tProActivity['tel'].'">
+                        <input type="hidden" name="mail" value="'.$tProActivity['mail'].'">
+                        <input type="hidden" name="ID_utilisateur" value="'.$tProActivity['ID_utilisateur'].'">
+                        <input type="hidden" name="nom" value="'.$tProActivity['nom'].'">
+                        <input type="hidden" name="prenom" value="'.$tProActivity['prenom'].'">
+                        <input type="hidden" name="ID_interlocuteur" value="'.$tProActivity['ID_interlocuteur'].'">
+                        <input type="hidden" name="libelle_interlocuteur" value="'.$tProActivity['libelle_interlocuteur'].'">
+                        <input type="hidden" name="nom_interlocuteur" value="'.$tProActivity['nom_interlocuteur'].'">
+                        <input type="hidden" name="contact_interlocuteur" value="'.$tProActivity['contact_interlocuteur'].'">
+                        <input type="hidden" name="ID_nature" value="'.$tProActivity['ID_nature'].'">
+                        <input type="hidden" name="libelle_nature" value="'.$tProActivity['libelle_nature'].'">
+                        <input type="hidden" name="libelle_conclusion" value="'.$tProActivity['libelle_conclusion'].'">
+                        <input type="hidden" name="commentaire" value="'.$tProActivity['commentaire'].'">
+                        <input type="hidden" name="date_derniere_pdc" value="'.$tProActivity['date_derniere_pdc'].'">
+                        <input type="hidden" name="date_rdv" value="'.$tProActivity['date_rdv'].'">
+                        <input type="hidden" name="date_relance" value="'.$tProActivity['date_relance'].'">
+                        <input type="hidden" name="prospect_ou_client" value="'.$tProActivity['prospect_ou_client'].'">
                         <input type="hidden" name="action" value="fullInfosContact">
-                        <input class="fullInfosBtn" type="submit" title="Voir détail de la prise de contact" value="'.$contactDate = Dates_Mgr::dateFormatDayMonthYear($tProspectActivity['date_derniere_pdc']).'"></input>
+                        <input class="fullInfosBtn" type="submit" title="Voir détail de la prise de contact" value="'.$contactDate = Dates_Mgr::dateFormatDayMonthYear($tProActivity['date_derniere_pdc']).'"></input>
                     </form>
                 </td> 
-                <td>'.$tProspectActivity['suivi'].'</td>
-                <td>'.$tProspectActivity['libelle_interlocuteur'].'</td>';
+                <td>'.$tProActivity['suivi'].'</td>
+                <td>'.$tProActivity['libelle_interlocuteur'].'</td>';
 /*
                 Si l'utilisateur a eu un contact avec le décideur, on affiche directement le nom du décideur.
                 Si le nom du décideur n'a pas été renseigné dans la BDD, on affiche "non renseigné".
 */
-                if ($tProspectActivity['ID_interlocuteur'] === '1') {
-                    if ($tProspectActivity['nom_decideur'] === '') {
+                if ($tProActivity['ID_interlocuteur'] === '1') {
+                    if ($tProActivity['nom_decideur'] === '') {
                         echo 
                         '<td>'.$unknown.'</td>';
                     } else {
                         echo 
-                        '<td>'.$tProspectActivity['nom_decideur'].'</td>';
+                        '<td>'.$tProActivity['nom_decideur'].'</td>';
                     }
                 } else {
-                    if ($tProspectActivity['nom_interlocuteur'] === '') {
+                    if ($tProActivity['nom_interlocuteur'] === '') {
                         echo
                         '<td>'.$unknown.'</td>';
                     } else {
                         echo
-                        '<td>'.$tProspectActivity['nom_interlocuteur'].'</td>';
+                        '<td>'.$tProActivity['nom_interlocuteur'].'</td>';
                     }
                 }
                 echo
-                '<td>'.$tProspectActivity['libelle_nature'].'</td>';
-                if ($tProspectActivity['contact_interlocuteur'] === '') {
-                    echo 'Non renseigné';
+                '<td>'.$tProActivity['libelle_nature'].'</td>';
+                if ($tProActivity['contact_interlocuteur'] === '') {
+                    echo 
+                    '<td>'.$unknown.'</td>';
                 } else {
                     echo
-                    '<td>'.$tProspectActivity['contact_interlocuteur'].'</td>';
+                    '<td>'.$tProActivity['contact_interlocuteur'].'</td>';
                 }
                 echo
-                '<td title="'.$tProspectActivity['commentaire'].'">'.$tProspectActivity['libelle_conclusion'].'</td>
-                <td class="text-center">'.$meetingDate = Dates_Mgr::dateFormatDayMonthYear($tProspectActivity['date_rdv']).'</td>
-                <td class="text-center">'.$recallDate = Dates_Mgr::dateFormatDayMonthYear($tProspectActivity['date_relance']).'</td>
+                '<td title="'.$tProActivity['commentaire'].'">'.$tProActivity['libelle_conclusion'].'</td>
+                <td class="text-center">'.$meetingDate = Dates_Mgr::dateFormatDayMonthYear($tProActivity['date_rdv']).'</td>
+                <td class="text-center">'.$recallDate = Dates_Mgr::dateFormatDayMonthYear($tProActivity['date_relance']).'</td>
             </tr>';
         }
 ?>
