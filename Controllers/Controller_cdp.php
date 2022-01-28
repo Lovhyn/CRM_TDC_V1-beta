@@ -259,15 +259,65 @@
                 $clientCp = $_POST['clientCp'];
                 $clientCity = $_POST['clientCity'];
                 $clientObservation = $_POST['clientObservation'];
-                Pro_Mgr::createNewCustomer($userId, $clientActivityArea, $clientName, $clientDecisionMakerName, 
-                                        $clientMainPhone, $clientSecondaryPhone, $clientMail, $clientMainAdress, 
-                                        $clientSecondaryAdress, $clientCp, $clientCity, $clientObservation );
-                $msg = '<div class="text-center" style="color: #46ec4e">Nouveau client enregistré.</div>';
+//          Etape 1 :
+//              Avant l'ajout, on contrôle qu'aucun professionnel n'a un nom semblable.
+                if (Pro_Mgr::checkIfExists($clientName) === 0) {
+                    try {
+//                      Récupère la prochaine valeur de l'auto-increment avant l'insert.
+                        $resultBefore = Pro_Mgr::getLastAutoIncrementValue();
+//                      Convertit le résultat en entier.
+                        $lastValueBefore = (int) $resultBefore[0]["AUTO_INCREMENT"];
+                        Pro_Mgr::createNewCustomer($userId, $clientActivityArea, $clientName, $clientDecisionMakerName, 
+                                                $clientMainPhone, $clientSecondaryPhone, $clientMail, $clientMainAdress, 
+                                                $clientSecondaryAdress, $clientCp, $clientCity, $clientObservation );
+//                      Récupère la prochaine valeur de l'auto-increment après l'insert.
+                        $resultAfter = Pro_Mgr::getLastAutoIncrementValue();
+//                      Convertit le résultat en entier.
+                        $lastValueAfter = (int) $resultAfter[0]["AUTO_INCREMENT"];
+//          Etape 2 :
+                        if ($lastValueAfter === ($lastValueBefore + 1)) {
+                            $emptyName = '';
+                            $emptyContact = '';
+                            InfosInterlocutor_Mgr::createInterlocutorInfos($emptyName, $emptyContact);
+//                          Récupère la prochaine valeur de l'auto-increment après l'insert.
+                            $lastIdInfosAfter = InfosInterlocutor_Mgr::getLastAutoIncrementValue();
+//                          Convertit le résultat en entier.
+                            $infosInterlocutorIdValue = (int) $lastIdInfosAfter[0]["AUTO_INCREMENT"];
+//                          Récupère l'identifiant du dernier insert de la table 'infos_interlocuteur'.
+                            $infoInterlocutorId = $infosInterlocutorIdValue - 1;
+//          Etape 3 :
+//                          Récupère la date du jour et là retourne au format Unix sous forme de String.
+                            $lastContactDate = Dates_Mgr::nowToUnixString();
+//                          Récupère l'identifiant de l'interlocuteur "Autre" pour l'affecter au suivi.
+                            $getInterlocutorId = Contacting_Mgr::getIdInterlocutorTypeWhereCaseIsOther();
+                            $interlocutorId = (int) $getInterlocutorId[0]['ID_interlocuteur'];
+//                          Récupère l'identifiant du type de contact "Autre" pour l'affecter au suivi.
+                            $getContactTypeId = Contacting_Mgr::getIdContactTypeWhereCaseIsOther();
+                            $contactTypeId = (int) $getContactTypeId[0]['ID_nature'];
+//                          Récupère l'identifiant de la conclusion "Création client" pour l'affecter au suivi.
+                            $getConclusionId = Conclusions_Mgr::getIdConclusionWhereCaseIsCreateCustomer();
+                            $conclusionId = (int) $getConclusionId[0]['ID_conclusion'];
+//                          Enregistre le message commentaire automatique pour la création d'un suivi lors de l'enregistrement d'un client.
+                            $comment = 'Enregistrement du client dans la base de données.';
+                            Contacting_Mgr::createNewContactWhenAddedCustomer($userId, $lastValueBefore, $interlocutorId, 
+                                                                            $infoInterlocutorId, $contactTypeId, $conclusionId, 
+                                                                            $comment, $lastContactDate);
+                        }
+                        $msg = '<div class="text-center" style="color: #46ec4e">Nouveau suivi enregistré.</div>';
+                    } catch (Exception $e) {
+                        $msg = '<div class="text-center" style="color: #E84E0E">Erreur : Echec de l\'enregistrement.</div>';
+                        require($header);
+                        echo($msg);
+                        require($addNewClientForm);
+                        require($footer);
+                        break; 
+                    }
+                }
                 require($header);
                 echo($msg);
                 require($clientsListing);
                 require($footer);
-                break;
+                break; 
 //          UPDATE => [FORM]
             case 'updatePro' :
                 require($header);

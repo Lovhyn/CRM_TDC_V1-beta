@@ -61,7 +61,7 @@ $unknown = 'Non renseigné';
             </form>';
     }
 ?>
-    <div class="d-flex justify-content-center">
+    <div class="table-responsive">
         <table class="table table-hover table-striped table-dark mt-3 w-auto" 
                 data-toggle="table" data-search="true" data-show-columns="true" data-pagination="true">
             <thead>

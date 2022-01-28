@@ -28,7 +28,7 @@ if ($rights != 1 ) {
             </button>
         </form>';
 ?>
-    <div class="d-flex justify-content-center">
+    <div class="table-responsive">
         <table class="table table-hover table-striped table-dark mt-3 w-auto" 
                 data-toggle="table" data-search="true" data-show-columns="true" data-pagination="true">
             <thead>
@@ -39,9 +39,9 @@ if ($rights != 1 ) {
                     <th data-sortable="true">Suivi par</th>
                     <th data-sortable="true">Dernier contact</th>
                     <th data-sortable="true">Date</th>
-                    <th>Modifier</th>
-                    <th>Voir suivi</th>
-                    <th>Appeler</th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
                 </tr>
             </thead>
 <?php
@@ -107,7 +107,7 @@ if ($rights != 1 ) {
                 }
                 echo
                 '<td>'.$tCustomer['suivi'].'</td>
-                <td>'.$tCustomer['libelle_conclusion'].'</td>
+                <td title="'.$tCustomer['commentaire'].'">'.$tCustomer['libelle_conclusion'].'</td>
                 <td>'.$lastContactDate = Dates_Mgr::dateFormatDayMonthYear($tCustomer['date_derniere_pdc']).'</td>
                 <td>';
 /*                  
@@ -231,7 +231,7 @@ if ($rights != 1 ) {
                 }
                 echo
                 '<td>'.$tCustomer['suivi'].'</td>
-                <td>'.$tCustomer['libelle_conclusion'].'</td>
+                <td title="'.$tCustomer['commentaire'].'">'.$tCustomer['libelle_conclusion'].'</td>
                 <td>'.$lastContactDate = Dates_Mgr::dateFormatDayMonthYear($tCustomer['date_derniere_pdc']).'</td>
                 <td>
                     <form class="d-flex justify-content-center" action="/outils/Controllers/Controller_admin.php" method="post">

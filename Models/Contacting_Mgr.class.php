@@ -37,10 +37,39 @@ class Contacting_Mgr {
 /*
             Prépare la requête SQL et l'enregistre dans une variable =>
             On souhaite ici récupérer : 
-                - la liste de tous les types de contact enregistrés dans la bdd.
+                - la liste de tous les types de contact enregistrés dans la bdd sauf le cas "autre".
 */
-            $sqlRequest = ' SELECT * 
-                            FROM `nature_du_contact`; ';
+            $sqlRequest = " SELECT * 
+                            FROM `nature_du_contact` WHERE `libelle_nature` <> 'Autre' ;";
+//          Connexion PDO + soumission de la requête.
+            $repPDO = $PDOconnexion->query($sqlRequest);
+//          On définit sous quelle forme nous souhaitons récupérer le résultat.
+            $repPDO->setFetchMode(PDO::FETCH_ASSOC);
+//          On récupère le résultat de la requête sous la forme d'un tableau associatif.
+            $records = $repPDO->fetchAll();
+//          Réinitialise le curseur.
+            $repPDO->closeCursor();
+//          Ferme la connexion à la bdd.
+            BddConnexion::disconnect();
+//          Puis on retourne ce tableau.
+            return $records;
+        } catch(Exception $e) {
+            die('Erreur : Accès interdit ou connexion impossible.');
+        }            
+    }
+//  °°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°
+    public static function getIdContactTypeWhereCaseIsOther() {
+        try {
+//          Etablit une connexion à la base de données.
+            $PDOconnexion = BddConnexion::getConnexion();
+/*
+            Prépare la requête SQL et l'enregistre dans une variable =>
+            On souhaite ici récupérer : 
+                - l'identifiant du cas "autre" qui servira pour l'ajout de suivi automatique
+                lors de l'enregistrement direct d'un client.
+*/
+            $sqlRequest = " SELECT ID_nature 
+                            FROM `nature_du_contact` WHERE `libelle_nature` = 'Autre' ;";
 //          Connexion PDO + soumission de la requête.
             $repPDO = $PDOconnexion->query($sqlRequest);
 //          On définit sous quelle forme nous souhaitons récupérer le résultat.
@@ -91,6 +120,38 @@ class Contacting_Mgr {
         }  
     }
 //  °°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°
+    public static function createNewContactWhenAddedCustomer(Int $userId, Int $proId, Int $interlocutorId, Int $infosInterlocutorId,
+                                                Int $contactTypeId, Int $conclusionId, String $contactComment, 
+                                                String $lastContact) {
+        try {
+//          Etablit une connexion à la base de données.
+            $PDOconnexion = BddConnexion::getConnexion();
+/*
+            Prépare la requête SQL et l'enregistre dans une variable =>
+            On souhaite ici insérer une nouvelle prise de contact avec rdv dans la bdd. 
+*/
+            $sqlRequest = ' INSERT INTO `suivre` (
+                            `ID_utilisateur`, `ID_professionnel`, `ID_interlocuteur`, `ID_infos_interlocuteur`, `ID_nature`, 
+                            `ID_conclusion`, `commentaire`, `date_derniere_pdc`) 
+                            VALUES (
+                            :userId, :proId, :interlocutorId, :infosInterlocutorId, :contactTypeId, :conclusionId, :contactComment,
+                            :lastContact); ';
+//          Connexion PDO + prépare l'envoi de la requête.
+            $repPDO = $PDOconnexion->prepare($sqlRequest);
+//          Exécute la requête en affectant les valeurs données en paramètres aux étiquettes.
+            $repPDO->execute(array(':userId' => $userId, ':proId' => $proId, ':interlocutorId' => $interlocutorId, 
+                                    ':infosInterlocutorId' => $infosInterlocutorId, ':contactTypeId' => $contactTypeId, 
+                                    ':conclusionId' => $conclusionId, ':contactComment' => $contactComment, 
+                                    ':lastContact' => $lastContact));
+//          Réinitialise le curseur.
+            $repPDO->closeCursor();
+//          Ferme la connexion à la bdd.
+            BddConnexion::disconnect();
+        } catch(Exception $e) {
+            die('Erreur : Accès interdit ou connexion impossible.');
+        }  
+    }
+//  °°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°
     public static function createNewContactRecall(Int $userId, Int $proId, Int $interlocutorId, Int $infosInterlocutorId,
                                                 Int $contactTypeId, Int $conclusionId, String $contactComment, 
                                                 String $lastContact, String $recallDate) {
@@ -122,6 +183,35 @@ class Contacting_Mgr {
         } catch(Exception $e) {
             die('Erreur : Accès interdit ou connexion impossible.');
         }  
+    }
+//  °°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°
+    public static function getIdInterlocutorTypeWhereCaseIsOther() {
+        try {
+//          Etablit une connexion à la base de données.
+            $PDOconnexion = BddConnexion::getConnexion();
+/*
+            Prépare la requête SQL et l'enregistre dans une variable =>
+            On souhaite ici récupérer : 
+                - l'identifiant du cas "autre" qui servira pour l'ajout de suivi automatique
+                lors de l'enregistrement direct d'un client.
+*/
+            $sqlRequest = " SELECT ID_interlocuteur 
+                            FROM `interlocuteur` WHERE `libelle_interlocuteur` = 'Autre' ;";
+//          Connexion PDO + soumission de la requête.
+            $repPDO = $PDOconnexion->query($sqlRequest);
+//          On définit sous quelle forme nous souhaitons récupérer le résultat.
+            $repPDO->setFetchMode(PDO::FETCH_ASSOC);
+//          On récupère le résultat de la requête sous la forme d'un tableau associatif.
+            $records = $repPDO->fetchAll();
+//          Réinitialise le curseur.
+            $repPDO->closeCursor();
+//          Ferme la connexion à la bdd.
+            BddConnexion::disconnect();
+//          Puis on retourne ce tableau.
+            return $records;
+        } catch(Exception $e) {
+            die('Erreur : Accès interdit ou connexion impossible.');
+        }            
     }
 //  °°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°
     public static function getProActivity(Int $paramProId) {
