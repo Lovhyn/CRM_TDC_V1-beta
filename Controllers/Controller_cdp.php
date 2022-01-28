@@ -265,7 +265,7 @@
                 $msg = '<div class="text-center" style="color: #46ec4e">Nouveau client enregistré.</div>';
                 require($header);
                 echo($msg);
-                require($proActivity);
+                require($clientsListing);
                 require($footer);
                 break;
 //          UPDATE => [FORM]
