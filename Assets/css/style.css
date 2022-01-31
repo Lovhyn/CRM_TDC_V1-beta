@@ -164,9 +164,7 @@ table input, table a {
 .bootstrap-table .fixed-table-toolbar .columns-right {
     margin-left: 0px;
 }
-.bootstrap-table .fixed-table-toolbar .columns-right {
-    
-}
+
 .fixed-table-toolbar {
     display: flex;
     align-items: center;
