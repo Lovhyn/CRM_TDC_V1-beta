@@ -75,7 +75,7 @@ $proId = (int) $_POST['ID_professionnel'];
                                 <option selected value="0">Précisez :</option>
 <?php
 //                          Récupère la liste des scénarios (conclusions) (le scénario "vente" est exclu via la boucle "for").
-                            $tConclusions = Conclusions_Mgr::getConclusionsList();
+                            $tConclusions = Conclusions_Mgr::getConclusionsListExceptCreateNewCustomer();
                             foreach($tConclusions as $tConclusion) {
                                 echo
                                     '<option value="';echo($tConclusion['ID_conclusion']);echo'">'.$tConclusion['libelle_conclusion'].'</option>';

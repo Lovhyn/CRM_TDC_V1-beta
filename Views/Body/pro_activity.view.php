@@ -22,7 +22,8 @@ $unknown = 'Non renseigné';
         prospect / client que s'il est en charge du suivi de ce dernier.
 */
         $userInChargeOfThisPro = Pro_Mgr::checkWhichUserIsInChargeOfThisPro((int) $_POST['ID_professionnel']);
-        if ((int) $userInChargeOfThisPro[0]['ID_utilisateur'] === (int) $_POST['ID_utilisateur']) {
+        $idUserInChargeOfThisPro = (int) $userInChargeOfThisPro[0]['ID_utilisateur'];
+        if ($idUserInChargeOfThisPro === (int) $_POST['ID_utilisateur']) {
             if ($userConnected === (int) $_POST['ID_utilisateur']) {
 //          Si l'utilisateur est un responsable ou un chargé de projet, affiche =>
                 if ($rights === 2) {
@@ -35,7 +36,7 @@ $unknown = 'Non renseigné';
                 echo
                         '<input type="hidden" name="ID_professionnel" value="'.$_POST['ID_professionnel'].'">
                         <input type="hidden" name="libelle_entreprise" value="'.$_POST['libelle_entreprise'].'">
-                        <input type="hidden" name="ID_utilisateur" value="'.$_POST['ID_utilisateur'].'">
+                        <input type="hidden" name="ID_utilisateur" value="'.$idUserInChargeOfThisPro.'">
                         <input type="hidden" name="action" value="addNewContactForm">
                         <button type="submit" title="Enregistrer une nouvelle prise de contact" class="addNewContactIcon">
                             <i class="far fa-comment-dots"></i>
@@ -53,7 +54,7 @@ $unknown = 'Non renseigné';
             '<form class="d-flex justify-content-center mt-3" action="/outils/Controllers/Controller_admin.php" method="post">
                 <input type="hidden" name="ID_professionnel" value="'.$_POST['ID_professionnel'].'">
                 <input type="hidden" name="libelle_entreprise" value="'.$_POST['libelle_entreprise'].'">
-                <input type="hidden" name="ID_utilisateur" value="'.$_POST['ID_utilisateur'].'">
+                <input type="hidden" name="ID_utilisateur" value="'.$idUserInChargeOfThisPro.'">
                 <input type="hidden" name="action" value="addNewContactForm">
                 <button type="submit" title="Enregistrer une nouvelle prise de contact" class="addNewContactIcon">
                     <i class="far fa-comment-dots"></i>
@@ -66,15 +67,15 @@ $unknown = 'Non renseigné';
                 data-toggle="table" data-search="true" data-show-columns="true" data-pagination="true">
             <thead>
                 <tr>
-                    <th>Contact du :</th>
-                    <th class="text-center">entre</th>
+                    <th data-sortable="true">Contact du :</th>
+                    <th class="text-center" data-sortable="true">entre</th>
                     <th class="text-center">et</th>
                     <th class="text-center">nom</th>
                     <th class="text-center">par</th>
                     <th class="text-center">au / à</th>
-                    <th class="text-center">s'est conclu par</th>
-                    <th class="text-center">Rendez-vous</th>
-                    <th class="text-center">Relance prévue</th>
+                    <th class="text-center" data-sortable="true">s'est conclu par</th>
+                    <th class="text-center" data-sortable="true">Rendez-vous</th>
+                    <th class="text-center" data-sortable="true">Relance prévue</th>
                 </tr>
             </thead>
 <?php
@@ -103,6 +104,7 @@ $unknown = 'Non renseigné';
                         <input type="hidden" name="tel" value="'.$tProActivity['tel'].'">
                         <input type="hidden" name="mail" value="'.$tProActivity['mail'].'">
                         <input type="hidden" name="ID_utilisateur" value="'.$tProActivity['ID_utilisateur'].'">
+                        <input type="hidden" name="currentUserInChargeOfThisPro" value="'.$idUserInChargeOfThisPro.'">
                         <input type="hidden" name="nom" value="'.$tProActivity['nom'].'">
                         <input type="hidden" name="prenom" value="'.$tProActivity['prenom'].'">
                         <input type="hidden" name="ID_interlocuteur" value="'.$tProActivity['ID_interlocuteur'].'">

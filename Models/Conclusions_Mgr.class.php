@@ -60,6 +60,36 @@ class Conclusions_Mgr {
         }
     }
 //  °°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°
+    public static function getConclusionsListExceptCreateNewCustomer() {
+        try {
+//          Etablit une connexion à la base de données.
+            $PDOconnexion = BddConnexion::getConnexion();
+/*
+            Prépare la requête SQL et l'enregistre dans une variable =>
+            On souhaite ici récupérer : 
+                - la liste de tous les libellés de conclusions enregistrés dans la bdd
+                SAUF L'ID de la conclusion "vente".
+*/
+            $sqlRequest = " SELECT * 
+                            FROM `conclusion`
+                            WHERE libelle_conclusion <> 'Création client' ; ";
+//          Connexion PDO + soumission de la requête.
+            $repPDO = $PDOconnexion->query($sqlRequest);
+//          On définit sous quelle forme nous souhaitons récupérer le résultat.
+            $repPDO->setFetchMode(PDO::FETCH_ASSOC);
+//          On récupère le résultat de la requête sous la forme d'un tableau associatif.
+            $records = $repPDO->fetchAll();
+//          Réinitialise le curseur.
+            $repPDO->closeCursor();
+//          Ferme la connexion à la bdd.
+            BddConnexion::disconnect();
+//          Puis on retourne ce tableau.
+            return $records;
+        } catch(Exception $e) {
+            die('Erreur : Accès interdit ou connexion impossible.');
+        }
+    }
+//  °°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°
     public static function getIdConclusionWhereCaseIsCreateCustomer() {
         try {
 //          Etablit une connexion à la base de données.

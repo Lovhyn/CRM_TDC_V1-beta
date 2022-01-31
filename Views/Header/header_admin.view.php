@@ -50,7 +50,7 @@
                                             <ul class="dropdown-menu" aria-labelledby="navbarGestionMenuLink">
                                                 <li><a class="dropdown-item" href="/outils/Controllers/Controller_admin.php?action=userManagement">Gestion des utilisateurs</a></li>
                                                 <li><a class="dropdown-item" href="/outils/Controllers/Controller_admin.php?action=activityAreaManagement">Gestion des secteurs d'activité</a></li>
-                                                <li><a class="dropdown-item" href="/outils/Controllers/Controller_admin.php?action=conclusionsManagement">Gestion des conclusions</a></li>
+                                                <li><a class="dropdown-item" href="/outils/Controllers/Controller_admin.php?action=conclusionsManagement">Gestion des scénarios</a></li>
                                             </ul>
                                         </li>
                                         <li class="nav-item">

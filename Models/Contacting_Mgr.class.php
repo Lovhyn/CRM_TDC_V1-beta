@@ -244,7 +244,7 @@ class Contacting_Mgr {
                             INNER JOIN `nature_du_contact` n ON s.`ID_nature` = n.`ID_nature`
                             INNER JOIN `conclusion` c ON s.`ID_conclusion` = c.`ID_conclusion`
                             INNER JOIN `professionnel` p ON s.`ID_professionnel` = p.`ID_professionnel`
-                            WHERE p.prospect_ou_client = 0 AND s.`ID_professionnel` = :paramProId ;";
+                            WHERE s.`ID_professionnel` = :paramProId ORDER BY s.`date_derniere_pdc` ;";
 //          Connexion PDO + prépare l'envoi de la requête.
             $repPDO = $PDOconnexion->prepare($sqlRequest);
 //          Exécute la requête en affectant les valeurs données en paramètres aux étiquettes.

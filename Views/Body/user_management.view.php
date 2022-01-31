@@ -6,7 +6,7 @@
     </div>
     <form class="d-flex justify-content-center mt-3" action="/outils/Controllers/Controller_admin.php" method="post">
         <input type="hidden" name="action" value="addUser">
-        <button type="submit" value="addUser" class="addUserIcon">
+        <button title="Ajouter un utilisateur" type="submit" value="addUser" class="addUserIcon">
             <i class="fas fa-user-plus"></i>
         </button>
     </form>
@@ -44,7 +44,7 @@
                         <input type="hidden" name="userIdRights" value="' . $tUser['ID_droit']. '">
                         <input type="hidden" name="userLibRights" value="' . $tUser['libelle_droit']. '">
                         <input type="hidden" name="action" value="updateUser">
-                        <button class="updIcon" type="submit">
+                        <button title="Modifier l\'utilisateur" class="updIcon" type="submit">
                             <i class="far fa-edit"></i>
                         </button>
                     </form>
@@ -63,7 +63,7 @@
                 '<form class="d-flex justify-content-center" action="/outils/Controllers/Controller_admin.php" method="post">
                     <input type="hidden" name="idUser" value="' . $tUser['ID_utilisateur']. '">
                     <input type="hidden" name="action" value="deleteUser">
-                    <button class="delIcon" type="submit"'; echo($dialogBoxMsg); echo'>
+                    <button title="Supprimer l\'utilisateur" class="delIcon" type="submit"'; echo($dialogBoxMsg); echo'>
                         <i class="far fa-trash-alt"></i>
                     </button>
                 </form>';
