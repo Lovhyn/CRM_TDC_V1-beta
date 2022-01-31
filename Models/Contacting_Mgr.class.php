@@ -244,7 +244,7 @@ class Contacting_Mgr {
                             INNER JOIN `nature_du_contact` n ON s.`ID_nature` = n.`ID_nature`
                             INNER JOIN `conclusion` c ON s.`ID_conclusion` = c.`ID_conclusion`
                             INNER JOIN `professionnel` p ON s.`ID_professionnel` = p.`ID_professionnel`
-                            WHERE s.`ID_professionnel` = :paramProId ORDER BY s.`date_derniere_pdc` ;";
+                            WHERE s.`ID_professionnel` = :paramProId ORDER BY s.`date_derniere_pdc` DESC ;";
 //          Connexion PDO + prépare l'envoi de la requête.
             $repPDO = $PDOconnexion->prepare($sqlRequest);
 //          Exécute la requête en affectant les valeurs données en paramètres aux étiquettes.
@@ -317,4 +317,41 @@ class Contacting_Mgr {
             die('Erreur : Accès interdit ou connexion impossible.');
         }
     }
+//  °°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°
+    public static function getInfosContactWhereDateIs(String $paramDate) {
+        try {
+//          Etablit une connexion à la base de données.
+            $PDOconnexion = BddConnexion::getConnexion();
+/*
+            Prépare la requête SQL et l'enregistre dans une variable =>
+            On souhaite ici récupérer : 
+                - l'identifiant du cas "autre" qui servira pour l'ajout de suivi automatique
+                lors de l'enregistrement direct d'un client.
+*/
+            $sqlRequest = " SELECT 
+                            s.`ID_conclusion`, 
+                            s.`commentaire`,
+                            c.`libelle_conclusion`
+                            FROM `suivre` s
+                            INNER JOIN `conclusion` c ON s.`ID_conclusion` = c.`ID_conclusion`
+                            WHERE s.`date_derniere_pdc` = :paramDate ; ";
+//          Connexion PDO + prépare l'envoi de la requête.
+            $repPDO = $PDOconnexion->prepare($sqlRequest);
+//          Exécute la requête en affectant les valeurs données en paramètres aux étiquettes.
+            $repPDO->execute(array(':paramDate' => $paramDate));
+//          On définit sous quelle forme nous souhaitons récupérer le résultat.
+            $repPDO->setFetchMode(PDO::FETCH_ASSOC);
+//          On récupère le résultat de la requête sous la forme d'un tableau associatif.
+            $records = $repPDO->fetchAll();
+//          Réinitialise le curseur.
+            $repPDO->closeCursor();
+//          Ferme la connexion à la bdd.
+            BddConnexion::disconnect();
+//          Puis on retourne ce tableau.
+            return $records;
+        } catch(Exception $e) {
+            die('Erreur : Accès interdit ou connexion impossible.');
+        }            
+    }
+
 }

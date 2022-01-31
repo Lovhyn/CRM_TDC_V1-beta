@@ -48,6 +48,8 @@ if ($rights != 1 ) {
 //      Récupère la liste de tous les prospects enregistrés dans la BDD.
         $tProspects = Pro_Mgr::getFullProspectsList();
         foreach($tProspects as $tProspect) {
+            $tInfosLastContact = Contacting_Mgr::getInfosContactWhereDateIs($tProspect['date_derniere_pdc']);
+            // var_dump($tInfosLastContact);
 //°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°
 //°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°
 
@@ -107,7 +109,7 @@ if ($rights != 1 ) {
                 }
                 echo
                 '<td>'.$tProspect['suivi'].'</td>
-                <td title="'.$tProspect['commentaire'].'">'.$tProspect['libelle_conclusion'].'</td>
+                <td title="'.$tInfosLastContact[0]['commentaire'].'">'.$tInfosLastContact[0]['libelle_conclusion'].'</td>
                 <td>'.$lastContactDate = Dates_Mgr::dateFormatDayMonthYear($tProspect['date_derniere_pdc']).'</td>
                 <td>';
 /*                  
@@ -231,7 +233,7 @@ if ($rights != 1 ) {
                 }
                 echo
                 '<td>'.$tProspect['suivi'].'</td>
-                <td title="'.$tProspect['commentaire'].'">'.$tProspect['libelle_conclusion'].'</td>
+                <td title="'.$tInfosLastContact[0]['commentaire'].'">'.$tInfosLastContact[0]['libelle_conclusion'].'</td>
                 <td>'.$lastContactDate = Dates_Mgr::dateFormatDayMonthYear($tProspect['date_derniere_pdc']).'</td>
                 <td>
                     <form class="d-flex justify-content-center" action="/outils/Controllers/Controller_admin.php" method="post">

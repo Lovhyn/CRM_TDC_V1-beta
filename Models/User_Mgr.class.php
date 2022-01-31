@@ -15,7 +15,7 @@ class User_Mgr {
             $sqlRequest = ' SELECT u.ID_utilisateur, u.tel, u.ID_droit, u.nom, u.prenom, 
                             u.mail, u.mot_de_passe, d.libelle_droit 
                             FROM utilisateur u 
-                            INNER JOIN droits d ON d.ID_droit = u.ID_droit;';
+                            INNER JOIN droits d ON d.ID_droit = u.ID_droit; ';
 //          Connexion PDO + soumission de la requête.
             $repPDO = $PDOconnexion->query($sqlRequest);
 //          On définit sous quelle forme nous souhaitons récupérer le résultat.
