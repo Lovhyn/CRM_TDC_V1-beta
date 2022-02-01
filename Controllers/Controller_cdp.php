@@ -492,11 +492,14 @@
                                                         $infoInterlocutorId, $idContactType, $contactConclusion, 
                                                         $contactComment, $lastContactDate, $recallDate);
                 }  
+                if ($contactConclusion === 8) {
+                    Pro_Mgr::prospectBecomeClient($idPro);
+                }
                 $msg = '<div class="text-center" style="color: #46ec4e">Nouvelle prise de contact enregistrée !</div>';
                 require($header);  
                 echo($msg);
                 require($proActivity);
-                require($footer); 
+                require($footer);
                 break;
             case 'myContactRecalls' :
                 require("../Views/Header/header_cdp.view.php");

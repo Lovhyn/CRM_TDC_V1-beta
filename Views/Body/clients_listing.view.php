@@ -88,7 +88,7 @@ if ($rights != 1 ) {
                         <input type="hidden" name="prospect_ou_client" value="'.$tCustomer['prospect_ou_client'].'">
                         <input type="hidden" name="date_derniere_pdc" value="'.$tCustomer['date_derniere_pdc'].'">
                         <input type="hidden" name="action" value="fullInfosPro">
-                        <input class="fullInfosBtn" type="submit" title="Voir fiche détaillée du professionnel" value="'.$tCustomer['libelle_entreprise'].'">
+                        <input class="fullInfosBtn" type="submit" title="Voir fiche détaillée du client" value="'.$tCustomer['libelle_entreprise'].'">
                     </form>
                 </td> 
                 <td>'.$tCustomer['nom_decideur'].'</td>';
@@ -142,7 +142,7 @@ if ($rights != 1 ) {
                         <input type="hidden" name="observation" value="'.$tCustomer['observation'].'">
                         <input type="hidden" name="prospect_ou_client" value="'.$tCustomer['prospect_ou_client'].'">
                         <input type="hidden" name="action" value="updatePro">
-                        <button class="updIcon" type="submit" title="Modifier / Ajouter des informations sur le prospect">
+                        <button class="updIcon" type="submit" title="Modifier / Ajouter des informations sur le client">
                             <i class="far fa-edit"></i>
                         </button>
                     </form>';
@@ -163,7 +163,7 @@ if ($rights != 1 ) {
                         <input type="hidden" name="ID_utilisateur" value="'.$tCustomer['ID_utilisateur'].'">
                         <input type="hidden" name="libelle_entreprise" value="'.$tCustomer['libelle_entreprise'].'">
                         <input type="hidden" name="action" value="proActivity">
-                        <button class="followIcon" type="submit" title="Voir le suivi du prospect">
+                        <button class="followIcon" type="submit" title="Voir le suivi du client">
                             <i class="fas fa-glasses"></i>
                         </button>
                     </form>
@@ -212,7 +212,7 @@ if ($rights != 1 ) {
                         <input type="hidden" name="prospect_ou_client" value="'.$tCustomer['prospect_ou_client'].'">
                         <input type="hidden" name="date_derniere_pdc" value="'.$tCustomer['date_derniere_pdc'].'">
                         <input type="hidden" name="action" value="fullInfosPro">
-                        <input class="fullInfosBtn" type="submit" title="Voir fiche détaillée du professionnel" value="'.$tCustomer['libelle_entreprise'].'">
+                        <input class="fullInfosBtn" type="submit" title="Voir fiche détaillée du client" value="'.$tCustomer['libelle_entreprise'].'">
                     </form>
                 </td> 
                 <td>'.$tCustomer['nom_decideur'].'</td>';
@@ -254,7 +254,7 @@ if ($rights != 1 ) {
                         <input type="hidden" name="observation" value="'.$tCustomer['observation'].'">
                         <input type="hidden" name="prospect_ou_client" value="'.$tCustomer['prospect_ou_client'].'">
                         <input type="hidden" name="action" value="updatePro">
-                        <button class="updIcon" type="submit" title="Modifier / Ajouter des informations sur le prospect">
+                        <button class="updIcon" type="submit" title="Modifier / Ajouter des informations sur le client">
                             <i class="far fa-edit"></i>
                         </button>
                     </form>
@@ -265,7 +265,7 @@ if ($rights != 1 ) {
                         <input type="hidden" name="ID_utilisateur" value="'.$tCustomer['ID_utilisateur'].'">
                         <input type="hidden" name="libelle_entreprise" value="'.$tCustomer['libelle_entreprise'].'">
                         <input type="hidden" name="action" value="proActivity">
-                        <button class="followIcon" type="submit" title="Voir le suivi du prospect">
+                        <button class="followIcon" type="submit" title="Voir le suivi du client">
                             <i class="fas fa-glasses"></i>
                         </button>
                     </form>

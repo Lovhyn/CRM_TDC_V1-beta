@@ -38,7 +38,7 @@ class Conclusions_Mgr {
             Prépare la requête SQL et l'enregistre dans une variable =>
             On souhaite ici récupérer : 
                 - la liste de tous les libellés de conclusions enregistrés dans la bdd
-                SAUF L'ID de la conclusion "vente".
+                SAUF les conclusions "vente" et "création client.
 */
             $sqlRequest = " SELECT * 
                             FROM `conclusion` WHERE libelle_conclusion <> 'Vente'
@@ -68,7 +68,7 @@ class Conclusions_Mgr {
             Prépare la requête SQL et l'enregistre dans une variable =>
             On souhaite ici récupérer : 
                 - la liste de tous les libellés de conclusions enregistrés dans la bdd
-                SAUF L'ID de la conclusion "vente".
+                SAUF la conclusion "création client".
 */
             $sqlRequest = " SELECT * 
                             FROM `conclusion`
@@ -97,7 +97,7 @@ class Conclusions_Mgr {
 /*
             Prépare la requête SQL et l'enregistre dans une variable =>
             On souhaite ici récupérer : 
-                - l'identifiant du cas "autre" qui servira pour l'ajout de suivi automatique
+                - l'identifiant du cas "création client" qui servira pour l'ajout de suivi automatique
                 lors de l'enregistrement direct d'un client.
 */
             $sqlRequest = " SELECT ID_conclusion 

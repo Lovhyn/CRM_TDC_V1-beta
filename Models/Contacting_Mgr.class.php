@@ -120,38 +120,6 @@ class Contacting_Mgr {
         }  
     }
 //  °°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°
-    public static function createNewContactWhenAddedCustomer(Int $userId, Int $proId, Int $interlocutorId, Int $infosInterlocutorId,
-                                                Int $contactTypeId, Int $conclusionId, String $contactComment, 
-                                                String $lastContact) {
-        try {
-//          Etablit une connexion à la base de données.
-            $PDOconnexion = BddConnexion::getConnexion();
-/*
-            Prépare la requête SQL et l'enregistre dans une variable =>
-            On souhaite ici insérer une nouvelle prise de contact avec rdv dans la bdd. 
-*/
-            $sqlRequest = ' INSERT INTO `suivre` (
-                            `ID_utilisateur`, `ID_professionnel`, `ID_interlocuteur`, `ID_infos_interlocuteur`, `ID_nature`, 
-                            `ID_conclusion`, `commentaire`, `date_derniere_pdc`) 
-                            VALUES (
-                            :userId, :proId, :interlocutorId, :infosInterlocutorId, :contactTypeId, :conclusionId, :contactComment,
-                            :lastContact); ';
-//          Connexion PDO + prépare l'envoi de la requête.
-            $repPDO = $PDOconnexion->prepare($sqlRequest);
-//          Exécute la requête en affectant les valeurs données en paramètres aux étiquettes.
-            $repPDO->execute(array(':userId' => $userId, ':proId' => $proId, ':interlocutorId' => $interlocutorId, 
-                                    ':infosInterlocutorId' => $infosInterlocutorId, ':contactTypeId' => $contactTypeId, 
-                                    ':conclusionId' => $conclusionId, ':contactComment' => $contactComment, 
-                                    ':lastContact' => $lastContact));
-//          Réinitialise le curseur.
-            $repPDO->closeCursor();
-//          Ferme la connexion à la bdd.
-            BddConnexion::disconnect();
-        } catch(Exception $e) {
-            die('Erreur : Accès interdit ou connexion impossible.');
-        }  
-    }
-//  °°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°
     public static function createNewContactRecall(Int $userId, Int $proId, Int $interlocutorId, Int $infosInterlocutorId,
                                                 Int $contactTypeId, Int $conclusionId, String $contactComment, 
                                                 String $lastContact, String $recallDate) {
@@ -176,6 +144,38 @@ class Contacting_Mgr {
                                     ':conclusionId' => $conclusionId, ':contactComment' => $contactComment, 
                                     ':lastContact' => $lastContact,
                                     ':recallDate' => $recallDate));
+//          Réinitialise le curseur.
+            $repPDO->closeCursor();
+//          Ferme la connexion à la bdd.
+            BddConnexion::disconnect();
+        } catch(Exception $e) {
+            die('Erreur : Accès interdit ou connexion impossible.');
+        }  
+    }
+//  °°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°
+    public static function createNewContactWhenAddedCustomer(Int $userId, Int $proId, Int $interlocutorId, Int $infosInterlocutorId,
+                                                Int $contactTypeId, Int $conclusionId, String $contactComment, 
+                                                String $lastContact) {
+        try {
+//          Etablit une connexion à la base de données.
+            $PDOconnexion = BddConnexion::getConnexion();
+/*
+            Prépare la requête SQL et l'enregistre dans une variable =>
+            On souhaite ici insérer une nouvelle prise de contact dans le contexte d'un enregistrement client. 
+*/
+            $sqlRequest = ' INSERT INTO `suivre` (
+                            `ID_utilisateur`, `ID_professionnel`, `ID_interlocuteur`, `ID_infos_interlocuteur`, `ID_nature`, 
+                            `ID_conclusion`, `commentaire`, `date_derniere_pdc`) 
+                            VALUES (
+                            :userId, :proId, :interlocutorId, :infosInterlocutorId, :contactTypeId, :conclusionId, :contactComment,
+                            :lastContact); ';
+//          Connexion PDO + prépare l'envoi de la requête.
+            $repPDO = $PDOconnexion->prepare($sqlRequest);
+//          Exécute la requête en affectant les valeurs données en paramètres aux étiquettes.
+            $repPDO->execute(array(':userId' => $userId, ':proId' => $proId, ':interlocutorId' => $interlocutorId, 
+                                    ':infosInterlocutorId' => $infosInterlocutorId, ':contactTypeId' => $contactTypeId, 
+                                    ':conclusionId' => $conclusionId, ':contactComment' => $contactComment, 
+                                    ':lastContact' => $lastContact));
 //          Réinitialise le curseur.
             $repPDO->closeCursor();
 //          Ferme la connexion à la bdd.
@@ -297,7 +297,7 @@ class Contacting_Mgr {
 /*
             Prépare la requête SQL et l'enregistre dans une variable =>
             On souhaite ici récupérer : 
-                - l'identifiant du dernier enregistrement d'infos_interlocuteur.
+                - l'identifiant du dernier enregistrement dans la table suivre.
 */
             $sqlRequest = " SELECT `AUTO_INCREMENT` FROM INFORMATION_SCHEMA.TABLES 
                             WHERE TABLE_SCHEMA = 'dbs5021355' AND TABLE_NAME = 'suivre'; ";
@@ -325,8 +325,8 @@ class Contacting_Mgr {
 /*
             Prépare la requête SQL et l'enregistre dans une variable =>
             On souhaite ici récupérer : 
-                - l'identifiant du cas "autre" qui servira pour l'ajout de suivi automatique
-                lors de l'enregistrement direct d'un client.
+                - l'identifiant, le commentaire et le libelle de la conclusion d'une prise de contact 
+                dont la date est donnée en paramètre sous forme de valeur unix string.
 */
             $sqlRequest = " SELECT 
                             s.`ID_conclusion`, 

@@ -1,5 +1,6 @@
 <!--$_POST = NOK-->
 <?php
+// var_dump($_POST);
 $unknown = 'Non renseigné';
 $userConnected = (int) $_SESSION['idUser'];
 $rights = (int) $_SESSION['rights'];
@@ -29,7 +30,7 @@ $proId = (int) $_POST['ID_professionnel'];
 ?>
                 <input type="hidden" name="action" value="addedNewContact">
                 <input type="hidden" name="ID_professionnel" value="<?php echo($proId);?>">
-                <input type="hidden" name="ID_utilisateur" value="<?php echo($_POST['ID_utilisateur']);?>">
+                <input type="hidden" name="ID_utilisateur" value="<?php echo($userConnected);?>">
                 <input type="hidden" name="libelle_entreprise" value="<?php echo($_POST['libelle_entreprise']);?>">
 <!---------------------------------------------INTERLOCUTOR--------------------------------------->
                 <div class="align-items-center d-md-flex flex-md-row justify-content-md-around w-md-100

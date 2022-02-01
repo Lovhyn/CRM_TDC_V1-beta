@@ -89,7 +89,7 @@ if ($rights != 1 ) {
                         <input type="hidden" name="prospect_ou_client" value="'.$tProspect['prospect_ou_client'].'">
                         <input type="hidden" name="date_derniere_pdc" value="'.$tProspect['date_derniere_pdc'].'">
                         <input type="hidden" name="action" value="fullInfosPro">
-                        <input class="fullInfosBtn" type="submit" title="Voir fiche détaillée du professionnel" value="'.$tProspect['libelle_entreprise'].'">
+                        <input class="fullInfosBtn" type="submit" title="Voir fiche détaillée du prospect" value="'.$tProspect['libelle_entreprise'].'">
                     </form>
                 </td> 
                 <td>'.$tProspect['nom_decideur'].'</td>';
@@ -213,7 +213,7 @@ if ($rights != 1 ) {
                         <input type="hidden" name="prospect_ou_client" value="'.$tProspect['prospect_ou_client'].'">
                         <input type="hidden" name="date_derniere_pdc" value="'.$tProspect['date_derniere_pdc'].'">
                         <input type="hidden" name="action" value="fullInfosPro">
-                        <input class="fullInfosBtn" type="submit" title="Voir fiche détaillée du professionnel" value="'.$tProspect['libelle_entreprise'].'">
+                        <input class="fullInfosBtn" type="submit" title="Voir fiche détaillée du prospect" value="'.$tProspect['libelle_entreprise'].'">
                     </form>
                 </td> 
                 <td>'.$tProspect['nom_decideur'].'</td>';

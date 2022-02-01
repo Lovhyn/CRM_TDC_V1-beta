@@ -36,7 +36,7 @@ $unknown = 'Non renseigné';
                 echo
                         '<input type="hidden" name="ID_professionnel" value="'.$_POST['ID_professionnel'].'">
                         <input type="hidden" name="libelle_entreprise" value="'.$_POST['libelle_entreprise'].'">
-                        <input type="hidden" name="ID_utilisateur" value="'.$idUserInChargeOfThisPro.'">
+                        <input type="hidden" name="ID_utilisateur" value="'.$userConnected.'">
                         <input type="hidden" name="action" value="addNewContactForm">
                         <button type="submit" title="Enregistrer une nouvelle prise de contact" class="addNewContactIcon">
                             <i class="far fa-comment-dots"></i>
@@ -54,7 +54,7 @@ $unknown = 'Non renseigné';
             '<form class="d-flex justify-content-center mt-3" action="/outils/Controllers/Controller_admin.php" method="post">
                 <input type="hidden" name="ID_professionnel" value="'.$_POST['ID_professionnel'].'">
                 <input type="hidden" name="libelle_entreprise" value="'.$_POST['libelle_entreprise'].'">
-                <input type="hidden" name="ID_utilisateur" value="'.$idUserInChargeOfThisPro.'">
+                <input type="hidden" name="ID_utilisateur" value="'.$userConnected.'">
                 <input type="hidden" name="action" value="addNewContactForm">
                 <button type="submit" title="Enregistrer une nouvelle prise de contact" class="addNewContactIcon">
                     <i class="far fa-comment-dots"></i>
@@ -67,7 +67,7 @@ $unknown = 'Non renseigné';
                 data-toggle="table" data-search="true" data-show-columns="true" data-pagination="true">
             <thead>
                 <tr>
-                    <th data-sortable="true">Contact du :</th>
+                    <th data-sortable="true" class="text-center">Contact du :</th>
                     <th class="text-center" data-sortable="true">entre</th>
                     <th class="text-center">et</th>
                     <th class="text-center">nom</th>
@@ -146,8 +146,22 @@ $unknown = 'Non renseigné';
                         '<td>'.$tProActivity['nom_interlocuteur'].'</td>';
                     }
                 }
-                echo
-                '<td>'.$tProActivity['libelle_nature'].'</td>';
+                if ($tProActivity['ID_nature'] === '1') {
+                    echo
+                    '<td>'.$tProActivity['libelle_nature'].'</td>';
+                } elseif ($tProActivity['ID_nature'] === '2') {
+                    echo
+                    '<td>'.$tProActivity['libelle_nature'].'</td>';
+                } elseif ($tProActivity['ID_nature'] === '3') {
+                    echo
+                    '<td>Téléphone</td>';
+                } elseif ($tProActivity['ID_nature'] === '4') {
+                    echo
+                    '<td>Mail</td>';
+                } else {
+                    echo
+                    '<td>Autre</td>';
+                }
                 if ($tProActivity['contact_interlocuteur'] === '') {
                     echo 
                     '<td>'.$unknown.'</td>';

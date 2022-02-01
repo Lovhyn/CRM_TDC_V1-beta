@@ -96,7 +96,7 @@ class User_Mgr {
             $PDOconnexion = BddConnexion::getConnexion();
 /*
             Prépare la requête SQL et l'enregistre dans une variable =>
-            On souhaite ici mettre à jour un utilisateur dans la base de données. 
+            On souhaite ici mettre à jour le mdp d'un utilisateur dans la base de données. 
 */
             $sqlRequest = ' UPDATE `utilisateur` 
                             SET `mot_de_passe` = :userPassword 
