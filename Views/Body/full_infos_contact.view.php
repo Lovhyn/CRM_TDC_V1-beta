@@ -6,31 +6,28 @@ $rights = (int) $_SESSION['rights'];
 ?>
 <div class="container">
 <hr>
-    <div class="container container d-flex justify-content-center">
-        <fieldset class="fieldsetManagement">
-            <legend class="fw-bold d-flex justify-content-center mb-5">Détail de la prise de contact :</legend>
+    <div class="container d-flex justify-content-center">
+        <fieldset class="fieldsetManagement ps-1 pe-1">
+            <legend class="fw-bold d-flex justify-content-center mb-4">Détail de la prise de contact :</legend>
                 <div class="d-flex justify-content-center">
                     <div class="w-50 text-center">
 <!--------------------------------------------DATE------------------------------------------------>              
-                        <div class="mb-3">
+                        <div class="mb-2">
                             <label id="infosContact" class="form-label">Contact effectué le :</label>
                                 <span class="infosContact"><?php echo(Dates_Mgr::dateFormatDayMonthYear($_POST['date_derniere_pdc']));?></span>
-                            <hr>
                         </div>
 <!-----------------------------------------FOLLOWED BY-------------------------------------------->
-                        <div class="mb-3">
+                        <div class="mb-2">
                             <label id="infosContact" class="form-label">Par :</label>
                                 <span class="infosContact"><?php echo($_POST['prenom'] . ' ' . $_POST['nom']);?></span>
-                            <hr>
                         </div>
 <!----------------------------------------INTERLOCUTOR TYPE--------------------------------------->
-                        <div class="mb-3">
+                        <div class="mb-2">
                             <label id="infosContact" class="form-label">Type d'interlocuteur  :</label>
                                 <span class="infosContact"><?php echo($_POST['libelle_interlocuteur']);?></span>
-                            <hr>
                         </div>
 <!----------------------------------------INTERLOCUTOR NAME--------------------------------------->
-                        <div class="mb-3">
+                        <div class="mb-2">
                             <label id="infosContact" class="form-label">Nom de l'interlocuteur :</label>
 <?php 
                         if ($_POST['ID_interlocuteur'] === '1') {
@@ -55,47 +52,42 @@ $rights = (int) $_SESSION['rights'];
                             }
                         }
 ?>
-                            <hr>
                         </div>
 <!-----------------------------------------CONTACT TYPE------------------------------------------->
-                        <div class="mb-3">
+                        <div class="mb-2">
                             <label id="infosContact" class="form-label">Nature du contact :</label>
                                 <span class="infosContact"><?php echo($_POST['libelle_nature']);?></span>
-                            <hr>
                         </div>
 <!-----------------------------------------CONTACT TYPE------------------------------------------->
 <?php
                 if (($_POST['ID_nature'] === '3') OR ($_POST['ID_nature'] === '4')) {
                     if ($_POST['contact_interlocuteur'] != '') {
 ?>
-                        <div class="mb-3">
+                        <div class="mb-2">
                             <label id="infosContact" class="form-label">Contacté au / à :</label>
                                 <span class="infosContact"><?php echo($_POST['contact_interlocuteur']);?></span>
-                            <hr>
                         </div>
 <?php
                     } else {
 ?>
-                        <div class="mb-3">
+                        <div class="mb-2">
                             <label id="infosContact" class="form-label">Contacté au / à :</label>
                                 <span class="infosContact"><?php echo($unknown);?></span>
-                            <hr>
                         </div>
 <?php
                     }
                 }
 ?>
 <!------------------------------------------CONCLUSION-------------------------------------------->
-                        <div class="mb-3">
+                        <div class="mb-2">
                             <label id="infosContact" class="form-label">Conclusion :</label>
                                 <span class="infosContact"><?php echo($_POST['libelle_conclusion']);?></span>
-                            <hr>
                         </div>
 <!-----------------------------------------MEETING DATE------------------------------------------->
 <?php
                     if ($_POST['date_rdv'] != '') {
 ?>
-                        <div class="mb-3">
+                        <div class="mb-2">
                             <label id="infosContact" class="form-label">Rendez-vous le :</label>
                                 <span class="infosContact"><?php echo(Dates_Mgr::dateFormatDayMonthYearHourMinutesSeconds($_POST['date_rdv']));?></span>
                             <hr>
@@ -103,7 +95,7 @@ $rights = (int) $_SESSION['rights'];
 <?php
                     } else {
 ?>
-                        <div class="mb-3">
+                        <div class="mb-2">
                             <label id="infosContact" class="form-label">Relance prévue le :</label>
                                 <span class="infosContact"><?php echo(Dates_Mgr::dateFormatDayMonthYear($_POST['date_relance']));?></span>
                             <hr>
@@ -112,7 +104,7 @@ $rights = (int) $_SESSION['rights'];
                     }
 ?>
 <!-------------------------------------------COMMENTAIRE------------------------------------------>
-                        <div class="mb-3 text-center">
+                        <div class="mb-2 text-center">
 
 <?php
                         if ($_POST['commentaire'] === "") {
