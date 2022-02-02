@@ -2,6 +2,9 @@
 <?php
 $userConnected = (int) $_SESSION['idUser'];
 $rights = (int) $_SESSION['rights'];
+if (isset($_POST['selectedUser'])) {
+    $_SESSION['filterByUser'] = $_POST['selectedUser'];
+} 
 ?>
 <div class="container">
 <hr>
@@ -29,6 +32,43 @@ if ($rights != 1 ) {
         </form>';
 ?>
     <div class="table-responsive">
+        <div class="mt-4 filters w-100 d-flex justify-content-evenly">
+<?php
+        $tUsers = User_Mgr::getUndetailledUsersList();
+?>
+            <div>
+<?php
+                if ($rights === 1) {
+                    echo
+                        '<form action="/outils/Controllers/Controller_admin.php" method="post">';
+                } elseif ($rights === 2) {
+                    echo
+                        '<form action="/outils/Controllers/Controller_responsable.php" method="post">';
+                } else {
+                    echo
+                        '<form action="/outils/Controllers/Controller_cdp.php" method="post">';
+                }
+?>
+                    <input type="hidden" name="action" value="clientsListing">
+                    <select class="form-select" name="selectedUser" id="USERFILTER" onchange="this.form.submit()">
+                        <option selected value="00">Aucun filtre :</option>
+<?php 
+//              Permet le maintien en "selected" du filtrage par nom séléctionné par l'utilisateur.
+//              Puis génère la liste des utilisateurs dans la select-box.
+                foreach($tUsers as $tUser) {
+                    echo '<option ';
+                    if (($_SESSION['filterByUser']) AND ($_SESSION['filterByUser'] != '00')) {
+                        if ((int) $tUser['ID_utilisateur'] === (int) $_SESSION['filterByUser']) {
+                            echo ' selected';
+                        } 
+                    }
+                    echo ' value="'.$tUser['ID_utilisateur'].'">'.$tUser['nom'].' '.$tUser['prenom'].'</option>';
+                }
+?>
+                    </select>
+                </form>
+            </div>
+        </div>
         <table class="table table-hover table-striped table-dark mt-3 w-auto" 
                 data-toggle="table" data-search="true" data-show-columns="true" data-pagination="true">
             <thead>
@@ -45,8 +85,12 @@ if ($rights != 1 ) {
                 </tr>
             </thead>
 <?php
-//      Récupère la liste de tous les prospects enregistrés dans la BDD.
-        $tCustomers = Pro_Mgr::getFullCustomersList();
+//      Récupère la liste des clients selon le paramétrage du filtre.
+        if (isset($_SESSION['filterByUser']) AND ($_SESSION['filterByUser'] != "00")) {
+            $tCustomers = Pro_Mgr::getFilteredClientsListByUser((int) $_SESSION['filterByUser']);
+        } else {
+            $tCustomers = Pro_Mgr::getFullCustomersList();
+        }
         foreach($tCustomers as $tCustomer) {
             $tInfosLastContact = Contacting_Mgr::getInfosContactWhereDateIs($tCustomer['date_derniere_pdc']);
 //°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°

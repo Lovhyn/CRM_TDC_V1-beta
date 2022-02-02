@@ -26,6 +26,7 @@ $rights = (int) $_SESSION['rights'];
     } 
 ?>
             <input type="hidden" name="currentProId" value="<?php echo($_POST['ID_professionnel']);?>">
+            <input type="hidden" name="prospect_ou_client" value="<?php echo($_POST['prospect_ou_client']);?>">
             <input type="hidden" name="action" value="updatedPro">
             <div class="mb-3">
                 <label for="MAJPRONAME" class="form-label">Nom (entreprise) :</label>

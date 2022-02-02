@@ -347,10 +347,17 @@
                                         $newSecondaryPhone, $newMail, $newMainAdress, 
                                         $newSecondaryAdress, $newCp, $newCity, $newObservation,
                                         $proToUpdate, $newFollowedBy);
-                require($header);
-                require($prospectListing);
-                require($footer);
-                break;
+                if ((int) $_POST['prospect_ou_client'] > 0) {
+                    require($header);
+                    require($clientsListing);
+                    require($footer);
+                    break;
+                } else {
+                    require($header);
+                    require($prospectListing);
+                    require($footer);
+                    break;
+                }
 //          CREATE => [FORM]
             case 'addNewContactForm' : 
                 require($header);

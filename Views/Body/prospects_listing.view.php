@@ -48,7 +48,6 @@ if ($rights != 1 ) {
                     '<form action="/outils/Controllers/Controller_cdp.php" method="post">';
             }
 ?>
-            
                 <input type="hidden" name="action" value="prospectsListing">
                 <select class="form-select" name="selectedUser" id="USERFILTER" onchange="this.form.submit()">
                     <option selected value="00">Aucun filtre :</option>
@@ -82,7 +81,7 @@ if ($rights != 1 ) {
                 </tr>
             </thead>
 <?php
-//      Récupère la liste de tous les prospects enregistrés dans la BDD.
+//      Récupère la liste des prospects selon le paramétrage du filtre.
         if (isset($_SESSION['filterByUser']) AND ($_SESSION['filterByUser'] != "00")) {
             $tProspects = Pro_Mgr::getFilteredProspectsListByUser((int) $_SESSION['filterByUser']);
         } else {
