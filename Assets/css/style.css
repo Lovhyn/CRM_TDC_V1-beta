@@ -273,10 +273,25 @@ thead th {
     .form-control.search-input {
         width: 100%;
     }
+    #filterByUser {
+        margin-bottom: 8px;
+        margin-left: 4px;
+        margin-right: 4px;
+    }
+    #filterStartDate {
+        margin-bottom: 8px;
+        margin-left: 4px;
+        margin-right: 4px;
+    }
+    #filterEndDate {
+        margin-bottom: 8px;
+        margin-left: 4px;
+        margin-right: 4px;
+    }
 } 
 /*-----------------------------------STOP Mobile => 400px // START TABLET => 700px---------------*/
 /*Tablets---------------------------------------------------------------------------------------*/
-@media screen and (max-width: 700px) and (min-width :401px){
+@media screen and (max-width: 767px) and (min-width :401px){
     .resizeImg {
         height: 55px;
         width: 50px;
@@ -290,16 +305,43 @@ thead th {
     .form-control.search-input {
         width: 100%;
     }
+    #filterByUser {
+        margin-bottom: 8px;
+        margin-left: 4px;
+        margin-right: 4px;
+    }
+    #filterStartDate {
+        margin-bottom: 8px;
+        margin-left: 4px;
+        margin-right: 4px;
+    }
+    #filterEndDate {
+        margin-bottom: 8px;
+        margin-left: 4px;
+        margin-right: 4px;
+    }
 }
 /*-----------------------------------STOP Tablets => 700px // Go Full Screen => 2500px-----------*/
 /*Full Screen-----------------------------------------------------------------------------------*/
-@media screen and (max-width: 2500px) and (min-width :701px){
+@media screen and (max-width: 2500px) and (min-width :767px){
     .resizeImg {
         height: 75px;
         width: 70px;
     }
     .resizeImg:hover {
         transform: scale(1.1);
+    }
+    #filterByUser {
+        margin-left: 4px;
+        margin-right: 4px;
+    }
+    #filterStartDate {
+        margin-left: 4px;
+        margin-right: 4px;
+    }
+    #filterEndDate {
+        margin-left: 4px;
+        margin-right: 4px;
     }
 }
 /*-----------------------------------STOP Full Screen => 2560px // Go Big Screen => 12000px------*/
@@ -311,6 +353,18 @@ thead th {
     }
     .resizeImg:hover {
         transform: scale(1.1);
+    }
+    #filterByUser {
+        margin-left: 4px;
+        margin-right: 4px;
+    }
+    #filterStartDate {
+        margin-left: 4px;
+        margin-right: 4px;
+    }
+    #filterEndDate {
+        margin-left: 4px;
+        margin-right: 4px;
     }
 }
 

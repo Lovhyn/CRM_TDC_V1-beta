@@ -2,7 +2,7 @@
 require_once("../Models/_BddConnexion.class.php");
 class Dates_Mgr {
 //  °°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°
-//  Permet d'obtenir la valeur UNIX du moment présent en chaîne de caractère 
+//  Permet d'obtenir la valeur UNIX du moment présent en chaîne de caractère.
     public static function nowToUnixString() {
         return (string) time();
     }
@@ -28,10 +28,6 @@ class Dates_Mgr {
             $dayMonthYear = gmdate('d/m/Y', $paramDate);
         }
         return $dayMonthYear;
-    }
-//  °°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°
-    public static function addIntervalToDate(){
-
     }
 }
 ?>

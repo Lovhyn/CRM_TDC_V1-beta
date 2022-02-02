@@ -32,38 +32,58 @@ if ($rights != 1 ) {
         </form>';
 ?>
     <div class="table-responsive">
-        <div class="mt-4 filters w-100 d-flex justify-content-evenly">
+        <div class="mt-4 filters w-100 d-flex justify-content-center">
 <?php
         $tUsers = User_Mgr::getUndetailledUsersList();
 ?>
+            <div class="w-100 d-md-flex flex-md-row justify-content-md-between
+                            d-xs-flex flex-xs-column justify-content-xs-start">
+                <div id="filterByUser">
 <?php
-            if ($rights === 1) {
-                echo
-                    '<form action="/outils/Controllers/Controller_admin.php" method="post">';
-            } elseif ($rights === 2) {
-                echo
-                    '<form action="/outils/Controllers/Controller_responsable.php" method="post">';
-            } else {
-                echo
-                    '<form action="/outils/Controllers/Controller_cdp.php" method="post">';
-            }
+                    if ($rights === 1) {
+                        echo
+                            '<form action="/outils/Controllers/Controller_admin.php" method="post">';
+                    } elseif ($rights === 2) {
+                        echo
+                            '<form action="/outils/Controllers/Controller_responsable.php" method="post">';
+                    } else {
+                        echo
+                            '<form action="/outils/Controllers/Controller_cdp.php" method="post">';
+                    }
 ?>
-                <input type="hidden" name="action" value="prospectsListing">
-                <select class="form-select" name="selectedUser" id="USERFILTER" onchange="this.form.submit()">
-                    <option selected value="00">Aucun filtre :</option>
+                        <input type="hidden" name="action" value="prospectsListing">
+                        <label for="USERFILTER">Suivi par :</label>
+                        <select class="form-select" name="selectedUser" id="USERFILTER" onchange="this.form.submit()">
+                            <option selected value="00">Aucun filtre :</option>
 <?php 
-        foreach($tUsers as $tUser) {
-            echo  '<option ';
-            if (($_SESSION['filterByUser']) AND ($_SESSION['filterByUser'] != '00')) {
-                if ((int) $tUser['ID_utilisateur'] === (int) $_SESSION['filterByUser']) {
-                    echo ' selected';
-                } 
-            }
-            echo ' value="'.$tUser['ID_utilisateur'].'">'.$tUser['nom'].' '.$tUser['prenom'].'</option>';
-        }
+//                  Permet le maintien en "selected" du filtrage par nom séléctionné par l'utilisateur.
+//                  Puis génère la liste des utilisateurs dans la select-box.
+                    foreach($tUsers as $tUser) {
+                        echo  '<option ';
+                        if (($_SESSION['filterByUser']) AND ($_SESSION['filterByUser'] != '00')) {
+                            if ((int) $tUser['ID_utilisateur'] === (int) $_SESSION['filterByUser']) {
+                                echo ' selected';
+                            } 
+                        }
+                        echo ' value="'.$tUser['ID_utilisateur'].'">'.$tUser['nom'].' '.$tUser['prenom'].'</option>';
+                    }
 ?>
-                </select>
-            </form>
+                        </select>
+                    </form>
+                </div>
+                <div id="filterStartDate">
+                    <form action="" method="post">
+                        <label for="STARTDATE">Entre : </label>
+                        <input class="form-select" type="date" name="startFilterDate" id="STARTDATE">
+                    </form>
+                </div>
+                <div id="filterEndDate">
+                    <form action="" method="post">
+                        <label for="STARTDATE">Et :</label>
+                        <input class="form-select" type="date" name="endFilterDate" id="STARTDATE">
+                    </form>
+                </div>
+            </div>
         </div>
         <table class="table table-hover table-striped table-dark w-auto" 
                 data-toggle="table" data-search="true" data-show-columns="true" data-pagination="true">
