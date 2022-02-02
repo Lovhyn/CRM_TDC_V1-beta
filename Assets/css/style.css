@@ -117,10 +117,20 @@ h1, h2, h3, h4, h5, h6, span {
     background-color: #21252900;
 }
 .phoneIcon a {
-    color: #e98f46;
+    color: #ffb85c;
 }
 .phoneIcon a:hover {
     color: #2ffc6c;
+}
+.mapIcon {
+    border: none;
+    background-color: #21252900;
+}
+.mapIcon a {
+    color: #59ffba;
+}
+.mapIcon a:hover {
+    color: #cd44f7;
 }
 .addUserIcon, .addConclusionBtn, .addAreaActivityBtn, .addNewProspectIcon, .addNewClientIcon, .addNewContactIcon {
     border: none;
@@ -150,7 +160,7 @@ table input, table a {
     color: #D94190;
     background-color: #21252900
 } */
-.updIcon:hover, .delIcon:hover, .addUserIcon:hover, .addAreaActivityBtn:hover, .addConclusionBtn:hover, .validIcon:hover, .followIcon:hover, .phoneIcon:hover {
+.updIcon:hover, .delIcon:hover, .addUserIcon:hover, .addAreaActivityBtn:hover, .addConclusionBtn:hover, .validIcon:hover, .followIcon:hover, .phoneIcon:hover, .mapIcon:hover {
     transform: scale(1.3);
 }
 #newActivityAreaForm {

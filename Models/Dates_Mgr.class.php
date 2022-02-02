@@ -14,18 +14,22 @@ class Dates_Mgr {
 //  °°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°
 //  Retourne la date donnée en paramètre au format : "jj/mm/yyyy hh:mm".
     public static function dateFormatDayMonthYearHourMinutesSeconds(String $paramDate) {
-        $paramDate = (int) $paramDate;
-        $dayMonthYearHourMinutesSeconds = date('d/m/Y \ à \ H:i', $paramDate);
+        if (is_null($paramDate) OR (empty($paramDate)) OR ($paramDate === '')) {
+            $dayMonthYearHourMinutesSeconds = '';
+        } else {
+            $paramDate = (int) $paramDate;
+            $dayMonthYearHourMinutesSeconds = date('d/m/Y \ à \ H:i', $paramDate);
+        } 
         return $dayMonthYearHourMinutesSeconds;
     }
 //  °°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°
 //  Retourne la date donnée en paramètre au format : "jj/mm/yyyy".
     public static function dateFormatDayMonthYear($paramDate) {
-        if (is_null($paramDate)) {
+        if (is_null($paramDate) OR (empty($paramDate)) OR ($paramDate === '')) {
             $dayMonthYear = '';
         } else {
             $paramDate = (int) $paramDate;
-            $dayMonthYear = gmdate('d/m/Y', $paramDate);
+            $dayMonthYear = date('d/m/Y', $paramDate);
         }
         return $dayMonthYear;
     }

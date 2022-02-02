@@ -353,5 +353,47 @@ class Contacting_Mgr {
             die('Erreur : Accès interdit ou connexion impossible.');
         }            
     }
-
+//  °°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°
+    public static function getAllPlannedMeetings(Int $paramUser) {
+        try {
+//          Etablit une connexion à la base de données.
+            $PDOconnexion = BddConnexion::getConnexion();
+/*
+            Prépare la requête SQL et l'enregistre dans une variable =>
+            On souhaite ici récupérer un ensemble d'informations pour le widget de rappels de rendez-vous.
+*/
+            $sqlRequest = " SELECT 
+                            s.`date_rdv`,
+                            s.`ID_professionnel`, 
+                            s.`ID_utilisateur`,
+                            s.`date_derniere_pdc`,
+                            s.`commentaire`,
+                            p.`libelle_entreprise`,
+                            p.`nom_decideur`,
+                            p.`tel`,
+                            p.`adresse`,
+                            p.`cp`,
+                            p.`ville`
+                            FROM suivre s
+                            INNER JOIN professionnel p ON p.`ID_professionnel` = s.`ID_professionnel`
+                            WHERE `date_rdv` IS NOT NULL
+                            AND s.ID_utilisateur = :paramUser ; ";
+//          Connexion PDO + prépare l'envoi de la requête.
+            $repPDO = $PDOconnexion->prepare($sqlRequest);
+//          Exécute la requête en affectant les valeurs données en paramètres aux étiquettes.
+            $repPDO->execute(array(':paramUser' => $paramUser));
+//          On définit sous quelle forme nous souhaitons récupérer le résultat.
+            $repPDO->setFetchMode(PDO::FETCH_ASSOC);
+//          On récupère le résultat de la requête sous la forme d'un tableau associatif.
+            $records = $repPDO->fetchAll();
+//          Réinitialise le curseur.
+            $repPDO->closeCursor();
+//          Ferme la connexion à la bdd.
+            BddConnexion::disconnect();
+//          Puis on retourne ce tableau.
+            return $records;
+        } catch(Exception $e) {
+            die('Erreur : Accès interdit ou connexion impossible.');
+        }            
+    }
 }
