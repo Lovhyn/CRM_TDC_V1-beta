@@ -104,12 +104,12 @@ h1, h2, h3, h4, h5, h6, span {
 }
 .delIcon {
     border: none;
-    color: #fca522;
+    color: #fc8422;
     background-color: #21252900;
 }
 .followIcon {
     border: none;
-    color: #ffe96c;
+    color: #fdd85e;
     background-color: #21252900;
 }
 .phoneIcon {
@@ -117,7 +117,7 @@ h1, h2, h3, h4, h5, h6, span {
     background-color: #21252900;
 }
 .phoneIcon a {
-    color: #ffb85c;
+    color: #ff993a;
 }
 .phoneIcon a:hover {
     color: #2ffc6c;

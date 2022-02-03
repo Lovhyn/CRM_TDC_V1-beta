@@ -20,7 +20,7 @@ class Dates_Mgr {
             $paramDate = (int) $paramDate;
             $dayMonthYearHourMinutesSeconds = date('d/m/Y \ à \ H:i', $paramDate);
         } 
-        return $dayMonthYearHourMinutesSeconds;
+        return (string) $dayMonthYearHourMinutesSeconds;
     }
 //  °°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°
 //  Retourne la date donnée en paramètre au format : "jj/mm/yyyy".
@@ -31,7 +31,7 @@ class Dates_Mgr {
             $paramDate = (int) $paramDate;
             $dayMonthYear = date('d/m/Y', $paramDate);
         }
-        return $dayMonthYear;
+        return (string) $dayMonthYear;
     }
 }
 ?>

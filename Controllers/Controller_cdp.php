@@ -29,6 +29,7 @@
         $addNewContactForm = "../Views/Body/add_new_contact.view.php";
         $clientsListing = "../Views/Body/clients_listing.view.php";
         $addNewClientForm = "../Views/Body/add_new_client.view.php";
+        $updateContactForm = "../Views/Body/updateContactForm.view.php";
 //      -------------------------------------------------------------------------------------------
 //      --------------------------------------Switch $action---------------------------------------
 //      -------------------------------------------------------------------------------------------
@@ -508,15 +509,62 @@
                 require($proActivity);
                 require($footer);
                 break;
-            case 'myContactRecalls' :
-                require("../Views/Header/header_cdp.view.php");
-                require("../Views/Body/my_contact_recalls.view.php");
-                require("../Views/Footer/footer.view.php");
+            case 'updateContact' :
+                require($header);
+                require($updateContactForm);
+                require($footer);
                 break;
-            case 'myMeetingRecalls' :
-                require("../Views/Header/header_cdp.view.php");
-                require("../Views/Body/my_meeting_recalls.view.php");
-                require("../Views/Footer/footer.view.php");
+            case 'updatedContact' :
+                $idContact = (int) $_POST['ID_suivre'];
+                $oldComment = $_POST['commentaire'];
+                if (isset($_POST['majRecallCalendar'])) {
+                    if (($_POST['majRecallCalendar'] != NULL) AND ($_POST['majRecallCalendar']!= '')) {
+//                      On convertit la date saisie depuis le calendrier de mise à jour en UNIX.
+                        $newDate = Dates_Mgr::paramToUnixString($_POST['majRecallCalendar']);
+//                      On récupère la valeur UNIX du moment présent.
+                        $today = Dates_Mgr::nowToUnixString();
+/*
+                        On détermine que la mise à jour ne sera faite que si et seulement si
+                        le jour de relance choisi par l'utilisateur est ultérieur ou égal 
+                        à la date du jour.  
+*/                      
+                        if ($newDate > $today) {
+                            Contacting_Mgr::updateRecallDate($newDate, $idContact);
+                            $msg = '<div class="text-center" style="color: #46ec4e">La date de relance a bien été modifiée !</div>';
+                        } else {
+                            $msg = '<div class="text-center" style="color: #E84E0E">Erreur : La date saisie ne doit pas être antérieure ou égale à celle d\'aujourd\'hui.</div>';
+                        }
+                    } 
+                } elseif (isset($_POST['majMeetingCalendar'])) {
+                    if (($_POST['majMeetingCalendar'] != NULL) AND ($_POST['majMeetingCalendar'] != '')) {
+//                      On convertit la date saisie depuis le calendrier de mise à jour en UNIX.
+                        $newDate = Dates_Mgr::paramToUnixString($_POST['majMeetingCalendar']);
+//                      On récupère la valeur UNIX du moment présent.
+                        $now = Dates_Mgr::nowToUnixString();
+/*
+                        On détermine que la mise à jour ne sera faite que si et seulement si
+                        le jour de rdv choisi par l'utilisateur est ultérieur ou égal 
+                        à la date du jour.  
+*/    
+                        if ($newDate > $now) {
+                            if (isset($_POST['oldDate'])) {
+                                $oldDateUnix = (String) $_POST['oldDate'];
+                                $oldDate = Dates_Mgr::dateFormatDayMonthYear($oldDateUnix);
+                            } else {
+                                $oldDate = '';
+                            }
+                            $newComment = '(Rendez-vous du '.$oldDate.' décalé)'.' - '.$oldComment.'';
+                            Contacting_Mgr::updateMeetingDate($newComment, $newDate, $idContact);
+                            $msg = '<div class="text-center" style="color: #46ec4e">La date de rendez-vous a bien été modifiée !</div>';
+                        } else {
+                            $msg = '<div class="text-center" style="color: #E84E0E">Erreur : La date saisie ne doit pas être antérieure ou égale à celle d\'aujourd\'hui.</div>';
+                        }
+                    }
+                }
+                require($header);
+                echo($msg);
+                require($proActivity);
+                require($footer);
                 break;
         }
     } else header('Location: ../index.php');

@@ -34,6 +34,7 @@
         $updateUserForm = "../Views/Body/update_user.view.php";
         $activityAreaManagement = "../Views/Body/activity_area_management.view.php";
         $conclusionsManagement = "../Views/Body/conclusions_management.view.php";
+        $updateContactForm = "../Views/Body/updateContactForm.view.php";
 //      -------------------------------------------------------------------------------------------
 //      --------------------------------------Switch $action---------------------------------------
 //      -------------------------------------------------------------------------------------------
@@ -505,6 +506,11 @@
                 require($header);  
                 echo($msg);
                 require($proActivity);
+                require($footer);
+                break;
+            case 'updateContact' :
+                require($header);
+                require($updateContactForm);
                 require($footer);
                 break;
 //          ********************************** MANAGEMENT USER ************************************

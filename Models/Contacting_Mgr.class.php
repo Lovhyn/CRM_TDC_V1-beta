@@ -224,6 +224,7 @@ class Contacting_Mgr {
             - la liste de tous les suivis enregistrés pour un professionnel.
 */
             $sqlRequest = " SELECT 
+                            s.`ID_suivre`,
                             s.`date_derniere_pdc`, 
                             s.`ID_utilisateur`, CONCAT(SUBSTRING(u.`nom`, 1, 1), '.', u.`prenom`) as `suivi`,
                             u.`nom`, u.`prenom`, 
@@ -382,6 +383,103 @@ class Contacting_Mgr {
             $repPDO = $PDOconnexion->prepare($sqlRequest);
 //          Exécute la requête en affectant les valeurs données en paramètres aux étiquettes.
             $repPDO->execute(array(':paramUser' => $paramUser));
+//          On définit sous quelle forme nous souhaitons récupérer le résultat.
+            $repPDO->setFetchMode(PDO::FETCH_ASSOC);
+//          On récupère le résultat de la requête sous la forme d'un tableau associatif.
+            $records = $repPDO->fetchAll();
+//          Réinitialise le curseur.
+            $repPDO->closeCursor();
+//          Ferme la connexion à la bdd.
+            BddConnexion::disconnect();
+//          Puis on retourne ce tableau.
+            return $records;
+        } catch(Exception $e) {
+            die('Erreur : Accès interdit ou connexion impossible.');
+        }            
+    }
+//  °°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°
+    public static function getUpdatableContactByIdPro(Int $paramIdPro) {
+        try {
+//          Etablit une connexion à la base de données.
+            $PDOconnexion = BddConnexion::getConnexion();
+/*
+            Prépare la requête SQL et l'enregistre dans une variable =>
+            On souhaite ici récupérer la date de la dernière prise de contact effectuée
+            avec un professionnel où la conclusion obtenue n'est pas "Création client".
+*/
+            $sqlRequest = " SELECT MAX(`date_derniere_pdc`) AS 'last_pdc'
+                            FROM suivre 
+                            WHERE `ID_professionnel` = :paramIdPro AND `ID_conclusion` <> 21; ";
+//          Connexion PDO + prépare l'envoi de la requête.
+            $repPDO = $PDOconnexion->prepare($sqlRequest);
+//          Exécute la requête en affectant les valeurs données en paramètres aux étiquettes.
+            $repPDO->execute(array(':paramIdPro' => $paramIdPro));
+//          On définit sous quelle forme nous souhaitons récupérer le résultat.
+            $repPDO->setFetchMode(PDO::FETCH_ASSOC);
+//          On récupère le résultat de la requête sous la forme d'un tableau associatif.
+            $records = $repPDO->fetchAll();
+//          Réinitialise le curseur.
+            $repPDO->closeCursor();
+//          Ferme la connexion à la bdd.
+            BddConnexion::disconnect();
+//          Puis on retourne ce tableau.
+            return $records;
+        } catch(Exception $e) {
+            die('Erreur : Accès interdit ou connexion impossible.');
+        }            
+    }
+//  °°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°
+    public static function updateMeetingDate(String $paramComment, String $paramDate, Int $paramIdContact) {
+        try {
+//          Etablit une connexion à la base de données.
+            $PDOconnexion = BddConnexion::getConnexion();
+/*
+            Prépare la requête SQL et l'enregistre dans une variable =>
+            On souhaite ici mettre à jour une prise de contact dans le cas où l'utilisateur 
+            est amené à changer la date d'un rendez-vous.
+*/
+            $sqlRequest = " UPDATE `suivre`
+                            SET `commentaire` = :paramComment, 
+                                `date_rdv` = :paramDate
+                            WHERE `ID_suivre` = :paramIdContact ; ";
+//          Connexion PDO + prépare l'envoi de la requête.
+            $repPDO = $PDOconnexion->prepare($sqlRequest);
+//          Exécute la requête en affectant les valeurs données en paramètres aux étiquettes.
+            $repPDO->execute(array(':paramComment' => $paramComment,
+                                    ':paramDate' => $paramDate,
+                                    ':paramIdContact' => $paramIdContact));
+//          On définit sous quelle forme nous souhaitons récupérer le résultat.
+            $repPDO->setFetchMode(PDO::FETCH_ASSOC);
+//          On récupère le résultat de la requête sous la forme d'un tableau associatif.
+            $records = $repPDO->fetchAll();
+//          Réinitialise le curseur.
+            $repPDO->closeCursor();
+//          Ferme la connexion à la bdd.
+            BddConnexion::disconnect();
+//          Puis on retourne ce tableau.
+            return $records;
+        } catch(Exception $e) {
+            die('Erreur : Accès interdit ou connexion impossible.');
+        }            
+    }
+//  °°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°
+    public static function updateRecallDate(String $paramDate, Int $paramIdContact) {
+        try {
+//          Etablit une connexion à la base de données.
+            $PDOconnexion = BddConnexion::getConnexion();
+/*
+            Prépare la requête SQL et l'enregistre dans une variable =>
+            On souhaite ici mettre à jour une prise de contact dans le cas où l'utilisateur 
+            est amené à changer la date d'une relance.
+*/
+            $sqlRequest = " UPDATE `suivre`
+                            SET `date_relance` = :paramDate
+                            WHERE `ID_suivre` = :paramIdContact ; ";
+//          Connexion PDO + prépare l'envoi de la requête.
+            $repPDO = $PDOconnexion->prepare($sqlRequest);
+//          Exécute la requête en affectant les valeurs données en paramètres aux étiquettes.
+            $repPDO->execute(array(':paramDate' => $paramDate,
+                                    ':paramIdContact' => $paramIdContact));
 //          On définit sous quelle forme nous souhaitons récupérer le résultat.
             $repPDO->setFetchMode(PDO::FETCH_ASSOC);
 //          On récupère le résultat de la requête sous la forme d'un tableau associatif.

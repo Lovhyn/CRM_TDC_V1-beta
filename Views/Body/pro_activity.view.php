@@ -3,7 +3,7 @@
 // var_dump($_POST);
 $userConnected = (int) $_SESSION['idUser'];
 $rights = (int) $_SESSION['rights'];
-$unknown = 'Non renseigné';
+$unknown = ' - ';
 ?>
 <div class="container">
 <hr>
@@ -11,18 +11,18 @@ $unknown = 'Non renseigné';
         <h2 >Suivi de <?php echo($_POST['libelle_entreprise']);?></h2>
     </div>
 <?php
-//°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°
-
-//  Si l'utilisateur n'est pas un administrateur
-
-//°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°
-    if ($rights != 1) {
 /*      
         Un chargé de projet ne peut ajouter une prise de contact sur un 
         prospect / client que s'il est en charge du suivi de ce dernier.
 */
         $userInChargeOfThisPro = Pro_Mgr::checkWhichUserIsInChargeOfThisPro((int) $_POST['ID_professionnel']);
         $idUserInChargeOfThisPro = (int) $userInChargeOfThisPro[0]['ID_utilisateur'];
+//°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°
+
+//  Si l'utilisateur n'est pas un administrateur
+
+//°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°
+    if ($rights != 1) {
         if ($idUserInChargeOfThisPro === (int) $_POST['ID_utilisateur']) {
             if ($userConnected === (int) $_POST['ID_utilisateur']) {
 //          Si l'utilisateur est un responsable ou un chargé de projet, affiche =>
@@ -76,29 +76,26 @@ $unknown = 'Non renseigné';
                     <th class="text-center" data-sortable="true">s'est conclu par</th>
                     <th class="text-center" data-sortable="true">Rendez-vous</th>
                     <th class="text-center" data-sortable="true">Relance prévue</th>
+                    <th class="text-center"></th>
                 </tr>
             </thead>
 <?php
 //      Récupère la liste des prospects de l'utilisateur connecté.
         $proId = (int) $_POST['ID_professionnel'];
         $tProActivities = Contacting_Mgr::getProActivity($proId);
-        // var_dump($tProspectActivities);
+// var_dump($tProActivities);
         foreach($tProActivities as $tProActivity) {
             echo
             '<tr>
                 <td>';
             if ($rights === 1) {
-                echo
-                    '<form action="/outils/Controllers/Controller_admin.php" method="post">';
+                echo'<form action="/outils/Controllers/Controller_admin.php" method="post">';
             } elseif ($rights === 2) {
-                echo
-                    '<form action="/outils/Controllers/Controller_responsable.php" method="post">';
+                echo'<form action="/outils/Controllers/Controller_responsable.php" method="post">';
             } else {
-                echo
-                    '<form action="/outils/Controllers/Controller_cdp.php" method="post">';
+                echo'<form action="/outils/Controllers/Controller_cdp.php" method="post">';
             }
-                echo
-                        '<input type="hidden" name="ID_professionnel" value="'.$tProActivity['ID_professionnel'].'">
+                echo    '<input type="hidden" name="ID_professionnel" value="'.$tProActivity['ID_professionnel'].'">
                         <input type="hidden" name="libelle_entreprise" value="'.$tProActivity['libelle_entreprise'].'">
                         <input type="hidden" name="nom_decideur" value="'.$tProActivity['nom_decideur'].'">
                         <input type="hidden" name="tel" value="'.$tProActivity['tel'].'">
@@ -129,51 +126,88 @@ $unknown = 'Non renseigné';
                 Si l'utilisateur a eu un contact avec le décideur, on affiche directement le nom du décideur.
                 Si le nom du décideur n'a pas été renseigné dans la BDD, on affiche "non renseigné".
 */
-                if ($tProActivity['ID_interlocuteur'] === '1') {
-                    if ($tProActivity['nom_decideur'] === '') {
-                        echo 
-                        '<td>'.$unknown.'</td>';
-                    } else {
-                        echo 
-                        '<td>'.$tProActivity['nom_decideur'].'</td>';
+            if ($tProActivity['ID_interlocuteur'] === '1') {
+                if ($tProActivity['nom_decideur'] === '') {
+                    echo'<td>'.$unknown.'</td>';
+                } else {
+                    echo'<td>'.$tProActivity['nom_decideur'].'</td>';
                     }
+            } else {
+                if ($tProActivity['nom_interlocuteur'] === NULL) {
+                    echo'<td>'.$unknown.'</td>';
                 } else {
-                    if ($tProActivity['nom_interlocuteur'] === '') {
-                        echo
-                        '<td>'.$unknown.'</td>';
+                    echo'<td>'.$tProActivity['nom_interlocuteur'].'</td>';
+                }
+            }
+            if ($tProActivity['ID_nature'] === '1') {
+                echo'<td>'.$tProActivity['libelle_nature'].'</td>';
+            } elseif ($tProActivity['ID_nature'] === '2') {
+                echo'<td>'.$tProActivity['libelle_nature'].'</td>';
+            } elseif ($tProActivity['ID_nature'] === '3') {
+                echo'<td>Téléphone</td>';
+            } elseif ($tProActivity['ID_nature'] === '4') {
+                echo'<td>Mail</td>';
+            } else {
+                echo'<td>Autre</td>';
+            }
+            if ($tProActivity['contact_interlocuteur'] === NULL) {
+                echo'<td>'.$unknown.'</td>';
+            } else {
+                echo'<td>'.$tProActivity['contact_interlocuteur'].'</td>';
+            }
+            echo    '<td title="'.$tProActivity['commentaire'].'">'.$tProActivity['libelle_conclusion'].'</td>';
+            if ($tProActivity['date_rdv'] != NULL) {
+                echo'<td class="text-center">'.$meetingDate = Dates_Mgr::dateFormatDayMonthYearHourMinutesSeconds($tProActivity['date_rdv']).'</td>';
+            } else {
+                echo'<td>'.$unknown.'</td>';
+            }
+            if ($tProActivity['date_relance'] != NULL) {
+                echo'<td class="text-center">'.$recallDate = Dates_Mgr::dateFormatDayMonthYear($tProActivity['date_relance']).'</td>';
+            } else {
+                echo'<td>'.$unknown.'</td>';
+            }
+            echo'<td>';
+/*
+            Un utilisateur doit pouvoir décaler un rendez-vous ou une date de relance programmée.
+            Il a donc été défini que seule la dernière prise de contact avec un professionnel était modifiable.
+            On va donc récupérer la dernière prise de contact effectuée pour un professionnel où la conclusion 
+            est différente de "Création client".
+*/
+            $getUpdatableContact = Contacting_Mgr::getUpdatableContactByIdPro($proId);
+            $updatableContact = $getUpdatableContact[0]['last_pdc'];
+            if ($idUserInChargeOfThisPro === (int) $_POST['ID_utilisateur']) {
+                if ($userConnected === (int) $_POST['ID_utilisateur']) {
+/*
+                    On compare donc la date de la dernière prise de contact avec le résultat de la requête. 
+                    Si les résultats sont identiques, alors le formulaire apparaît.
+*/
+                    if ($tProActivity['date_derniere_pdc'] === $updatableContact) {
+                        if ($rights === 1) {
+                            echo'<form action="/outils/Controllers/Controller_admin.php" method="post">';
+                        } elseif ($rights === 2) {
+                            echo'<form action="/outils/Controllers/Controller_responsable.php" method="post">';
+                        } else {
+                            echo'<form action="/outils/Controllers/Controller_cdp.php" method="post">';
+                        }
+                            echo    '<input type="hidden" name="action" value="updateContact">
+                                    <input type="hidden" name="date_rdv" value="'.$tProActivity['date_rdv'].'">
+                                    <input type="hidden" name="date_relance" value="'.$tProActivity['date_relance'].'">
+                                    <input type="hidden" name="ID_professionnel" value="'.$_POST['ID_professionnel'].'">
+                                    <input type="hidden" name="libelle_entreprise" value="'.$_POST['libelle_entreprise'].'">
+                                    <input type="hidden" name="ID_utilisateur" value="'.$_POST['ID_utilisateur'].'">
+                                    <input type="hidden" name="ID_suivre" value="'.$tProActivity['ID_suivre'].'">
+                                    <input type="hidden" name="commentaire" value="'.$tProActivity['commentaire'].'">
+                                    <button class="updIcon" type="submit" title="Modifier date de relance / date de rendez-vous">
+                                        <i class="far fa-edit"></i>
+                                    </button>
+                                </form>';
                     } else {
-                        echo
-                        '<td>'.$tProActivity['nom_interlocuteur'].'</td>';
+                        echo($unknown);
                     }
                 }
-                if ($tProActivity['ID_nature'] === '1') {
-                    echo
-                    '<td>'.$tProActivity['libelle_nature'].'</td>';
-                } elseif ($tProActivity['ID_nature'] === '2') {
-                    echo
-                    '<td>'.$tProActivity['libelle_nature'].'</td>';
-                } elseif ($tProActivity['ID_nature'] === '3') {
-                    echo
-                    '<td>Téléphone</td>';
-                } elseif ($tProActivity['ID_nature'] === '4') {
-                    echo
-                    '<td>Mail</td>';
-                } else {
-                    echo
-                    '<td>Autre</td>';
-                }
-                if ($tProActivity['contact_interlocuteur'] === '') {
-                    echo 
-                    '<td>'.$unknown.'</td>';
-                } else {
-                    echo
-                    '<td>'.$tProActivity['contact_interlocuteur'].'</td>';
-                }
-                echo
-                '<td title="'.$tProActivity['commentaire'].'">'.$tProActivity['libelle_conclusion'].'</td>
-                <td class="text-center">'.$meetingDate = Dates_Mgr::dateFormatDayMonthYear($tProActivity['date_rdv']).'</td>
-                <td class="text-center">'.$recallDate = Dates_Mgr::dateFormatDayMonthYear($tProActivity['date_relance']).'</td>
-            </tr>';
+            }
+            echo    '</td>
+            </tr>'; 
         }
 ?>
         </table>
