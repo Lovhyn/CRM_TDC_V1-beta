@@ -10,6 +10,58 @@ $unknown = ' - ';
     <div class="d-flex justify-content-center mt-3">
         <h2 >Suivi de <?php echo($_POST['libelle_entreprise']);?></h2>
     </div>
+    <div class="w-100 d-flex flew-row justify-content-between">
+<!----------------------------------------BACK RETURN BUTTON-------------------------------------->
+<?php
+            if ($_POST['prospect_ou_client'] === "0") {
+                if ($rights === 1) {
+?>
+                    <form class="w-25 d-flex align-items-center justify-content-center" action="/outils/Controllers/Controller_admin.php" method="post">
+<?php
+                } elseif ($rights === 2) {
+?>
+                    <form class="w-25 d-flex align-items-center justify-content-center" action="/outils/Controllers/Controller_responsable.php" method="post">
+<?php
+                } elseif ($rights === 3) {
+?>
+                    <form class="w-25 d-flex align-items-center justify-content-center" action="/outils/Controllers/Controller_cdp.php" method="post">
+<?php
+                }
+?>
+                        <input type="hidden" name="action" value="prospectsListing">
+                        <div class="d-flex justify-content-center">
+                            <button title="Retour à la liste des prospects" type="submit" class="backToProListingIcon">
+                                <i class="fas fa-chevron-circle-left"></i>
+                            </button>
+                        </div>
+                    </form>
+<?php
+            } else {
+                if ($rights === 1) {
+?>
+                    <form class="w-25 d-flex align-items-center justify-content-center" action="/outils/Controllers/Controller_admin.php" method="post">
+<?php
+                } elseif ($rights === 2) {
+?>
+                    <form class="w-25 d-flex align-items-center justify-content-center" action="/outils/Controllers/Controller_responsable.php" method="post">
+<?php
+                } elseif ($rights === 3) {
+?>
+                    <form class="w-25 d-flex align-items-center justify-content-center" action="/outils/Controllers/Controller_cdp.php" method="post">
+                        
+<?php
+                }
+?>
+                        <input type="hidden" name="action" value="clientsListing">
+                        <div class="d-flex justify-content-center">
+                            <button title="Retour à la liste des clients" type="submit" class="backToProListingIcon">
+                                <i class="fas fa-chevron-circle-left"></i>
+                            </button>
+                        </div>
+                    </form>
+<?php
+            }
+?>
 <?php
 /*      
         Un chargé de projet ne peut ajouter une prise de contact sur un 
@@ -28,10 +80,10 @@ $unknown = ' - ';
 //          Si l'utilisateur est un responsable ou un chargé de projet, affiche =>
                 if ($rights === 2) {
                     echo
-                    '<form class="d-flex justify-content-center mt-3" action="/outils/Controllers/Controller_responsable.php" method="post">';
+                    '<form class="w-50 d-flex justify-content-center align-items-center" action="/outils/Controllers/Controller_responsable.php" method="post">';
                 } else {
                     echo
-                    '<form class="d-flex justify-content-center mt-3" action="/outils/Controllers/Controller_cdp.php" method="post">';
+                    '<form class="w-50 d-flex justify-content-center align-items-center" action="/outils/Controllers/Controller_cdp.php" method="post">';
                 }
                 echo
                         '<input type="hidden" name="ID_professionnel" value="'.$_POST['ID_professionnel'].'">
@@ -51,32 +103,42 @@ $unknown = ' - ';
 //°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°
     } else {
         echo
-            '<form class="d-flex justify-content-center mt-3" action="/outils/Controllers/Controller_admin.php" method="post">
+            '<form class="w-50 d-flex justify-content-center align-items-center" action="/outils/Controllers/Controller_admin.php" method="post">
                 <input type="hidden" name="ID_professionnel" value="'.$_POST['ID_professionnel'].'">
                 <input type="hidden" name="libelle_entreprise" value="'.$_POST['libelle_entreprise'].'">
                 <input type="hidden" name="ID_utilisateur" value="'.$userConnected.'">
                 <input type="hidden" name="action" value="addNewContactForm">
-                <button type="submit" title="Enregistrer une nouvelle prise de contact" class="addNewContactIcon">
+                <button type="submit" title="Enregistrer une nouvelle prise de contact" class="addNewContactIcon d-flex">
                     <i class="far fa-comment-dots"></i>
                 </button>
             </form>';
     }
 ?>
+<!----------------------------------------HIDDEN BUTTON-------------------------------------->
+
+        <div class="w-25 d-flex align-items-center justify-content-center invisible">
+            <div class="d-flex justify-content-center">
+                <button title="Retour à la liste des prospects" type="submit" class="backToProListingIcon">
+                    <i class="fas fa-chevron-circle-left"></i>
+                </button>
+            </div>
+        </div>
+    </div>
     <div class="table-responsive">
         <table class="table table-hover table-striped table-dark mt-3 w-auto" 
                 data-toggle="table" data-search="true" data-show-columns="true" data-pagination="true">
             <thead>
                 <tr>
                     <th data-sortable="true" class="text-center">Contact du :</th>
-                    <th class="text-center" data-sortable="true">entre</th>
-                    <th class="text-center">et</th>
-                    <th class="text-center">nom</th>
-                    <th class="text-center">par</th>
-                    <th class="text-center">au / à</th>
-                    <th class="text-center" data-sortable="true">s'est conclu par</th>
-                    <th class="text-center" data-sortable="true">Rendez-vous</th>
-                    <th class="text-center" data-sortable="true">Relance prévue</th>
-                    <th class="text-center"></th>
+                    <th data-sortable="true">entre</th>
+                    <th>et</th>
+                    <th>nom</th>
+                    <th>par</th>
+                    <th>au / à</th>
+                    <th data-sortable="true">s'est conclu par</th>
+                    <th data-sortable="true">Rendez-vous</th>
+                    <th data-sortable="true">Relance prévue</th>
+                    <th></th>
                 </tr>
             </thead>
 <?php
@@ -127,14 +189,14 @@ $unknown = ' - ';
                 Si le nom du décideur n'a pas été renseigné dans la BDD, on affiche "non renseigné".
 */
             if ($tProActivity['ID_interlocuteur'] === '1') {
-                if ($tProActivity['nom_decideur'] === '') {
-                    echo'<td>'.$unknown.'</td>';
-                } else {
+                if ($tProActivity['nom_decideur'] != '') {
                     echo'<td>'.$tProActivity['nom_decideur'].'</td>';
-                    }
+                } else {
+                    echo'<td class="text-center">'.$unknown.'</td>';
+                }
             } else {
                 if ($tProActivity['nom_interlocuteur'] === NULL) {
-                    echo'<td>'.$unknown.'</td>';
+                    echo'<td class="text-center">'.$unknown.'</td>';
                 } else {
                     echo'<td>'.$tProActivity['nom_interlocuteur'].'</td>';
                 }
@@ -151,7 +213,7 @@ $unknown = ' - ';
                 echo'<td>Autre</td>';
             }
             if ($tProActivity['contact_interlocuteur'] === NULL) {
-                echo'<td>'.$unknown.'</td>';
+                echo'<td class="text-center">'.$unknown.'</td>';
             } else {
                 echo'<td>'.$tProActivity['contact_interlocuteur'].'</td>';
             }
@@ -159,14 +221,14 @@ $unknown = ' - ';
             if ($tProActivity['date_rdv'] != NULL) {
                 echo'<td class="text-center">'.$meetingDate = Dates_Mgr::dateFormatDayMonthYearHourMinutesSeconds($tProActivity['date_rdv']).'</td>';
             } else {
-                echo'<td>'.$unknown.'</td>';
+                echo'<td class="text-center">'.$unknown.'</td>';
             }
             if ($tProActivity['date_relance'] != NULL) {
                 echo'<td class="text-center">'.$recallDate = Dates_Mgr::dateFormatDayMonthYear($tProActivity['date_relance']).'</td>';
             } else {
-                echo'<td>'.$unknown.'</td>';
+                echo'<td class="text-center">'.$unknown.'</td>';
             }
-            echo'<td>';
+            echo'<td class="text-center">';
 /*
             Un utilisateur doit pouvoir décaler un rendez-vous ou une date de relance programmée.
             Il a donc été défini que seule la dernière prise de contact avec un professionnel était modifiable.

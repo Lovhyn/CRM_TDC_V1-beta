@@ -2,6 +2,7 @@
 <?php
 $userConnected = (int) $_SESSION['idUser'];
 $rights = (int) $_SESSION['rights']; 
+$unknown = ' - ';
 if (isset($_POST['selectedUser'])) {
     $_SESSION['filterByUser'] = $_POST['selectedUser'];
 } 
@@ -34,6 +35,7 @@ if ($rights != 1 ) {
     <div class="table-responsive">
         <div class="mt-4 filters w-100 d-flex justify-content-center">
 <?php
+//      FILTRES
         $tUsers = User_Mgr::getUndetailledUsersList();
 ?>
             <div class="w-100 d-md-flex flex-md-row justify-content-md-between
@@ -91,7 +93,7 @@ if ($rights != 1 ) {
                 <tr>
                     <th data-sortable="true">Nom</th>
                     <th>Décideur</th>
-                    <th>Lieu</th>
+                    <!-- <th>Lieu</th> -->
                     <th data-sortable="true">Suivi par</th>
                     <th data-sortable="true">Dernier contact</th>
                     <th data-sortable="true">Date</th>
@@ -150,22 +152,26 @@ if ($rights != 1 ) {
                         <input type="hidden" name="action" value="fullInfosPro">
                         <input class="fullInfosBtn" type="submit" title="Voir fiche détaillée du prospect" value="'.$tProspect['libelle_entreprise'].'">
                     </form>
-                </td> 
-                <td>'.$tProspect['nom_decideur'].'</td>';
-                if ($tProspect['cp'] === '') {
-                    echo 
-                    '<td>'.$tProspect['ville'].'</td>';
-                    if ($tProspect['ville'=== '']) {
-                        echo 
-                        '<td>'.' '.'</td>';
-                    }
-                } elseif ($tProspect['ville'] === '') {
-                    echo
-                    '<td>'.$tProspect['cp'].'</td>';
+                </td>';
+                if ($tProspect['nom_decideur'] != '') {
+                    echo'<td>'.$tProspect['nom_decideur'].'</td>';
                 } else {
-                    echo
-                    '<td>'.$tProspect['lieu'].'</td>';
+                    echo'<td class="text-center">'.($unknown).'</td>';
                 }
+                // if ($tProspect['cp'] === '') {
+                //     echo 
+                //     '<td>'.$tProspect['ville'].'</td>';
+                //     if ($tProspect['ville'=== '']) {
+                //         echo 
+                //         '<td>'.' '.'</td>';
+                //     }
+                // } elseif ($tProspect['ville'] === '') {
+                //     echo
+                //     '<td>'.$tProspect['cp'].'</td>';
+                // } else {
+                //     echo
+                //     '<td>'.$tProspect['lieu'].'</td>';
+                // }
                 echo
                 '<td>'.$tProspect['suivi'].'</td>
                 <td title="'.$tInfosLastContact[0]['commentaire'].'">'.$tInfosLastContact[0]['libelle_conclusion'].'</td>
@@ -222,6 +228,7 @@ if ($rights != 1 ) {
                         '<input type="hidden" name="ID_professionnel" value="'.$tProspect['ID_professionnel'].'">
                         <input type="hidden" name="ID_utilisateur" value="'.$tProspect['ID_utilisateur'].'">
                         <input type="hidden" name="libelle_entreprise" value="'.$tProspect['libelle_entreprise'].'">
+                        <input type="hidden" name="prospect_ou_client" value="'.$tProspect['prospect_ou_client'].'">
                         <input type="hidden" name="action" value="proActivity">
                         <button class="followIcon" type="submit" title="Voir le suivi du prospect">
                             <i class="fas fa-glasses"></i>
@@ -274,22 +281,26 @@ if ($rights != 1 ) {
                         <input type="hidden" name="action" value="fullInfosPro">
                         <input class="fullInfosBtn" type="submit" title="Voir fiche détaillée du prospect" value="'.$tProspect['libelle_entreprise'].'">
                     </form>
-                </td> 
-                <td>'.$tProspect['nom_decideur'].'</td>';
-                if ($tProspect['cp'] === '') {
-                    echo 
-                    '<td>'.$tProspect['ville'].'</td>';
-                    if ($tProspect['ville'=== '']) {
-                        echo 
-                        '<td>'.' '.'</td>';
-                    }
-                } elseif ($tProspect['ville'] === '') {
-                    echo
-                    '<td>'.$tProspect['cp'].'</td>';
+                </td>';
+                if ($tProspect['nom_decideur'] != '') {
+                    echo'<td>'.$tProspect['nom_decideur'].'</td>';
                 } else {
-                    echo
-                    '<td>'.$tProspect['lieu'].'</td>';
+                    echo'<td class="text-center">'.($unknown).'</td>';
                 }
+                // if ($tProspect['cp'] === '') {
+                //     echo 
+                //     '<td>'.$tProspect['ville'].'</td>';
+                //     if ($tProspect['ville'=== '']) {
+                //         echo 
+                //         '<td>'.' '.'</td>';
+                //     }
+                // } elseif ($tProspect['ville'] === '') {
+                //     echo
+                //     '<td>'.$tProspect['cp'].'</td>';
+                // } else {
+                //     echo
+                //     '<td>'.$tProspect['lieu'].'</td>';
+                // }
                 echo
                 '<td>'.$tProspect['suivi'].'</td>
                 <td title="'.$tInfosLastContact[0]['commentaire'].'">'.$tInfosLastContact[0]['libelle_conclusion'].'</td>
@@ -324,6 +335,7 @@ if ($rights != 1 ) {
                         <input type="hidden" name="ID_professionnel" value="'.$tProspect['ID_professionnel'].'">
                         <input type="hidden" name="ID_utilisateur" value="'.$tProspect['ID_utilisateur'].'">
                         <input type="hidden" name="libelle_entreprise" value="'.$tProspect['libelle_entreprise'].'">
+                        <input type="hidden" name="prospect_ou_client" value="'.$tProspect['prospect_ou_client'].'">
                         <input type="hidden" name="action" value="proActivity">
                         <button class="followIcon" type="submit" title="Voir le suivi du prospect">
                             <i class="fas fa-glasses"></i>

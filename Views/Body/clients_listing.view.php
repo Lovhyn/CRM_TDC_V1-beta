@@ -2,6 +2,7 @@
 <?php
 $userConnected = (int) $_SESSION['idUser'];
 $rights = (int) $_SESSION['rights'];
+$unknown = ' - ';
 if (isset($_POST['selectedUser'])) {
     $_SESSION['filterByUser'] = $_POST['selectedUser'];
 } 
@@ -91,7 +92,7 @@ if ($rights != 1 ) {
                 <tr>
                     <th data-sortable="true">Nom</th>
                     <th>Décideur</th>
-                    <th>Lieu</th>
+                    <!-- <th>Lieu</th> -->
                     <th data-sortable="true">Suivi par</th>
                     <th data-sortable="true">Dernier contact</th>
                     <th data-sortable="true">Date</th>
@@ -150,22 +151,26 @@ if ($rights != 1 ) {
                         <input type="hidden" name="action" value="fullInfosPro">
                         <input class="fullInfosBtn" type="submit" title="Voir fiche détaillée du client" value="'.$tCustomer['libelle_entreprise'].'">
                     </form>
-                </td> 
-                <td>'.$tCustomer['nom_decideur'].'</td>';
-                if ($tCustomer['cp'] === '') {
-                    echo 
-                    '<td>'.$tCustomer['ville'].'</td>';
-                    if ($tCustomer['ville'=== '']) {
-                        echo 
-                        '<td>'.' '.'</td>';
-                    }
-                } elseif ($tCustomer['ville'] === '') {
-                    echo
-                    '<td>'.$tCustomer['cp'].'</td>';
+                    </td>';
+                if ($tCustomer['nom_decideur'] != '') {
+                    echo'<td>'.$tCustomer['nom_decideur'].'</td>';
                 } else {
-                    echo
-                    '<td>'.$tCustomer['lieu'].'</td>';
+                    echo'<td class="text-center">'.($unknown).'</td>';
                 }
+                // if ($tCustomer['cp'] === '') {
+                //     echo 
+                //     '<td>'.$tCustomer['ville'].'</td>';
+                //     if ($tCustomer['ville'=== '']) {
+                //         echo 
+                //         '<td>'.' '.'</td>';
+                //     }
+                // } elseif ($tCustomer['ville'] === '') {
+                //     echo
+                //     '<td>'.$tCustomer['cp'].'</td>';
+                // } else {
+                //     echo
+                //     '<td>'.$tCustomer['lieu'].'</td>';
+                // }
                 echo
                 '<td>'.$tCustomer['suivi'].'</td>
                 <td title="'.$tInfosLastContact[0]['commentaire'].'">'.$tInfosLastContact[0]['libelle_conclusion'].'</td>
@@ -273,23 +278,27 @@ if ($rights != 1 ) {
                         <input type="hidden" name="date_derniere_pdc" value="'.$tCustomer['date_derniere_pdc'].'">
                         <input type="hidden" name="action" value="fullInfosPro">
                         <input class="fullInfosBtn" type="submit" title="Voir fiche détaillée du client" value="'.$tCustomer['libelle_entreprise'].'">
-                    </form>
-                </td> 
-                <td>'.$tCustomer['nom_decideur'].'</td>';
-                if ($tCustomer['cp'] === '') {
-                    echo 
-                    '<td>'.$tCustomer['ville'].'</td>';
-                    if ($tCustomer['ville'=== '']) {
-                        echo 
-                        '<td>'.' '.'</td>';
-                    }
-                } elseif ($tCustomer['ville'] === '') {
-                    echo
-                    '<td>'.$tCustomer['cp'].'</td>';
+                    </form> 
+                </td>';
+                if ($tCustomer['nom_decideur'] != '') {
+                    echo'<td>'.$tCustomer['nom_decideur'].'</td>';
                 } else {
-                    echo
-                    '<td>'.$tCustomer['lieu'].'</td>';
+                    echo'<td class="text-center">'.($unknown).'</td>';
                 }
+                // if ($tCustomer['cp'] === '') {
+                //     echo 
+                //     '<td>'.$tCustomer['ville'].'</td>';
+                //     if ($tCustomer['ville'=== '']) {
+                //         echo 
+                //         '<td>'.' '.'</td>';
+                //     }
+                // } elseif ($tCustomer['ville'] === '') {
+                //     echo
+                //     '<td>'.$tCustomer['cp'].'</td>';
+                // } else {
+                //     echo
+                //     '<td>'.$tCustomer['lieu'].'</td>';
+                // }
                 echo
                 '<td>'.$tCustomer['suivi'].'</td>
                 <td title="'.$tInfosLastContact[0]['commentaire'].'">'.$tInfosLastContact[0]['libelle_conclusion'].'</td>

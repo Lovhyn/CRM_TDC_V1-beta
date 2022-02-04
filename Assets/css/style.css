@@ -135,7 +135,16 @@ h1, h2, h3, h4, h5, h6, span {
 .addUserIcon, .addConclusionBtn, .addAreaActivityBtn, .addNewProspectIcon, .addNewClientIcon, .addNewContactIcon {
     border: none;
     color: #ED6DA6;
-    background-color: #21252900
+    background-color: #21252900;
+}
+.backToProListingIcon {
+    border: none;
+    color: #ae3ff8;
+    background-color: #21252900;
+    transform: scale(1.2);
+}
+.backToProListingIcon:hover {
+    transform: scale(1.5);
 }
 .addNewProspectIcon, .addNewClientIcon, .addNewContactIcon {
     transform: scale(1.5);
