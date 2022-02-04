@@ -39,30 +39,10 @@
                                         <a class="nav-link active" aria-current="page" href="/outils/Controllers/Controller_responsable.php?action=home" id="navLinks">Accueil</a>
                                     </li>
                                     <li class="nav-item dropdown">
-                                        <a class="nav-link dropdown-toggle" href="#" id="navbarSuiviMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">Mes suivis</a>
+                                        <a class="nav-link dropdown-toggle" href="#" id="navbarSuiviMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">Listing</a>
                                         <ul class="dropdown-menu" aria-labelledby="navbarSuiviMenuLink">
-                                            <li><a class="dropdown-item" href="/outils/Controllers/Controller_responsable.php?action=myProspectsActivity">Mes prospects</a></li>
-                                            <li><a class="dropdown-item" href="/outils/Controllers/Controller_responsable.php?action=myClientsActivity">Mes clients</a></li>
-                                        </ul>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a class="nav-link active" aria-current="page" href="/outils/Controllers/Controller_responsable.php?action=myContactRecalls" id="navLinks">Mes relances</a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a class="nav-link active" aria-current="page" href="/outils/Controllers/Controller_responsable.php?action=myMeetingRecalls" id="navLinks">Mes visites</a>
-                                    </li>
-                                    <li class="nav-item dropdown">
-                                        <a class="nav-link dropdown-toggle" href="#" id="navbarRepertoireMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">Listing</a>
-                                        <ul class="dropdown-menu" aria-labelledby="navbarRepertoireMenuLink">
-                                            <li><a class="dropdown-item" href="/outils/Controllers/Controller_responsable.php?action=prospectsListing">Prospects TDC</a></li>
-                                            <li><a class="dropdown-item" href="/outils/Controllers/Controller_responsable.php?action=clientsListing">Clients TDC</a></li>
-                                        </ul>
-                                    </li>
-                                    <li class="nav-item dropdown">
-                                        <a class="nav-link dropdown-toggle" href="#" id="navbarGestionMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">Gestion</a>
-                                        <ul class="dropdown-menu" aria-labelledby="navbarGestionMenuLink">
-                                            <li><a class="dropdown-item" href="/outils/Controllers/Controller_responsable.php?action=activityAreaManagement">Gestion des secteurs d'activité</a></li>
-                                            <li><a class="dropdown-item" href="/outils/Controllers/Controller_responsable.php?action=conclusionsManagement">Gestion des conclusions</a></li>
+                                            <li><a class="dropdown-item" href="/outils/Controllers/Controller_responsable.php?action=prospectsListing">Prospects</a></li>
+                                            <li><a class="dropdown-item" href="/outils/Controllers/Controller_responsable.php?action=clientsListing">Clients</a></li>
                                         </ul>
                                     </li>
                                     <li class="nav-item">
