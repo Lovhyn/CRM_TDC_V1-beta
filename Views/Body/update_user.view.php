@@ -52,7 +52,7 @@
                     </div>
 <!-------------------------------------------USER ROLE-------------------------------------------->
                     <div class="w-100 d-flex justify-content-center">
-                        <div class="w-75 mb-2">
+                        <div class="w-75 mb-4">
                             <label for="MAJUSERRIGHTS" class="form-label">Modifier rôle : </label>
                             <select required class="form-select" name="majUserRights" id="MAJUSERRIGHTS">
                                 <option value="cdp">Chargé(e) de projet</option>
