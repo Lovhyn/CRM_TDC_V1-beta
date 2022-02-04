@@ -68,7 +68,7 @@ $rights = (int) $_SESSION['rights'];
                     
                 </div>
 <!-----------------------------------------AREA ACTIVITY------------------------------------------>
-                <div class="d-md-flex flex-md-row justify-content-md-around w-md-100
+                <div class="d-md-flex flex-md-row-reverse justify-content-md-around w-md-100
                                 d-xs-flex flex-xs-column justify-content-xs-center w-xs-100">
                     <div class="w-100 d-flex justify-content-center">
                         <div class="w-100 mb-2 d-flex justify-content-center">

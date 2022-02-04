@@ -140,6 +140,7 @@ $rights = (int) $_SESSION['rights'];
                             <input type="hidden" name="ID_professionnel" value="<?php echo($_POST['ID_professionnel']);?>">
                             <input type="hidden" name="libelle_entreprise" value="<?php echo($_POST['libelle_entreprise']);?>">
                             <input type="hidden" name="ID_utilisateur" value="<?php echo($_POST['currentUserInChargeOfThisPro']);?>">
+                            <input type="hidden" name="prospect_ou_client" value="<?php echo($_POST['prospect_ou_client']);?>">
                             <input type="hidden" name="action" value="proActivity">
                             <div class="d-flex justify-content-center">
                                 <button type="submit" class="btn"><span>Retour</span></button>

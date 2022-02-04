@@ -96,7 +96,7 @@ if ($rights != 1 ) {
                     <!-- <th>Lieu</th> -->
                     <th data-sortable="true">Suivi par</th>
                     <th data-sortable="true">Dernier contact</th>
-                    <th data-sortable="true">Date</th>
+                    <th class="text-center" data-sortable="true">Date</th>
                     <th></th>
                     <th></th>
                     <th></th>

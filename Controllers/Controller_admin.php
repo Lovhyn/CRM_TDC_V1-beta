@@ -226,7 +226,7 @@
                                                                     $infoInterlocutorId, $idContactType, $contactConclusion, 
                                                                     $contactComment, $lastContactDate, $recallDate);
                             }   
-                            $msg = '<div class="text-center" style="color: #46ec4e">Nouveau suivi enregistré.</div>';
+                            $msg = '<div class="text-center" style="color: #6EFFBE">Nouveau suivi enregistré.</div>';
                             require($header);  
                             echo($msg);
                             require($prospectListing);
@@ -309,7 +309,7 @@
                                                                             $infoInterlocutorId, $contactTypeId, $conclusionId, 
                                                                             $comment, $lastContactDate);
                         }
-                        $msg = '<div class="text-center" style="color: #46ec4e">Nouveau suivi enregistré.</div>';
+                        $msg = '<div class="text-center" style="color: #6EFFBE">Nouveau client enregistré.</div>';
                     } catch (Exception $e) {
                         $msg = '<div class="text-center" style="color: #E84E0E">Erreur : Echec de l\'enregistrement.</div>';
                         require($header);
@@ -502,7 +502,7 @@
                 if ($contactConclusion === 8) {
                     Pro_Mgr::prospectBecomeClient($idPro);
                 }
-                $msg = '<div class="text-center" style="color: #46ec4e">Nouvelle prise de contact enregistrée !</div>';
+                $msg = '<div class="text-center" style="color: #6EFFBE">Nouvelle prise de contact enregistrée !</div>';
                 require($header);  
                 echo($msg);
                 require($proActivity);
@@ -529,7 +529,7 @@
 */                      
                         if ($newDate > $today) {
                             Contacting_Mgr::updateRecallDate($newDate, $idContact);
-                            $msg = '<div class="text-center" style="color: #46ec4e">La date de relance a bien été modifiée !</div>';
+                            $msg = '<div class="text-center" style="color: #6EFFBE">La date de relance a bien été modifiée !</div>';
                         } else {
                             $msg = '<div class="text-center" style="color: #E84E0E">Erreur : La date saisie ne doit pas être antérieure ou égale à celle d\'aujourd\'hui.</div>';
                         }
@@ -554,7 +554,7 @@
                             }
                             $newComment = '(Rendez-vous du '.$oldDate.' décalé)'.' - '.$oldComment.'';
                             Contacting_Mgr::updateMeetingDate($newComment, $newDate, $idContact);
-                            $msg = '<div class="text-center" style="color: #46ec4e">La date de rendez-vous a bien été modifiée !</div>';
+                            $msg = '<div class="text-center" style="color: #6EFFBE">La date de rendez-vous a bien été modifiée !</div>';
                         } else {
                             $msg = '<div class="text-center" style="color: #E84E0E">Erreur : La date saisie ne doit pas être antérieure ou égale à celle d\'aujourd\'hui.</div>';
                         }
@@ -598,7 +598,7 @@
                     User_Mgr::createUser($newUserName, $newUserSurname, $newUserPassword,
                                         $newUserMail, $newUserPhone, $newUserRights);
                     require($header);
-                    echo('<div class="text-center" style="color: #46ec4e">Nouvel utilisateur enregistré.</div>');
+                    echo('<div class="text-center" style="color: #6EFFBE">Nouvel utilisateur enregistré.</div>');
                     require($userManagement);
                     require($footer);
                     break;
@@ -647,7 +647,7 @@
                 User_Mgr::updateUser($nameUserToUpdate, $surnameUserToUpdate, $mailUserToUpdate, 
                                     $phoneUserToUpdate, $rightsUserToUpdate, $idUserToUpdate);
                     require($header);
-                    echo('<div class="text-center" style="color: #46ec4e">L\'utilisateur a bien été mis à jour.</div>');
+                    echo('<div class="text-center" style="color: #6EFFBE">L\'utilisateur a bien été mis à jour.</div>');
                     require($userManagement);
                     require($footer);
                     break;
@@ -671,7 +671,7 @@
                 $newActivityArea = $_POST['newActivityArea'];
                 if (($newActivityArea != '') and (ActivityArea_Mgr::checkIfExists($newActivityArea) < 1)) {
                     ActivityArea_Mgr::createActivityArea($newActivityArea);
-                    $msg = '<div class="text-center" style="color: #46ec4e">'.'"'.$newActivityArea.'" a bien été ajouté à la liste.'.'</div>';
+                    $msg = '<div class="text-center" style="color: #6EFFBE">'.'"'.$newActivityArea.'" a bien été ajouté à la liste.'.'</div>';
                 } elseif ($newActivityArea == '') {
                     $msg = '<div class="text-center" style="color: #E84E0E">Erreur : veuillez saisir un secteur.</div>';
                 } else {
@@ -687,7 +687,7 @@
                 $idActivityAreaToUpdate = $_POST['idActivityArea'];
                 $newActivityAreaLabel = $_POST['updActivityArea'];
                 ActivityArea_Mgr::updateActivityAreaById($idActivityAreaToUpdate, $newActivityAreaLabel);
-                $msg = '<div class="text-center" style="color: #46ec4e">La modification a bien été effectuée.</div>';
+                $msg = '<div class="text-center" style="color: #6EFFBE">La modification a bien été effectuée.</div>';
                 require($header);
                 echo($msg);
                 require($activityAreaManagement);
@@ -698,7 +698,7 @@
                 $idActivityAreaToDelete = (int) $_POST['idActivityArea'];
                 $libActivityAreaToDelete = ActivityArea_Mgr::getActivityAreaLibById($idActivityAreaToDelete);
                 $libActivityAreaToDelete = $libActivityAreaToDelete[0]['libelle_secteur'];
-                $msg = '<div class="text-center" style="color: #46ec4e">'.'"'.$libActivityAreaToDelete.'" a bien été supprimé de la liste.'.'</div>';
+                $msg = '<div class="text-center" style="color: #6EFFBE">'.'"'.$libActivityAreaToDelete.'" a bien été supprimé de la liste.'.'</div>';
                 ActivityArea_Mgr::deleteActivityAreaById($idActivityAreaToDelete);
                 require($header);
                 echo($msg);
@@ -717,7 +717,7 @@
                 $newConclusion = $_POST['newConclusion'];
                 if (($newConclusion != '') and (Conclusions_Mgr::checkIfExists($newConclusion) < 1)) {
                     Conclusions_Mgr::createConclusion($newConclusion);
-                    $msg = '<div class="text-center" style="color: #46ec4e">'.'"'.$newConclusion.'" a bien été ajouté à la liste.'.'</div>';
+                    $msg = '<div class="text-center" style="color: #6EFFBE">'.'"'.$newConclusion.'" a bien été ajouté à la liste.'.'</div>';
                 } elseif ($newConclusion == '') {
                     $msg = '<div class="text-center" style="color: #E84E0E">Erreur : veuillez saisir un scénario</div>';
                 } else {
@@ -733,7 +733,7 @@
                 $idConclusionToUpdate = $_POST['idConclusion'];
                 $newConclusionLabel = $_POST['updConclusion'];
                 Conclusions_Mgr::updateConclusionById($idConclusionToUpdate, $newConclusionLabel);
-                $msg = '<div class="text-center" style="color: #46ec4e">La modification a bien été effectuée.</div>';
+                $msg = '<div class="text-center" style="color: #6EFFBE">La modification a bien été effectuée.</div>';
                 require($header);
                 echo($msg);
                 require($conclusionsManagement);
@@ -744,7 +744,7 @@
                 $idConclusionToDelete = (int) $_POST['idConclusion'];
                 $libConclusionToDelete = Conclusions_Mgr::getConclusionLibById($idConclusionToDelete);
                 $libConclusionToDelete = $libConclusionToDelete[0]['libelle_conclusion'];
-                $msg = '<div class="text-center" style="color: #46ec4e">'.'"'.$libConclusionToDelete.'" a bien été supprimé de la liste.'.'</div>';
+                $msg = '<div class="text-center" style="color: #6EFFBE">'.'"'.$libConclusionToDelete.'" a bien été supprimé de la liste.'.'</div>';
                 Conclusions_Mgr::deleteConclusionById($idConclusionToDelete);
                 require($header);
                 echo($msg);

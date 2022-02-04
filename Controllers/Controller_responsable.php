@@ -221,7 +221,7 @@
                                                                     $infoInterlocutorId, $idContactType, $contactConclusion, 
                                                                     $contactComment, $lastContactDate, $recallDate);
                             }   
-                            $msg = '<div class="text-center" style="color: #46ec4e">Nouveau suivi enregistré.</div>';
+                            $msg = '<div class="text-center" style="color: #6EFFBE">Nouveau suivi enregistré.</div>';
                             require($header);  
                             echo($msg);
                             require($prospectListing);
@@ -304,7 +304,7 @@
                                                                             $infoInterlocutorId, $contactTypeId, $conclusionId, 
                                                                             $comment, $lastContactDate);
                         }
-                        $msg = '<div class="text-center" style="color: #46ec4e">Nouveau suivi enregistré.</div>';
+                        $msg = '<div class="text-center" style="color: #6EFFBE">Nouveau client enregistré.</div>';
                     } catch (Exception $e) {
                         $msg = '<div class="text-center" style="color: #E84E0E">Erreur : Echec de l\'enregistrement.</div>';
                         require($header);
@@ -349,13 +349,16 @@
                                         $newSecondaryPhone, $newMail, $newMainAdress, 
                                         $newSecondaryAdress, $newCp, $newCity, $newObservation,
                                         $proToUpdate, $followedBy);
+                $msg = '<div class="text-center" style="color: #6EFFBE">Les informations ont bien été mises à jour !</div>';
                 if ((int) $_POST['prospect_ou_client'] > 0) {
                     require($header);
+                    echo($msg);
                     require($clientsListing);
                     require($footer);
                     break;
                 } else {
                     require($header);
+                    echo($msg);
                     require($prospectListing);
                     require($footer);
                     break;
@@ -503,7 +506,7 @@
                 if ($contactConclusion === 8) {
                     Pro_Mgr::prospectBecomeClient($idPro);
                 }
-                $msg = '<div class="text-center" style="color: #46ec4e">Nouvelle prise de contact enregistrée !</div>';
+                $msg = '<div class="text-center" style="color: #6EFFBE">Nouvelle prise de contact enregistrée !</div>';
                 require($header);  
                 echo($msg);
                 require($proActivity);
@@ -530,7 +533,7 @@
 */                      
                         if ($newDate > $today) {
                             Contacting_Mgr::updateRecallDate($newDate, $idContact);
-                            $msg = '<div class="text-center" style="color: #46ec4e">La date de relance a bien été modifiée !</div>';
+                            $msg = '<div class="text-center" style="color: #6EFFBE">La date de relance a bien été modifiée !</div>';
                         } else {
                             $msg = '<div class="text-center" style="color: #E84E0E">Erreur : La date saisie ne doit pas être antérieure ou égale à celle d\'aujourd\'hui.</div>';
                         }
@@ -555,7 +558,7 @@
                             }
                             $newComment = '(Rendez-vous du '.$oldDate.' décalé)'.' - '.$oldComment.'';
                             Contacting_Mgr::updateMeetingDate($newComment, $newDate, $idContact);
-                            $msg = '<div class="text-center" style="color: #46ec4e">La date de rendez-vous a bien été modifiée !</div>';
+                            $msg = '<div class="text-center" style="color: #6EFFBE">La date de rendez-vous a bien été modifiée !</div>';
                         } else {
                             $msg = '<div class="text-center" style="color: #E84E0E">Erreur : La date saisie ne doit pas être antérieure ou égale à celle d\'aujourd\'hui.</div>';
                         }
