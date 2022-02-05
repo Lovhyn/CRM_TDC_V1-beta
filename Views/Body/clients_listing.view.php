@@ -1,4 +1,3 @@
-<!--$_POST = OK-->
 <?php
 $userConnected = (int) $_SESSION['idUser'];
 $rights = (int) $_SESSION['rights'];
@@ -109,11 +108,11 @@ if ($rights != 1 ) {
             $tCustomers = Pro_Mgr::getFullCustomersList();
         }
         foreach($tCustomers as $tCustomer) {
-            $tInfosLastContact = Contacting_Mgr::getInfosContactWhereDateIs($tCustomer['date_derniere_pdc']);
+            // $tInfosLastContact = Contacting_Mgr::getInfosContactWhereDateIs($tCustomer['date_derniere_pdc']);
 //°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°
 //°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°
 
-//          Si l'utilisateur n'est pas un administrateur
+//          Si l'utilisateur n'est pas administrateur
 
 //°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°
 //°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°
@@ -180,7 +179,7 @@ if ($rights != 1 ) {
                 Un chargé de projet ou un responsable peut consulter tous les prospects / clients de la base de données
                 Mais ne peut modifier que ceux dont il est en charge du suivi.
 */
-                if ($userConnected == $tCustomer['ID_utilisateur']) {
+                if ($userConnected === (int) $tCustomer['ID_utilisateur']) {
                     if ($rights === 2) {
                         echo
                     '<form class="d-flex justify-content-center" action="/outils/Controllers/Controller_responsable.php" method="post">';
