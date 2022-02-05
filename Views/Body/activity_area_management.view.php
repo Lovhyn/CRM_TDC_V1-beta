@@ -8,7 +8,7 @@
         <form id="newActivityAreaForm" class="d-flex justify-content-center mt-3" action="/outils/Controllers/Controller_admin.php" method="post">
             <input class="form-control" placeholder="Nouveau secteur d'activité" type="text" name="newActivityArea" maxlength="50" pattern="^[\w'\-,.]*[^_!¡?÷?¿\/\\+=@#$%ˆ&*(){}|~<>;:[\]]*${0,50}">
             <input type="hidden" name="action" value="addAreaActivity">
-            <button type="submit" class="addAreaActivityBtn" onclick="return confirm('Etes-vous sûr(e) de vouloir ajouter ce secteur d\'activité ?')">
+            <button title="Ajouter secteur d'activité" type="submit" class="addAreaActivityBtn" onclick="return confirm('Etes-vous sûr(e) de vouloir ajouter ce secteur d\'activité ?')">
                 <i class="fas fa-plus"></i>
             </button>
         </form>
@@ -22,8 +22,8 @@
         <table class="table table-hover table-dark mt-3 w-auto">
             <thead>
                 <tr>
-                    <th class="text-center">Secteur d'activité</th>
-                    <th class="text-center">Modifier</th>
+                    <th>Secteur d'activité</th>
+                    <th>Modifier</th>
                     <th class="text-center">Valider</th>
                     <th class="text-center">Supprimer</th>
                 </tr>
@@ -44,11 +44,12 @@
                         <input type="hidden" name="action" value="updateActivityArea">
                     </td>
                     <td class="text-center">
-                        <button class="validIcon" type="submit">
+                        <button title="Valider modification" class="validIcon" type="submit">
                             <i class="fas fa-check"></i>
                         </button>
                     </td>
-                </form>';
+                </form>
+                <td>';
             $flag = false;
             foreach($tPros as $tPro) {
                 if ($tPro['ID_secteur'] == $tSecteur['ID_secteur']) {
@@ -59,18 +60,18 @@
             if ($flag == false) {
                 $dialogBoxMsg = 'onclick="return confirm(`Etes-vous sûr(e) de vouloir supprimer ce secteur d\'activité ?`)"';
                 echo
-                '<td>
-                    <form class="d-flex justify-content-center" action="/outils/Controllers/Controller_admin.php" method="post">
+                    '<form class="d-flex justify-content-center" action="/outils/Controllers/Controller_admin.php" method="post">
                         <input type="hidden" name="action" value="deleteActivityArea">
                         <input type="hidden" name="idActivityArea" value="' . $tSecteur['ID_secteur']. '">
-                        <button class="delIcon" type="submit"'; echo($dialogBoxMsg); echo'>
+                        <button title="Supprimer secteur d\'activité" class="delIcon" type="submit"'; echo($dialogBoxMsg); echo'>
                             <i class="far fa-trash-alt"></i>
                         </button>
-                    </form>
-                </td>
-            </tr>';
+                    </form>';
+                }
             }
-        }
+            echo
+                '</td>
+            </tr>';
 ?>
         </table>
     </div>

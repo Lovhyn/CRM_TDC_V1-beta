@@ -1,5 +1,6 @@
 html {
     width: 100%;
+    height: 100%;
 }
 body {
     color: white;
@@ -103,12 +104,12 @@ h1, h2, h3, h4, h5, h6, span {
 }
 .delIcon {
     border: none;
-    color: #fca522;
+    color: #fc8422;
     background-color: #21252900;
 }
 .followIcon {
     border: none;
-    color: #ffe96c;
+    color: #fdd85e;
     background-color: #21252900;
 }
 .phoneIcon {
@@ -116,15 +117,34 @@ h1, h2, h3, h4, h5, h6, span {
     background-color: #21252900;
 }
 .phoneIcon a {
-    color: #e98f46;
+    color: #ff993a;
 }
 .phoneIcon a:hover {
     color: #2ffc6c;
 }
+.mapIcon {
+    border: none;
+    background-color: #21252900;
+}
+.mapIcon a {
+    color: #59ffba;
+}
+.mapIcon a:hover {
+    color: #cd44f7;
+}
 .addUserIcon, .addConclusionBtn, .addAreaActivityBtn, .addNewProspectIcon, .addNewClientIcon, .addNewContactIcon {
     border: none;
     color: #ED6DA6;
-    background-color: #21252900
+    background-color: #21252900;
+}
+.backToProListingIcon {
+    border: none;
+    color: #ae3ff8;
+    background-color: #21252900;
+    transform: scale(1.2);
+}
+.backToProListingIcon:hover {
+    transform: scale(1.5);
 }
 .addNewProspectIcon, .addNewClientIcon, .addNewContactIcon {
     transform: scale(1.5);
@@ -149,33 +169,41 @@ table input, table a {
     color: #D94190;
     background-color: #21252900
 } */
-.updIcon:hover, .delIcon:hover, .addUserIcon:hover, .addAreaActivityBtn:hover, .addConclusionBtn:hover, .validIcon:hover, .followIcon:hover, .phoneIcon:hover {
+.updIcon:hover, .delIcon:hover, .addUserIcon:hover, .addAreaActivityBtn:hover, .addConclusionBtn:hover, .validIcon:hover, .followIcon:hover, .phoneIcon:hover, .mapIcon:hover {
     transform: scale(1.3);
 }
 #newActivityAreaForm {
     width: 400px;
 }
 
+.table {
+    width: 100% !important;
+}
 /* Bootstrap table attributes*/
+.bootstrap-table .fixed-table-toolbar .columns-right {
+    margin-left: 0px;
+}
+
 .fixed-table-toolbar {
     display: flex;
     align-items: center;
     justify-content: space-between;
+    flex-direction: row-reverse;
 }
 .columns.columns-right.btn-group.float-right {
     width: 50%;
     align-items: center;
-    justify-content: start;
+    justify-content: end;
 }
 .float-right.search.btn-group {
     width: 50%;
+    min-width: 100px;
     align-items: center;
-    justify-content: end;
-}
-.float-right.search.btn-group input {
+    justify-content: start;
+    margin-left: 4px;
+} 
+.form-control.search-input {
     width: 50%;
-    align-items: center;
-    justify-content: end;
 }
 .btn.btn-secondary.dropdown-toggle span {
     visibility: hidden;
@@ -258,10 +286,31 @@ thead th {
     .resizeImg:hover {
         transform: scale(1.1);
     }
+    body {
+        font-size: smaller;
+    }
+    .form-control.search-input {
+        width: 100%;
+    }
+    #filterByUser {
+        margin-bottom: 8px;
+        margin-left: 4px;
+        margin-right: 4px;
+    }
+    #filterStartDate {
+        margin-bottom: 8px;
+        margin-left: 4px;
+        margin-right: 4px;
+    }
+    #filterEndDate {
+        margin-bottom: 8px;
+        margin-left: 4px;
+        margin-right: 4px;
+    }
 } 
 /*-----------------------------------STOP Mobile => 400px // START TABLET => 700px---------------*/
 /*Tablets---------------------------------------------------------------------------------------*/
-@media screen and (max-width: 700px) and (min-width :401px){
+@media screen and (max-width: 767px) and (min-width :401px){
     .resizeImg {
         height: 55px;
         width: 50px;
@@ -272,16 +321,46 @@ thead th {
     body {
         font-size: smaller;
     }
+    .form-control.search-input {
+        width: 100%;
+    }
+    #filterByUser {
+        margin-bottom: 8px;
+        margin-left: 4px;
+        margin-right: 4px;
+    }
+    #filterStartDate {
+        margin-bottom: 8px;
+        margin-left: 4px;
+        margin-right: 4px;
+    }
+    #filterEndDate {
+        margin-bottom: 8px;
+        margin-left: 4px;
+        margin-right: 4px;
+    }
 }
 /*-----------------------------------STOP Tablets => 700px // Go Full Screen => 2500px-----------*/
 /*Full Screen-----------------------------------------------------------------------------------*/
-@media screen and (max-width: 2500px) and (min-width :701px){
+@media screen and (max-width: 2500px) and (min-width :767px){
     .resizeImg {
         height: 75px;
         width: 70px;
     }
     .resizeImg:hover {
         transform: scale(1.1);
+    }
+    #filterByUser {
+        margin-left: 4px;
+        margin-right: 4px;
+    }
+    #filterStartDate {
+        margin-left: 4px;
+        margin-right: 4px;
+    }
+    #filterEndDate {
+        margin-left: 4px;
+        margin-right: 4px;
     }
 }
 /*-----------------------------------STOP Full Screen => 2560px // Go Big Screen => 12000px------*/
@@ -293,6 +372,18 @@ thead th {
     }
     .resizeImg:hover {
         transform: scale(1.1);
+    }
+    #filterByUser {
+        margin-left: 4px;
+        margin-right: 4px;
+    }
+    #filterStartDate {
+        margin-left: 4px;
+        margin-right: 4px;
+    }
+    #filterEndDate {
+        margin-left: 4px;
+        margin-right: 4px;
     }
 }
 

@@ -11,7 +11,7 @@
         <form class="d-flex justify-content-center mt-3" action="/outils/Controllers/Controller_admin.php" method="post">
             <input type="hidden" name="action" value="addConclusion">
             <input class="form-control" placeholder="Nouveau scénario" type="text" name="newConclusion" maxlength="50" pattern="^[\w'\-,.]*[^_!¡?÷?¿\/\\+=@#$%ˆ&*(){}|~<>;:[\]]*${0,50}">
-            <button type="submit" class="addConclusionBtn" onclick="return confirm('Etes-vous sûr(e) de vouloir ajouter ce scénario ?')">
+            <button title="Ajouter un scénario" type="submit" class="addConclusionBtn" onclick="return confirm('Etes-vous sûr(e) de vouloir ajouter ce scénario ?')">
                 <i class="fas fa-plus"></i>
             </button>
         </form>
@@ -27,8 +27,8 @@
                 <tr>
                     <th>Scénario</th>
                     <th>Modifier</th>
-                    <th>Valider</th>
-                    <th>Supprimer</th>
+                    <th class="text-center">Valider</th>
+                    <th class="text-center">Supprimer</th>
                 </tr>
             </thead>
 <?php
@@ -47,12 +47,12 @@
                         <input type="hidden" name="action" value="updateConclusion">
                     </td>
                     <td class="text-center">
-                        <button class="validIcon" type="submit">
+                        <button title="Valider modification" class="validIcon" type="submit">
                             <i class="fas fa-check"></i>
                         </button>
                     </td>
                 </form>
-                </td>';
+                <td>';
             $flag = false;
             foreach($tPros as $tPro) {
                 if ($tPro['ID_conclusion'] == $tConclusion['ID_conclusion']) {
@@ -63,18 +63,18 @@
             if ($flag == false) {
                 $dialogBoxMsg = 'onclick="return confirm(`Etes-vous sûr(e) de vouloir supprimer ce scénario ?`)"';
                 echo
-                '<td>
-                    <form class="d-flex justify-content-center" action="/outils/Controllers/Controller_admin.php" method="post">
+                    '<form class="d-flex justify-content-center" action="/outils/Controllers/Controller_admin.php" method="post">
                         <input type="hidden" name="idConclusion" value="'.$tConclusion['ID_conclusion'].'">
                         <input type="hidden" name="action" value="deleteConclusion">
-                        <button class="delIcon" type="submit" '; echo($dialogBoxMsg); echo'>
+                        <button title="Supprimer scénario" class="delIcon" type="submit" '; echo($dialogBoxMsg); echo'>
                             <i class="far fa-trash-alt"></i>
                         </button>
-                    </form>
-                </td>
-            </tr>';
+                    </form>';
+                }
             }
-        }
+            echo 
+                '</td>
+            </tr>';
 ?>
         </table>
     </div>
