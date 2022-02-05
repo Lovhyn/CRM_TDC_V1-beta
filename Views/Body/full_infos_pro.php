@@ -1,4 +1,3 @@
-<!--$_POST = OK-->
 <?php
 $unknown = 'Non renseigné';
 $userConnected = (int) $_SESSION['idUser'];

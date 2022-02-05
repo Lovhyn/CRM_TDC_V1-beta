@@ -1,4 +1,3 @@
-<!--$_POST = OK-->
 <div class="container">
 <hr>
     <div class="container d-flex justify-content-center">

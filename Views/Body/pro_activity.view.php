@@ -1,6 +1,4 @@
-<!--$_POST = OK-->
 <?php
-// var_dump($_POST);
 $userConnected = (int) $_SESSION['idUser'];
 $rights = (int) $_SESSION['rights'];
 $unknown = ' - ';

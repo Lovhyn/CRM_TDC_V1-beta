@@ -1,4 +1,3 @@
-<!--$_POST = OK-->
 <?php
 $userConnected = (int) $_SESSION['idUser'];
 $rights = (int) $_SESSION['rights']; 

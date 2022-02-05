@@ -9,7 +9,7 @@ if (isset($_POST['selectedUser'])) {
 <div class="container">
 <hr>
     <div class="d-flex justify-content-center mt-3">
-        <h2 >Clients</h2>
+        <h2>Clients</h2>
     </div>
 <?php 
 if ($rights != 1 ) {
@@ -34,7 +34,7 @@ if ($rights != 1 ) {
     <div class="table-responsive">
         <div class="mt-4 filters w-100 d-flex justify-content-center">
 <?php
-        $tUsers = User_Mgr::getUndetailledUsersList();
+        // $tUsers = User_Mgr::getUndetailledUsersList();
 ?>
             <div class="w-100 d-md-flex flex-md-row justify-content-md-between
                             d-xs-flex flex-xs-column justify-content-xs-start">

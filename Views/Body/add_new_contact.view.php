@@ -1,6 +1,4 @@
-<!--$_POST = NOK-->
 <?php
-// var_dump($_POST);
 $unknown = 'Non renseigné';
 $userConnected = (int) $_SESSION['idUser'];
 $rights = (int) $_SESSION['rights'];
