@@ -14,7 +14,7 @@ $rights = (int) $_SESSION['rights'];
                     d-xs-flex flex-xs-column justify-content-xs-center">
         <div class="w-md-50 w-xs-100">
             <div class="d-flex justify-content-center">
-                <h5>Rendez-vous :</h5>
+                <h5>Vos visites :</h5>
             </div>
 <?php 
 //          Récupère tous les rendez-vous planifiés dans la base de données pour l'utilisateur donné en paramètre.
@@ -24,10 +24,10 @@ $rights = (int) $_SESSION['rights'];
             <table class="table table-hover table-striped table-dark w-auto">
                 <thead>
                     <tr>
-                        <th>Avec</th>
-                        <th>Quand ?</th>
-                        <th class="text-center">Où ?</th>
-                        <th class="text-center">Tel</th>
+                        <th class="text-center"></th>
+                        <th class="text-center"></th>
+                        <th class="text-center"></th>
+                        <th class="text-center"></th>
                     </tr>
                 </thead>
 <?php 
@@ -47,11 +47,11 @@ $rights = (int) $_SESSION['rights'];
                                 <td>'.$tPlannedMeeting['libelle_entreprise'].'</td>
                                 <td> à '.$meetingHour[1].'</td>
                                 <td>';
-                        if ($tPlannedMeeting['tel'] != '') {
+                        if ($tPlannedMeeting['adresse'] != '') {
                             echo
                                     '<div class="d-flex justify-content-center">
                                         <button class="mapIcon">
-                                            <a title="Itinéraire" href="'.'">
+                                            <a title="'.$tPlannedMeeting['adresse'].', '.$tPlannedMeeting['cp'].', '.$tPlannedMeeting['ville'].'" href="'.'">
                                                 <i class="fas fa-map-marker-alt"></i>
                                             </a>
                                         </button>
@@ -79,7 +79,7 @@ $rights = (int) $_SESSION['rights'];
         </div>
         <div class="w-md-50 w-xs-100">
             <div class="d-flex justify-content-center">
-                <h5>À relancer :</h5>
+                <h5>Vos relances :</h5>
             </div>
             <table class="table table-hover table-striped table-dark w-auto">
                 <thead>

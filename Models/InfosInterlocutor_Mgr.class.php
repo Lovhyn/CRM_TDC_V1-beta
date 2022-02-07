@@ -2,7 +2,7 @@
 require_once("../Models/_BddConnexion.class.php");
 class InfosInterlocutor_Mgr {
 //  °°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°
-    public static function createInterlocutorInfos($paramName, $paramContact) {
+    public static function createInterlocutorInfos(String $paramName, String $paramContact) {
         if ($paramName === '') {
             $paramName = NULL;
         } 

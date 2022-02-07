@@ -123,7 +123,7 @@ $rights = (int) $_SESSION['rights'];
                     <div class="w-75">
                         <div class="mb-2 text-center">
                             <label for="CLIENTOBSERVATION" class="form-label">Observation(s) / Commentaire(s) :</label>
-                            <textarea placeholder="Entrez une note à propos du prospect (facultatif)" class="form-control" name="clientObservation" id="CLIENTOBSERVATION" maxlength="250"></textarea>
+                            <textarea placeholder="Entrez une note à propos du client (facultatif)" class="form-control" name="clientObservation" id="CLIENTOBSERVATION" maxlength="250"></textarea>
                         </div>
                     </div>
                 </div>

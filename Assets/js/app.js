@@ -9,7 +9,7 @@ function displayCalendar() {
     var recallDiv = document.getElementById('displayRecallDiv');
 //  récupère le composant <label> qui affiche le libellé du calendrier rdv.
     var meetingCalendarLabel = document.getElementById('meetingCalendarLabel');
-//  récupère le composant <label> qui affiche le libellé du calendrier rdv.
+//  récupère le composant <label> qui affiche le libellé du calendrier relance.
     var recallCalendarLabel = document.getElementById('recallCalendarLabel');
 //  récupère le composant calendrier de rdv (avec heures/minutes).
     var meetingCalendar = document.getElementById('MEETINGCALENDAR');

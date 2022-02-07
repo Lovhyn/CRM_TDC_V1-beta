@@ -127,10 +127,10 @@ h1, h2, h3, h4, h5, h6, span {
     background-color: #21252900;
 }
 .mapIcon a {
-    color: #59ffba;
+    color: #c074ff;
 }
 .mapIcon a:hover {
-    color: #cd44f7;
+    color: #2ffc6c;
 }
 .addUserIcon, .addConclusionBtn, .addAreaActivityBtn, .addNewProspectIcon, .addNewClientIcon, .addNewContactIcon {
     border: none;
@@ -139,12 +139,13 @@ h1, h2, h3, h4, h5, h6, span {
 }
 .backToProListingIcon {
     border: none;
-    color: #ae3ff8;
+    color: #ED6DA6;
     background-color: #21252900;
     transform: scale(1.2);
 }
 .backToProListingIcon:hover {
     transform: scale(1.5);
+    color: #cd44f7;
 }
 .addNewProspectIcon, .addNewClientIcon, .addNewContactIcon {
     transform: scale(1.5);

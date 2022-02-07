@@ -92,7 +92,8 @@ class Pro_Mgr {
 /*
             Prépare la requête SQL et l'enregistre dans une variable =>
             On souhaite ici récupérer : 
-                - la liste de tous les clients parmi les professionnels enregistrés.
+                - la liste de tous les clients parmi les professionnels enregistrés
+                dont l'utilisateur passé en paramètre est en charge du suivi.
 */
             $sqlRequest = " SELECT 
                             p.libelle_entreprise, p.nom_decideur, 
@@ -109,9 +110,9 @@ class Pro_Mgr {
                             INNER JOIN secteur_activite s ON s.ID_secteur = p.ID_secteur
                             WHERE p.prospect_ou_client = 1 AND p.ID_utilisateur = :paramUserId
                             GROUP BY p.ID_professionnel ; ";
-//          Connexion PDO + soumission de la requête.
+//          Connexion PDO + préparation de la requête.
             $repPDO = $PDOconnexion->prepare($sqlRequest);
-//          Exécute la requête en affectant les valeurs données en paramètres aux étiquettes.
+//          Exécute la requête en affectant les  paramètres aux étiquettes.
             $repPDO->execute(array(':paramUserId' => $paramUserId));
 //          On définit sous quelle forme nous souhaitons récupérer le résultat.
             $repPDO->setFetchMode(PDO::FETCH_ASSOC);
@@ -318,7 +319,7 @@ class Pro_Mgr {
     public static function createNewProspect(Int $userId, Int $proActivityArea, String $proName, String $proDecisionMaker, 
                                         String $proMainPhone, String $proSecondaryPhone,
                                         String $proMail, String $proMainAdress, String $proSecondaryAdress,
-                                        $proCp, String $proCity, String $proObservation) {
+                                        String $proCp, String $proCity, String $proObservation) {
         
         try {
 //          Etablit une connexion à la base de données.

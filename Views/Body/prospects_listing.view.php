@@ -34,7 +34,6 @@ if ($rights != 1 ) {
     <div class="table-responsive">
         <div class="mt-4 filters w-100 d-flex justify-content-center">
 <?php
-//      FILTRES
         $tUsers = User_Mgr::getUndetailledUsersList();
 ?>
             <div class="w-100 d-md-flex flex-md-row justify-content-md-between

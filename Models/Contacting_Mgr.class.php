@@ -372,6 +372,7 @@ class Contacting_Mgr {
                             p.`libelle_entreprise`,
                             p.`nom_decideur`,
                             p.`tel`,
+                            p.`tel_2`,
                             p.`adresse`,
                             p.`cp`,
                             p.`ville`

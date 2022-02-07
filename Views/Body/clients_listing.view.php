@@ -34,7 +34,7 @@ if ($rights != 1 ) {
     <div class="table-responsive">
         <div class="mt-4 filters w-100 d-flex justify-content-center">
 <?php
-        // $tUsers = User_Mgr::getUndetailledUsersList();
+        $tUsers = User_Mgr::getUndetailledUsersList();
 ?>
             <div class="w-100 d-md-flex flex-md-row justify-content-md-between
                             d-xs-flex flex-xs-column justify-content-xs-start">
@@ -108,7 +108,7 @@ if ($rights != 1 ) {
             $tCustomers = Pro_Mgr::getFullCustomersList();
         }
         foreach($tCustomers as $tCustomer) {
-            // $tInfosLastContact = Contacting_Mgr::getInfosContactWhereDateIs($tCustomer['date_derniere_pdc']);
+            $tInfosLastContact = Contacting_Mgr::getInfosContactWhereDateIs($tCustomer['date_derniere_pdc']);
 //°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°
 //°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°
 
