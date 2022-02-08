@@ -60,7 +60,7 @@
             <form action="/outils/Controllers/Controller_admin.php" method="post">
                 <input type="hidden" name="action" value="userManagement">
                 <div class="d-flex justify-content-center">
-                    <button type="submit" class="btn"><span>Retour</span></button>
+                    <button type="submit" class="btnBack"><span>Retour</span></button>
                 </div>
             </form>
         </fieldset>

@@ -228,7 +228,7 @@ if ($rights != 1 ) {
                         <input type="hidden" name="libelle_entreprise" value="'.$tProspect['libelle_entreprise'].'">
                         <input type="hidden" name="prospect_ou_client" value="'.$tProspect['prospect_ou_client'].'">
                         <input type="hidden" name="action" value="proActivity">
-                        <button class="followIcon" type="submit" title="Voir le suivi du prospect">
+                        <button class="followIcon" type="submit" title="Voir le suivi">
                             <i class="fas fa-glasses"></i>
                         </button>
                     </form>
@@ -335,7 +335,7 @@ if ($rights != 1 ) {
                         <input type="hidden" name="libelle_entreprise" value="'.$tProspect['libelle_entreprise'].'">
                         <input type="hidden" name="prospect_ou_client" value="'.$tProspect['prospect_ou_client'].'">
                         <input type="hidden" name="action" value="proActivity">
-                        <button class="followIcon" type="submit" title="Voir le suivi du prospect">
+                        <button class="followIcon" type="submit" title="Voir le suivi">
                             <i class="fas fa-glasses"></i>
                         </button>
                     </form>

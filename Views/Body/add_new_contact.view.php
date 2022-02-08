@@ -199,7 +199,7 @@ $proId = (int) $_POST['ID_professionnel'];
                 <input type="hidden" name="ID_utilisateur" value="<?php echo($_POST['ID_utilisateur']);?>">
                 <input type="hidden" name="action" value="proActivity">
                 <div class="d-flex justify-content-center">
-                    <button type="submit" class="btn"><span>Retour</span></button>
+                    <button type="submit" class="btnBack"><span>Retour</span></button>
                 </div>
             </form>
         </fieldset>

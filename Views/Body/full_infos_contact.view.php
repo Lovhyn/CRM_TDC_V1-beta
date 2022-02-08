@@ -142,7 +142,7 @@ $rights = (int) $_SESSION['rights'];
                             <input type="hidden" name="prospect_ou_client" value="<?php echo($_POST['prospect_ou_client']);?>">
                             <input type="hidden" name="action" value="proActivity">
                             <div class="d-flex justify-content-center">
-                                <button type="submit" class="btn"><span>Retour</span></button>
+                                <button type="submit" class="btnBack"><span>Retour</span></button>
                             </div>
                         </form>
                     </div>

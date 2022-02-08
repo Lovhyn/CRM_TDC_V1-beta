@@ -39,10 +39,10 @@
                                             <a class="nav-link active" aria-current="page" href="/outils/Controllers/Controller_admin.php?action=home" id="navLinks">Accueil</a>
                                         </li>
                                         <li class="nav-item dropdown">
-                                            <a class="nav-link dropdown-toggle" href="#" id="navbarRepertoireMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">Listing</a>
+                                            <a class="nav-link dropdown-toggle" href="#" id="navbarRepertoireMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">Répertoire</a>
                                             <ul class="dropdown-menu" aria-labelledby="navbarRepertoireMenuLink">
-                                                <li><a class="dropdown-item" href="/outils/Controllers/Controller_admin.php?action=prospectsListing">Prospects</a></li>
-                                                <li><a class="dropdown-item" href="/outils/Controllers/Controller_admin.php?action=clientsListing">Clients</a></li>
+                                                <li><a class="dropdown-item" href="/outils/Controllers/Controller_admin.php?action=prospectsListing">Listing prospects</a></li>
+                                                <li><a class="dropdown-item" href="/outils/Controllers/Controller_admin.php?action=clientsListing">Listing clients</a></li>
                                             </ul>
                                         </li>
                                         <li class="nav-item dropdown">

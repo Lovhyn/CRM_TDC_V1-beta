@@ -91,6 +91,46 @@ h1, h2, h3, h4, h5, h6, span {
     opacity: 1;
     transition: 0s
 }
+.btnBack {
+    border-radius: 4px;
+    background-color: #212529;
+    border: none;
+    color: #FFFFFF;
+    text-align: center;
+    font-size: 15px;
+    padding: 15px;
+    width: 160px;
+    transition: all 0.5s;
+    cursor: pointer;
+    margin: 5px;
+}
+.btnBack span {
+    cursor: pointer;
+    display: inline-block;
+    position: relative;
+    transition: 0.5s;
+}
+.btnBack span:after {
+    content: '\00AB';
+    position: absolute;
+    opacity: 0;
+    top: 0;
+    left: -20px;
+    transition: 0.5s;
+}
+.btnBack:hover span {
+    padding-left: 25px;
+}
+.btnBack:hover span:after {
+    opacity: 1;
+    left: 0;
+}
+.btnBack:active:after {
+    padding: 0;
+    margin: 0;
+    opacity: 1;
+    transition: 0s
+}
 /* boutons actions */
 .validIcon {
     border: none;
@@ -147,11 +187,12 @@ h1, h2, h3, h4, h5, h6, span {
     transform: scale(1.5);
     color: #cd44f7;
 }
-.addNewProspectIcon, .addNewClientIcon, .addNewContactIcon {
+.addNewProspectIcon, .addNewClientIcon, .addNewContactIcon, .addUserIcon {
     transform: scale(1.5);
 }
-.addNewProspectIcon:hover, .addNewClientIcon:hover, .addNewContactIcon:hover {
+.addNewProspectIcon:hover, .addNewClientIcon:hover, .addNewContactIcon:hover, .addUserIcon:hover {
     transform: scale(1.9);
+    color: #cd44f7;
 }
 .fullInfosBtn {
     border: none;
@@ -170,7 +211,7 @@ table input, table a {
     color: #D94190;
     background-color: #21252900
 } */
-.updIcon:hover, .delIcon:hover, .addUserIcon:hover, .addAreaActivityBtn:hover, .addConclusionBtn:hover, .validIcon:hover, .followIcon:hover, .phoneIcon:hover, .mapIcon:hover {
+.updIcon:hover, .delIcon:hover, .addAreaActivityBtn:hover, .addConclusionBtn:hover, .validIcon:hover, .followIcon:hover, .phoneIcon:hover, .mapIcon:hover {
     transform: scale(1.3);
 }
 #newActivityAreaForm {
@@ -270,6 +311,14 @@ thead th {
 }
 #submitFormBtn {
     display: none;
+}
+.fullListLink {
+    text-decoration: none;
+    color: #ED6DA6;
+}
+.fullListLink:hover {
+    color: #cd44f7;
+    transform: scale(1.1);
 }
 
 

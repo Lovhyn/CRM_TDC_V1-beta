@@ -90,7 +90,7 @@ $proId = (int) $_POST['ID_professionnel'];
                 <input type="hidden" name="libelle_entreprise" value="<?php echo($_POST['libelle_entreprise']);?>">
                 <input type="hidden" name="ID_utilisateur" value="<?php echo($_POST['ID_utilisateur']);?>">
                 <div class="d-flex justify-content-center">
-                    <button type="submit" class="btn"><span>Retour</span></button>
+                    <button type="submit" class="btnBack"><span>Retour</span></button>
                 </div>
             </form>
         </fieldset>

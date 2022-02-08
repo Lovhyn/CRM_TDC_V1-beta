@@ -233,7 +233,7 @@ $rights = (int) $_SESSION['rights'];
 ?>
                         <input type="hidden" name="action" value="prospectsListing">
                         <div class="d-flex justify-content-center">
-                            <button type="submit" class="btn"><span>Retour</span></button>
+                            <button type="submit" class="btnBack"><span>Retour</span></button>
                         </div>
                     </form>
 <?php
@@ -255,7 +255,7 @@ $rights = (int) $_SESSION['rights'];
 ?>
                         <input type="hidden" name="action" value="clientsListing">
                         <div class="d-flex justify-content-center">
-                            <button type="submit" class="btn"><span>Retour</span></button>
+                            <button type="submit" class="btnBack"><span>Retour</span></button>
                         </div>
                     </form>
 <?php
