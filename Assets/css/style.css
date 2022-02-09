@@ -142,6 +142,18 @@ h1, h2, h3, h4, h5, h6, span {
     color: #1cb4f5;
     background-color: #21252900;
 }
+
+.updIconNoRights, .phoneIconNoRights {
+    border: none;
+    color: #616161;
+    background-color: #21252900;
+}
+.updIconNoRights:hover  {
+    cursor: url("../../Src/cadenas.png"), auto;
+}
+.phoneIconNoRights {
+}
+
 .delIcon {
     border: none;
     color: #fc8422;
@@ -321,6 +333,13 @@ thead th {
     transform: scale(1.1);
 }
 
+.float-left.pagination-detail {
+    display: flex;
+    width: 100%;
+}
+.pagination-info {
+    display: none;
+}
 
 
 
@@ -343,19 +362,32 @@ thead th {
         width: 100%;
     }
     #filterByUser {
+        width: auto;
         margin-bottom: 8px;
         margin-left: 4px;
         margin-right: 4px;
     }
     #filterStartDate {
+        width: auto;
         margin-bottom: 8px;
         margin-left: 4px;
         margin-right: 4px;
     }
     #filterEndDate {
+        width: auto;
         margin-bottom: 8px;
         margin-left: 4px;
         margin-right: 4px;
+    }
+    .fixed-table-pagination {
+        display: flex;
+        width: 100%;
+        flex-direction: column;
+    }
+    .float-right.pagination {
+        width: 100%;
+        display: flex;
+        justify-content: center;
     }
 } 
 /*-----------------------------------STOP Mobile => 400px // START TABLET => 700px---------------*/
@@ -375,16 +407,19 @@ thead th {
         width: 100%;
     }
     #filterByUser {
+        width: auto;
         margin-bottom: 8px;
         margin-left: 4px;
         margin-right: 4px;
     }
     #filterStartDate {
+        width: auto;
         margin-bottom: 8px;
         margin-left: 4px;
         margin-right: 4px;
     }
     #filterEndDate {
+        width: auto;
         margin-bottom: 8px;
         margin-left: 4px;
         margin-right: 4px;
@@ -401,14 +436,17 @@ thead th {
         transform: scale(1.1);
     }
     #filterByUser {
+        width: 25%;
         margin-left: 4px;
         margin-right: 4px;
     }
     #filterStartDate {
+        width: 25%;
         margin-left: 4px;
         margin-right: 4px;
     }
     #filterEndDate {
+        width: 25%;
         margin-left: 4px;
         margin-right: 4px;
     }
@@ -424,14 +462,17 @@ thead th {
         transform: scale(1.1);
     }
     #filterByUser {
+        width: 25%;
         margin-left: 4px;
         margin-right: 4px;
     }
     #filterStartDate {
+        width: 25%;
         margin-left: 4px;
         margin-right: 4px;
     }
     #filterEndDate {
+        width: 25%;
         margin-left: 4px;
         margin-right: 4px;
     }

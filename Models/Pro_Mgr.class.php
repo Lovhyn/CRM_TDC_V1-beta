@@ -24,7 +24,9 @@ class Pro_Mgr {
                             INNER JOIN suivre f ON f.ID_professionnel = p.ID_professionnel
                             INNER JOIN utilisateur u ON u.ID_utilisateur = p.ID_utilisateur
                             INNER JOIN secteur_activite s ON s.ID_secteur = p.ID_secteur
-                            WHERE p.prospect_ou_client = 0 GROUP BY p.ID_professionnel ; ";
+                            WHERE p.prospect_ou_client = 0 
+                            GROUP BY p.ID_professionnel 
+                            ORDER BY f.date_derniere_pdc DESC; ";
 //          Connexion PDO + soumission de la requête.
             $repPDO = $PDOconnexion->query($sqlRequest);
 //          On définit sous quelle forme nous souhaitons récupérer le résultat.
@@ -42,15 +44,16 @@ class Pro_Mgr {
         }
     }
 //  °°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°
-    public static function getFilteredProspectsListByUser(Int $paramUserId) {
+    public static function getFilteredProspectsList(String $paramUserId, String $paramStartDate, String $paramEndDate) {
         try {
 //          Etablit une connexion à la base de données.
             $PDOconnexion = BddConnexion::getConnexion();
 /*
             Prépare la requête SQL et l'enregistre dans une variable =>
             On souhaite ici récupérer : 
-                - la liste de tous les prospects parmi les professionnels enregistrés.
+                - une liste filtrée de prospects.
 */
+        if ($paramUserId != '0') {
             $sqlRequest = " SELECT 
                             p.libelle_entreprise, p.nom_decideur, 
                             CONCAT(p.cp, ', ', p.ville) as lieu, p.tel, p.tel_2, p.mail, 
@@ -64,37 +67,19 @@ class Pro_Mgr {
                             INNER JOIN suivre f ON f.ID_professionnel = p.ID_professionnel
                             INNER JOIN utilisateur u ON u.ID_utilisateur = p.ID_utilisateur
                             INNER JOIN secteur_activite s ON s.ID_secteur = p.ID_secteur
-                            WHERE p.prospect_ou_client = 0 AND p.ID_utilisateur = :paramUserId
-                            GROUP BY p.ID_professionnel ; ";
+                            WHERE p.prospect_ou_client = 0
+                            AND p.ID_utilisateur = :paramUserId
+                            AND f.date_derniere_pdc >= :paramStartDate 
+                            AND f.date_derniere_pdc <= :paramEndDate 
+                            GROUP BY p.ID_professionnel 
+                            ORDER BY f.date_derniere_pdc DESC ;";
 //          Connexion PDO + soumission de la requête.
             $repPDO = $PDOconnexion->prepare($sqlRequest);
 //          Exécute la requête en affectant les valeurs données en paramètres aux étiquettes.
-            $repPDO->execute(array(':paramUserId' => $paramUserId));
-//          On définit sous quelle forme nous souhaitons récupérer le résultat.
-            $repPDO->setFetchMode(PDO::FETCH_ASSOC);
-//          On récupère le résultat de la requête sous la forme d'un tableau associatif.
-            $records = $repPDO->fetchAll();
-//          Réinitialise le curseur.
-            $repPDO->closeCursor();
-//          Ferme la connexion à la bdd.
-            BddConnexion::disconnect();
-//          Puis on retourne ce tableau.
-            return $records;
-        } catch(Exception $e) {
-            die('Erreur : Accès interdit ou connexion impossible.');
-        }
-    }
-//  °°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°
-    public static function getFilteredClientsListByUser(Int $paramUserId) {
-        try {
-//          Etablit une connexion à la base de données.
-            $PDOconnexion = BddConnexion::getConnexion();
-/*
-            Prépare la requête SQL et l'enregistre dans une variable =>
-            On souhaite ici récupérer : 
-                - la liste de tous les clients parmi les professionnels enregistrés
-                dont l'utilisateur passé en paramètre est en charge du suivi.
-*/
+            $repPDO->execute(array(':paramUserId' => (int) $paramUserId,
+                                    ':paramStartDate' => (string) $paramStartDate,
+                                    ':paramEndDate' => (string) $paramEndDate));
+        } else {
             $sqlRequest = " SELECT 
                             p.libelle_entreprise, p.nom_decideur, 
                             CONCAT(p.cp, ', ', p.ville) as lieu, p.tel, p.tel_2, p.mail, 
@@ -108,12 +93,17 @@ class Pro_Mgr {
                             INNER JOIN suivre f ON f.ID_professionnel = p.ID_professionnel
                             INNER JOIN utilisateur u ON u.ID_utilisateur = p.ID_utilisateur
                             INNER JOIN secteur_activite s ON s.ID_secteur = p.ID_secteur
-                            WHERE p.prospect_ou_client = 1 AND p.ID_utilisateur = :paramUserId
-                            GROUP BY p.ID_professionnel ; ";
-//          Connexion PDO + préparation de la requête.
+                            WHERE p.prospect_ou_client = 0
+                            AND f.date_derniere_pdc >= :paramStartDate 
+                            AND f.date_derniere_pdc <= :paramEndDate 
+                            GROUP BY p.ID_professionnel 
+                            ORDER BY f.date_derniere_pdc DESC ;";
+//          Connexion PDO + soumission de la requête.
             $repPDO = $PDOconnexion->prepare($sqlRequest);
-//          Exécute la requête en affectant les  paramètres aux étiquettes.
-            $repPDO->execute(array(':paramUserId' => $paramUserId));
+//          Exécute la requête en affectant les valeurs données en paramètres aux étiquettes.
+            $repPDO->execute(array(':paramStartDate' => (string) $paramStartDate,
+                                    ':paramEndDate' => (string) $paramEndDate));
+        }
 //          On définit sous quelle forme nous souhaitons récupérer le résultat.
             $repPDO->setFetchMode(PDO::FETCH_ASSOC);
 //          On récupère le résultat de la requête sous la forme d'un tableau associatif.
@@ -125,9 +115,84 @@ class Pro_Mgr {
 //          Puis on retourne ce tableau.
             return $records;
         } catch(Exception $e) {
-            die('Erreur : Accès interdit ou connexion impossible.');
+            die('Erreur TEST : Accès interdit ou connexion impossible.');
         }
     }
+//  °°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°
+public static function getFilteredCustomersList(String $paramUserId, String $paramStartDate, String $paramEndDate) {
+    try {
+//          Etablit une connexion à la base de données.
+        $PDOconnexion = BddConnexion::getConnexion();
+/*
+        Prépare la requête SQL et l'enregistre dans une variable =>
+        On souhaite ici récupérer : 
+            - une liste filtrée de prospects.
+*/
+    if ($paramUserId != '0') {
+        $sqlRequest = " SELECT 
+                        p.libelle_entreprise, p.nom_decideur, 
+                        CONCAT(p.cp, ', ', p.ville) as lieu, p.tel, p.tel_2, p.mail, 
+                        p.adresse, p.adresse_2, p.cp, p.ville,
+                        CONCAT(SUBSTRING(u.nom, 1, 1), '.', u.prenom) as suivi, 
+                        u.nom, u.prenom,
+                        s.libelle_secteur, p.observation, p.prospect_ou_client,
+                        p.ID_professionnel, p.ID_utilisateur, p.ID_secteur,
+                        MAX(f.date_derniere_pdc) as `date_derniere_pdc`
+                        FROM professionnel p
+                        INNER JOIN suivre f ON f.ID_professionnel = p.ID_professionnel
+                        INNER JOIN utilisateur u ON u.ID_utilisateur = p.ID_utilisateur
+                        INNER JOIN secteur_activite s ON s.ID_secteur = p.ID_secteur
+                        WHERE p.prospect_ou_client = 1
+                        AND p.ID_utilisateur = :paramUserId
+                        AND f.date_derniere_pdc >= :paramStartDate 
+                        AND f.date_derniere_pdc <= :paramEndDate 
+                        GROUP BY p.ID_professionnel 
+                        ORDER BY f.date_derniere_pdc DESC ;";
+//          Connexion PDO + soumission de la requête.
+        $repPDO = $PDOconnexion->prepare($sqlRequest);
+//          Exécute la requête en affectant les valeurs données en paramètres aux étiquettes.
+        $repPDO->execute(array(':paramUserId' => (int) $paramUserId,
+                                ':paramStartDate' => (string) $paramStartDate,
+                                ':paramEndDate' => (string) $paramEndDate));
+    } else {
+        $sqlRequest = " SELECT 
+                        p.libelle_entreprise, p.nom_decideur, 
+                        CONCAT(p.cp, ', ', p.ville) as lieu, p.tel, p.tel_2, p.mail, 
+                        p.adresse, p.adresse_2, p.cp, p.ville,
+                        CONCAT(SUBSTRING(u.nom, 1, 1), '.', u.prenom) as suivi, 
+                        u.nom, u.prenom,
+                        s.libelle_secteur, p.observation, p.prospect_ou_client,
+                        p.ID_professionnel, p.ID_utilisateur, p.ID_secteur,
+                        MAX(f.date_derniere_pdc) as `date_derniere_pdc`
+                        FROM professionnel p
+                        INNER JOIN suivre f ON f.ID_professionnel = p.ID_professionnel
+                        INNER JOIN utilisateur u ON u.ID_utilisateur = p.ID_utilisateur
+                        INNER JOIN secteur_activite s ON s.ID_secteur = p.ID_secteur
+                        WHERE p.prospect_ou_client = 1
+                        AND f.date_derniere_pdc >= :paramStartDate 
+                        AND f.date_derniere_pdc <= :paramEndDate 
+                        GROUP BY p.ID_professionnel 
+                        ORDER BY f.date_derniere_pdc DESC ;";
+//          Connexion PDO + soumission de la requête.
+        $repPDO = $PDOconnexion->prepare($sqlRequest);
+//          Exécute la requête en affectant les valeurs données en paramètres aux étiquettes.
+        $repPDO->execute(array(':paramStartDate' => (string) $paramStartDate,
+                                ':paramEndDate' => (string) $paramEndDate));
+    }
+//          On définit sous quelle forme nous souhaitons récupérer le résultat.
+        $repPDO->setFetchMode(PDO::FETCH_ASSOC);
+//          On récupère le résultat de la requête sous la forme d'un tableau associatif.
+        $records = $repPDO->fetchAll();
+//          Réinitialise le curseur.
+        $repPDO->closeCursor();
+//          Ferme la connexion à la bdd.
+        BddConnexion::disconnect();
+//          Puis on retourne ce tableau.
+        return $records;
+    } catch(Exception $e) {
+        die('Erreur TEST : Accès interdit ou connexion impossible.');
+    }
+}
 //  °°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°
     public static function getFullCustomersList() {
         try {
@@ -139,19 +204,21 @@ class Pro_Mgr {
                 - la liste de tous les clients parmi les professionnels enregistrés.
 */
             $sqlRequest = " SELECT 
-                            p.libelle_entreprise, p.nom_decideur, 
-                            CONCAT(p.cp, ', ', p.ville) as lieu, p.tel, p.tel_2, p.mail, 
-                            p.adresse, p.adresse_2, p.cp, p.ville,
-                            CONCAT(SUBSTRING(u.nom, 1, 1), '.', u.prenom) as suivi, 
-                            u.nom, u.prenom,
-                            s.libelle_secteur, p.observation, p.prospect_ou_client,
-                            p.ID_professionnel, p.ID_utilisateur, p.ID_secteur,
-                            MAX(f.date_derniere_pdc) as `date_derniere_pdc`
+                            p.`libelle_entreprise`, p.`nom_decideur`, 
+                            CONCAT(p.`cp`, ', ', p.`ville`) as `lieu`, p.`tel`, p.`tel_2`, p.`mail`, 
+                            p.`adresse`, p.`adresse_2`, p.`cp`, p.`ville`,
+                            CONCAT(SUBSTRING(u.`nom`, 1, 1), '.', u.`prenom`) as `suivi`, 
+                            u.`nom`, u.`prenom`,
+                            s.`libelle_secteur`, p.`observation`, p.`prospect_ou_client`,
+                            p.`ID_professionnel`, p.`ID_utilisateur`, p.`ID_secteur`,
+                            MAX(f.`date_derniere_pdc`) as `date_derniere_pdc`
                             FROM professionnel p
-                            INNER JOIN suivre f ON f.ID_professionnel = p.ID_professionnel
-                            INNER JOIN utilisateur u ON u.ID_utilisateur = p.ID_utilisateur
-                            INNER JOIN secteur_activite s ON s.ID_secteur = p.ID_secteur
-                            WHERE p.prospect_ou_client = 1 GROUP BY p.ID_professionnel ; ";
+                            INNER JOIN suivre f ON f.`ID_professionnel` = p.`ID_professionnel`
+                            INNER JOIN utilisateur u ON u.`ID_utilisateur` = p.`ID_utilisateur`
+                            INNER JOIN secteur_activite s ON s.`ID_secteur` = p.`ID_secteur`
+                            WHERE p.`prospect_ou_client` = 1 
+                            GROUP BY p.`ID_professionnel` 
+                            ORDER BY f.`date_derniere_pdc` DESC; ";
 //          Connexion PDO + soumission de la requête.
             $repPDO = $PDOconnexion->query($sqlRequest);
 //          On définit sous quelle forme nous souhaitons récupérer le résultat.

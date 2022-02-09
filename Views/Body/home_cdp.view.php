@@ -52,7 +52,8 @@ $rights = (int) $_SESSION['rights'];
                     echo
                             '<div class="d-flex justify-content-center">
                                 <button class="mapIcon">
-                                    <a title="'.$tPlannedMeeting['adresse'].', '.$tPlannedMeeting['cp'].', '.$tPlannedMeeting['ville'].'" href="'.'">
+                                    <a title="'.$tPlannedMeeting['adresse'].', '.$tPlannedMeeting['cp'].', '.$tPlannedMeeting['ville'].'" 
+                                        href="http://maps.google.com/maps?daddr='.$tPlannedMeeting['adresse'].' '.$tPlannedMeeting['cp'].' '.$tPlannedMeeting['ville'].'">
                                         <i class="fas fa-map-marker-alt"></i>
                                     </a>
                                 </button>

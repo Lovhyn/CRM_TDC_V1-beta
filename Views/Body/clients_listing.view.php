@@ -2,9 +2,18 @@
 $userConnected = (int) $_SESSION['idUser'];
 $rights = (int) $_SESSION['rights'];
 $unknown = ' - ';
+$oldestContactDate = Contacting_Mgr::getOldestContactingDate()[0]['oldestContact'];
+$lastContactDate = Contacting_Mgr::getLastContactingDate()[0]['lastContact'];
+//INITIALISATION DES VARIABLES DE SESSION (FILTRES).
 if (isset($_POST['selectedUser'])) {
     $_SESSION['filterByUser'] = $_POST['selectedUser'];
 } 
+if (isset($_POST['startFilterDate'])) {
+    $_SESSION['filterByStartDate'] = $_POST['startFilterDate'];
+}
+if (isset($_POST['endFilterDate'])) {
+    $_SESSION['filterByEndDate'] = $_POST['endFilterDate'];
+}
 ?>
 <div class="container">
 <hr>
@@ -54,13 +63,13 @@ if ($rights != 1 ) {
                         <input type="hidden" name="action" value="clientsListing">
                         <label for="USERFILTER">Suivi par :</label>
                         <select class="form-select" name="selectedUser" id="USERFILTER" onchange="this.form.submit()">
-                            <option selected value="00">Aucun filtre :</option>
+                            <option selected value="0">Aucun filtre</option>
 <?php 
 //                  Permet le maintien en "selected" du filtrage par nom séléctionné par l'utilisateur.
 //                  Puis génère la liste des utilisateurs dans la select-box.
                     foreach($tUsers as $tUser) {
                         echo '<option ';
-                        if (($_SESSION['filterByUser']) AND ($_SESSION['filterByUser'] != '00')) {
+                        if (($_SESSION['filterByUser']) AND ($_SESSION['filterByUser'] != '0')) {
                             if ((int) $tUser['ID_utilisateur'] === (int) $_SESSION['filterByUser']) {
                                 echo ' selected';
                             } 
@@ -71,16 +80,60 @@ if ($rights != 1 ) {
                         </select>
                     </form>
                 </div>
+<!-- (filtre) CALENDRIER DATE DE DEPART-->
                 <div id="filterStartDate">
-                    <form action="" method="post">
+<?php
+                if ($rights === 1) {
+                    echo
+                    '<form action="/outils/Controllers/Controller_admin.php" method="post">';
+                } elseif ($rights === 2) {
+                    echo
+                    '<form action="/outils/Controllers/Controller_responsable.php" method="post">';
+                } else {
+                    echo
+                    '<form action="/outils/Controllers/Controller_cdp.php" method="post">';
+                }
+?>
                         <label for="STARTDATE">Entre : </label>
-                        <input class="form-select" type="date" name="startFilterDate" id="STARTDATE">
+                        <input type="hidden" name="action" value="clientsListing">
+<?php
+//                  Détermine la date pré-remplie en fonction de si le filtre (variable de session a été initialisé).
+                    if ($_SESSION['filterByStartDate']) {
+                        echo
+                        '<input class="form-select" type="date" name="startFilterDate" value="'.$_SESSION['filterByStartDate'].'" id="STARTDATE" onchange="this.form.submit()">';
+                    } else {
+                        echo 
+                        '<input class="form-select" type="date" name="startFilterDate" id="STARTDATE" onchange="this.form.submit()">';
+                    }
+?>
                     </form>
                 </div>
+<!-- (filtre) CALENDRIER DATE DE FIN-->
                 <div id="filterEndDate">
-                    <form action="" method="post">
-                        <label for="STARTDATE">Et :</label>
-                        <input class="form-select" type="date" name="endFilterDate" id="STARTDATE">
+<?php
+                if ($rights === 1) {
+                    echo
+                    '<form action="/outils/Controllers/Controller_admin.php" method="post">';
+                } elseif ($rights === 2) {
+                    echo
+                    '<form action="/outils/Controllers/Controller_responsable.php" method="post">';
+                } else {
+                    echo
+                    '<form action="/outils/Controllers/Controller_cdp.php" method="post">';
+                }
+?>
+                        <label for="ENDDATE">Et :</label>
+                        <input type="hidden" name="action" value="clientsListing">
+<?php
+//                  Détermine la date pré-remplie en fonction de si le filtre (variable de session a été initialisé).
+                    if ($_SESSION['filterByEndDate']) {
+                        echo
+                        '<input class="form-select" type="date" name="endFilterDate" value="'.$_SESSION['filterByEndDate'].'" id="ENDDATE" onchange="this.form.submit()">';
+                    } else {
+                        echo
+                        '<input class="form-select" type="date" name="endFilterDate" id="ENDDATE" onchange="this.form.submit()">';
+                    }
+?>
                     </form>
                 </div>
             </div>
@@ -91,28 +144,57 @@ if ($rights != 1 ) {
                 <tr>
                     <th data-sortable="true">Nom</th>
                     <th>Décideur</th>
-                    <!-- <th>Lieu</th> -->
                     <th data-sortable="true">Suivi par</th>
                     <th data-sortable="true">Dernier contact</th>
-                    <th data-sortable="true">Date</th>
+                    <th class="text-center" data-sortable="true">Date</th>
                     <th></th>
                     <th></th>
                     <th></th>
                 </tr>
             </thead>
 <?php
-//      Récupère la liste des clients selon le paramétrage du filtre.
-        if (isset($_SESSION['filterByUser']) AND ($_SESSION['filterByUser'] != "00")) {
-            $tCustomers = Pro_Mgr::getFilteredClientsListByUser((int) $_SESSION['filterByUser']);
+//  Si au moins l'une des trois variables existe :
+    if (($_SESSION['filterByUser']) OR ($_SESSION['filterByStartDate']) OR ($_SESSION['filterByEndDate'])) {
+        if ((is_null($_SESSION['filterByUser'])) OR ($_SESSION['filterByUser'] === "0")) {
+            $userFilter = '0';
         } else {
-            $tCustomers = Pro_Mgr::getFullCustomersList();
+            $userFilter = $_SESSION['filterByUser'];
         }
-        foreach($tCustomers as $tCustomer) {
-            $tInfosLastContact = Contacting_Mgr::getInfosContactWhereDateIs($tCustomer['date_derniere_pdc']);
+        if ((is_null($_SESSION['filterByStartDate'])) OR ($_SESSION['filterByStartDate'] === '')) {
+/*
+            Si la date de départ n'est pas paramétrée ou qu'elle a été réinitialisée sur le calendrier :
+            On définit comme date de départ la date de la plus ancienne prise de contact effectuée.
+*/         
+            $startDateFilter = (string) $oldestContactDate;
+        } else {
+//          Sinon, on définit la date de départ à la date sélectionnée par l'utilisateur connecté.
+            $startDateFilter = Dates_Mgr::paramToUnixString($_SESSION['filterByStartDate']);
+        }
+        if ((is_null($_SESSION['filterByEndDate'])) OR ($_SESSION['filterByEndDate'] === '')) {
+/*
+            Si la date de fin n'est pas paramétrée ou qu'elle a été réinitialisée sur le calendrier :
+            On définit comme date d'arrivée la date de la dernière prise de contact effectuée.
+*/
+            $endDateFilter = (string) $lastContactDate;
+        } else {
+//          Sinon, on définit la date d'arrivée à la date sélectionnée par l'utilisateur connecté.
+            $endDateFilter = Dates_Mgr::paramToUnixString($_SESSION['filterByEndDate']);
+        }
+//      Récupère la liste des prospects selon le(s) paramètre(s) de filtrage actuellement(s) défini(s).
+        $tCustomers = Pro_Mgr::getFilteredCustomersList($userFilter, 
+                                                        $startDateFilter, 
+                                                        $endDateFilter);
+    } else {
+//          Sinon, charge la liste complète sans aucun filtre.
+            $tCustomers = Pro_Mgr::getFullCustomersList();
+    }
+    foreach($tCustomers as $tCustomer) {
+        $tInfosLastContact = Contacting_Mgr::getInfosContactWhereDateIs($tCustomer['date_derniere_pdc']);
+
 //°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°
 //°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°
 
-//          Si l'utilisateur n'est pas administrateur
+//          Si l'utilisateur n'est pas un administrateur
 
 //°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°
 //°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°
@@ -156,20 +238,6 @@ if ($rights != 1 ) {
                 } else {
                     echo'<td class="text-center">'.($unknown).'</td>';
                 }
-                // if ($tCustomer['cp'] === '') {
-                //     echo 
-                //     '<td>'.$tCustomer['ville'].'</td>';
-                //     if ($tCustomer['ville'=== '']) {
-                //         echo 
-                //         '<td>'.' '.'</td>';
-                //     }
-                // } elseif ($tCustomer['ville'] === '') {
-                //     echo
-                //     '<td>'.$tCustomer['cp'].'</td>';
-                // } else {
-                //     echo
-                //     '<td>'.$tCustomer['lieu'].'</td>';
-                // }
                 echo
                 '<td>'.$tCustomer['suivi'].'</td>
                 <td title="'.$tInfosLastContact[0]['commentaire'].'">'.$tInfosLastContact[0]['libelle_conclusion'].'</td>
@@ -226,8 +294,9 @@ if ($rights != 1 ) {
                         '<input type="hidden" name="ID_professionnel" value="'.$tCustomer['ID_professionnel'].'">
                         <input type="hidden" name="ID_utilisateur" value="'.$tCustomer['ID_utilisateur'].'">
                         <input type="hidden" name="libelle_entreprise" value="'.$tCustomer['libelle_entreprise'].'">
+                        <input type="hidden" name="prospect_ou_client" value="'.$tCustomer['prospect_ou_client'].'">
                         <input type="hidden" name="action" value="proActivity">
-                        <button class="followIcon" type="submit" title="Voir le suivi du client">
+                        <button class="followIcon" type="submit" title="Voir le suivi">
                             <i class="fas fa-glasses"></i>
                         </button>
                     </form>
@@ -284,20 +353,6 @@ if ($rights != 1 ) {
                 } else {
                     echo'<td class="text-center">'.($unknown).'</td>';
                 }
-                // if ($tCustomer['cp'] === '') {
-                //     echo 
-                //     '<td>'.$tCustomer['ville'].'</td>';
-                //     if ($tCustomer['ville'=== '']) {
-                //         echo 
-                //         '<td>'.' '.'</td>';
-                //     }
-                // } elseif ($tCustomer['ville'] === '') {
-                //     echo
-                //     '<td>'.$tCustomer['cp'].'</td>';
-                // } else {
-                //     echo
-                //     '<td>'.$tCustomer['lieu'].'</td>';
-                // }
                 echo
                 '<td>'.$tCustomer['suivi'].'</td>
                 <td title="'.$tInfosLastContact[0]['commentaire'].'">'.$tInfosLastContact[0]['libelle_conclusion'].'</td>
@@ -332,8 +387,9 @@ if ($rights != 1 ) {
                         <input type="hidden" name="ID_professionnel" value="'.$tCustomer['ID_professionnel'].'">
                         <input type="hidden" name="ID_utilisateur" value="'.$tCustomer['ID_utilisateur'].'">
                         <input type="hidden" name="libelle_entreprise" value="'.$tCustomer['libelle_entreprise'].'">
+                        <input type="hidden" name="prospect_ou_client" value="'.$tCustomer['prospect_ou_client'].'">
                         <input type="hidden" name="action" value="proActivity">
-                        <button class="followIcon" type="submit" title="Voir le suivi du client">
+                        <button class="followIcon" type="submit" title="Voir le suivi">
                             <i class="fas fa-glasses"></i>
                         </button>
                     </form>
