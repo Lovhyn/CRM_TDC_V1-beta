@@ -320,7 +320,7 @@ if ($rights != 1 ) {
                     </div>';
                 } else {
                     echo
-                    '<div class="d-flex justify-content-center">
+                    '<div title="N° de téléphone non renseigné" class="d-flex justify-content-center">
                         <div class="phoneIconNoRights">
                             <i class="fas fa-phone"></i>
                         </div>

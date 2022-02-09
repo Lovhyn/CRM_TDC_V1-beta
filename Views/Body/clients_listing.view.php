@@ -278,6 +278,13 @@ if ($rights != 1 ) {
                             <i class="far fa-edit"></i>
                         </button>
                     </form>';
+                } else {
+                    echo'
+                        <div title="Vous n\'êtes pas en charge de ce suivi" class="d-flex justify-content-center">
+                            <div class="updIconNoRights">
+                                <i class="far fa-edit"></i>
+                            </div>
+                        </div>';
                 }
                 echo
                 '</td>
@@ -310,6 +317,13 @@ if ($rights != 1 ) {
                                 <i id="iconPhone" class="fas fa-phone"></i>
                             </a>
                         </button>
+                    </div>';
+                } else {
+                    echo
+                    '<div title="N° de téléphone non renseigné" class="d-flex justify-content-center">
+                        <div class="phoneIconNoRights">
+                            <i class="fas fa-phone"></i>
+                        </div>
                     </div>';
                 }
                 '</td>
