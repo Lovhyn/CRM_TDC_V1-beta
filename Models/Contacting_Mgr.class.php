@@ -437,8 +437,7 @@ class Contacting_Mgr {
                             INNER JOIN professionnel p ON p.`ID_professionnel` = s.`ID_professionnel`
                             WHERE `date_rdv` IS NOT NULL
                             AND s.ID_utilisateur = :paramUser 
-                            ORDER BY s.`date_rdv` 
-                            LIMIT 8; ";
+                            ORDER BY s.`date_rdv` ASC; ";
 //          Connexion PDO + prépare l'envoi de la requête.
             $repPDO = $PDOconnexion->prepare($sqlRequest);
 //          Exécute la requête en affectant les valeurs données en paramètres aux étiquettes.

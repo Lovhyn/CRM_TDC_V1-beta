@@ -30,6 +30,7 @@
         $clientsListing = "../Views/Body/clients_listing.view.php";
         $addNewClientForm = "../Views/Body/add_new_client.view.php";
         $updateContactForm = "../Views/Body/updateContactForm.view.php";
+        $myMeetings = "../Views/Body/my_meetings.view.php";
 //      -------------------------------------------------------------------------------------------
 //      --------------------------------------Switch $action---------------------------------------
 //      -------------------------------------------------------------------------------------------
@@ -38,6 +39,11 @@
             case 'home' :
                 require($header);
                 require($home);
+                require($footer);
+                break;
+            case 'myMeetings':
+                require($header);
+                require($myMeetings);
                 require($footer);
                 break;
 //          ****************************** MANAGEMENT PROSPECTS & CLIENTS *************************

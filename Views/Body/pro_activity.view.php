@@ -113,7 +113,6 @@ $unknown = ' - ';
     }
 ?>
 <!----------------------------------------HIDDEN BUTTON-------------------------------------->
-
         <div class="w-25 d-flex align-items-center justify-content-center invisible">
             <div class="d-flex justify-content-center">
                 <button title="Retour à la liste des prospects" type="submit" class="backToProListingIcon">
@@ -121,6 +120,7 @@ $unknown = ' - ';
                 </button>
             </div>
         </div>
+<!------------------------------------------------------------------------------------------->
     </div>
     <div class="table-responsive">
         <table class="table table-hover table-striped table-dark mt-3 w-auto" 

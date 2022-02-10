@@ -14,7 +14,7 @@ $rights = (int) $_SESSION['rights'];
                     d-xs-flex flex-xs-column justify-content-xs-center">
         <div class="w-md-50 w-xs-100">
             <div class="d-flex justify-content-center">
-                <h5>Tes déplacements</h5>
+                <h5>Déplacements</h5>
             </div>
 <?php 
 //          Récupère tous les rendez-vous du jour dans la base de données pour l'utilisateur donné en paramètre.
@@ -22,7 +22,10 @@ $rights = (int) $_SESSION['rights'];
 ?>
             <table class="table table-hover table-striped table-dark w-auto">
                 <div class="d-flex justify-content-center">
-                    <a class="fullListLink" href="">(Voir tout)</a>
+                    <form action="/outils/Controllers/Controller_cdp.php" method="post">
+                        <input type="hidden" name="action" value="myMeetings">
+                        <input class="myMeetingsLink" type="submit" title="Voir tout tes déplacements" value="(Voir tout)">
+                    </form>
                 </div>
                 <thead>
                     <tr>
@@ -33,27 +36,26 @@ $rights = (int) $_SESSION['rights'];
                     </tr>
                 </thead>
 <?php 
-        foreach ($tPlannedMeetings as $tPlannedMeeting) {  
+        $today = Dates_Mgr::dateFormatDayMonthYear(Dates_Mgr::nowToUnixString()); 
+        for ($i = 0 ; $i < 5 ; $i++) {  
 /*
             On cherche à n'afficher que les rendez-vous du jour, 
             On va donc comparer chaque date de rendez-vous enregistré en bdd avec la date du jour.
 */                
-            $meetingDate = Dates_Mgr::dateFormatDayMonthYear($tPlannedMeeting['date_rdv']);
-            $today = Dates_Mgr::dateFormatDayMonthYear(Dates_Mgr::nowToUnixString()); 
-            if  (Dates_Mgr::dateFormatDayMonthYear($tPlannedMeeting['date_rdv']) === $today) {
+            if  (Dates_Mgr::dateFormatDayMonthYear($tPlannedMeetings[$i]['date_rdv']) === $today) {
 //              La méthode "explode" permet de segmenter la chaîne passée en second paramètre au niveau du séparateur donné en premier paramètre.
-                $meetingHour = explode("à ", Dates_Mgr::dateFormatDayMonthYearHourMinutesSeconds($tPlannedMeeting['date_rdv']));
+                $meetingHour = explode("à ", Dates_Mgr::dateFormatDayMonthYearHourMinutesSeconds($tPlannedMeetings[$i]['date_rdv']));
                 echo
-                    '<tr title="'.$tPlannedMeeting['commentaire'].'">
-                        <td>'.$tPlannedMeeting['libelle_entreprise'].'</td>
+                    '<tr title="'.$tPlannedMeetings[$i]['commentaire'].'">
+                        <td>'.$tPlannedMeetings[$i]['libelle_entreprise'].'</td>
                         <td> à '.$meetingHour[1].'</td>
                         <td>';
-                if ($tPlannedMeeting['adresse'] != '') {
+                if ($tPlannedMeetings[$i]['adresse'] != '') {
                     echo
                             '<div class="d-flex justify-content-center">
                                 <button class="mapIcon">
-                                    <a title="'.$tPlannedMeeting['adresse'].', '.$tPlannedMeeting['cp'].', '.$tPlannedMeeting['ville'].'" 
-                                        href="http://maps.google.com/maps?daddr='.$tPlannedMeeting['adresse'].' '.$tPlannedMeeting['cp'].' '.$tPlannedMeeting['ville'].'">
+                                    <a target="_blank" title="Voir itinéraire : '.$tPlannedMeetings[$i]['adresse'].', '.$tPlannedMeetings[$i]['cp'].', '.$tPlannedMeetings[$i]['ville'].'" 
+                                        href="http://maps.google.com/maps?daddr='.$tPlannedMeetings[$i]['adresse'].' '.$tPlannedMeetings[$i]['cp'].' '.$tPlannedMeetings[$i]['ville'].'">
                                         <i class="fas fa-map-marker-alt"></i>
                                     </a>
                                 </button>
@@ -62,11 +64,11 @@ $rights = (int) $_SESSION['rights'];
                     echo
                         '</td>
                         <td>';
-                if ($tPlannedMeeting['tel'] != '') {
+                if ($tPlannedMeetings[$i]['tel'] != '') {
                     echo
                             '<div class="d-flex justify-content-center">
                                 <button class="phoneIcon">
-                                    <a title="Appeler : '.$tPlannedMeeting['tel'].'" href="tel:'.$tPlannedMeeting['tel'].'">
+                                    <a title="Appeler : '.$tPlannedMeetings[$i]['tel'].'" href="tel:'.$tPlannedMeetings[$i]['tel'].'">
                                         <i id="iconPhone" class="fas fa-phone"></i>
                                     </a>
                                 </button>
@@ -81,7 +83,7 @@ $rights = (int) $_SESSION['rights'];
         </div>
         <div class="w-md-50 w-xs-100">
             <div class="d-flex justify-content-center">
-                <h5>Tes appels</h5>
+                <h5>Mes appels</h5>
             </div>
 <?php 
 //          Récupère toutes les relances du jour dans la base de données pour l'utilisateur donné en paramètre.

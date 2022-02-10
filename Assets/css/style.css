@@ -212,7 +212,7 @@ h1, h2, h3, h4, h5, h6, span {
     background-color: #21252900;
 }
 .fullInfosBtn:hover {
-    color: #ED6DA6;
+    color: #cd44f7;
     transform: scale(1.1);
     text-decoration: underline;
 }
@@ -333,7 +333,6 @@ thead th {
     color: #cd44f7;
     transform: scale(1.1);
 }
-
 .float-left.pagination-detail {
     display: flex;
     width: 100%;
@@ -341,7 +340,15 @@ thead th {
 .pagination-info {
     display: none;
 }
-
+.myMeetingsLink {
+    border: none;
+    background-color: transparent;
+    color: #ED6DA6;
+}
+.myMeetingsLink:hover {
+    color: #cd44f7;
+    transform: scale(1.1);
+}
 
 
 
