@@ -143,15 +143,15 @@ h1, h2, h3, h4, h5, h6, span {
     background-color: #21252900;
 }
 
-.updIconNoRights, .phoneIconNoRights {
+.updIconNoRights, .phoneIconNoRights, .delIconNoRights {
     border: none;
     color: #616161;
     background-color: #21252900;
 }
-.updIconNoRights:hover  {
+.updIconNoRights:hover, .delIconNoRights  {
     cursor: not-allowed;
 }
-.phoneIconNoRights {
+.phoneIconNoRights, .delIconNoRights {
     cursor: not-allowed;
 }
 

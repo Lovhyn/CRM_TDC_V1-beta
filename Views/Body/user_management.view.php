@@ -66,6 +66,13 @@
                         <i class="far fa-trash-alt"></i>
                     </button>
                 </form>';
+            } else {
+                echo
+                '<div title="Cet utilisateur est en charge d\'un (ou plusieurs) suivi(s)" class="d-flex justify-content-center">
+                    <div class="delIconNoRights">
+                        <i class="far fa-trash-alt"></i>
+                    </div>
+                </div>';
             }
             echo
             '</td>

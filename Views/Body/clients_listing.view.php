@@ -418,6 +418,13 @@ if ($rights != 1 ) {
                             </a>
                         </button>
                     </div>';
+                } else {
+                    echo
+                    '<div title="N° de téléphone non renseigné" class="d-flex justify-content-center">
+                        <div class="phoneIconNoRights">
+                            <i class="fas fa-phone"></i>
+                        </div>
+                    </div>';
                 }
                 '</td>
             </tr>';
