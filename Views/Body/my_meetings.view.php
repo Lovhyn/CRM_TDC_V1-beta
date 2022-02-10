@@ -6,7 +6,7 @@ $rights = (int) $_SESSION['rights'];
 <div class="container">
 <hr>
     <div class="d-flex justify-content-center mt-3">
-        <h2>Déplacements</h2>
+        <h2>Rendez-vous</h2>
     </div>
 <?php
 //  Récupère tous les rendez-vous du jour dans la base de données pour l'utilisateur donné en paramètre.
@@ -22,6 +22,7 @@ $rights = (int) $_SESSION['rights'];
                         <th data-sortable="true">Nom</th>
                         <th>Décideur</th>
                         <th class="text-center" data-sortable="true">Date / Heure</th>
+                        <th></th>
                         <th></th>
                         <th></th>
                     </tr>
@@ -48,9 +49,34 @@ $rights = (int) $_SESSION['rights'];
                                 <button class="mapIcon">
                                     <a target="_blank" title="Voir itinéraire : '.$tPlannedMeeting['adresse'].', '.$tPlannedMeeting['cp'].', '.$tPlannedMeeting['ville'].'" 
                                         href="http://maps.google.com/maps?daddr='.$tPlannedMeeting['adresse'].' '.$tPlannedMeeting['cp'].' '.$tPlannedMeeting['ville'].'">
-                                        <i class="fas fa-map-marker-alt"></i>
+                                        <i class="fa-solid fa-car"></i>
                                     </a>
                                 </button>
+                            </div>';
+                        } 
+                        echo
+                        '</td>
+                        <td>';
+                        if ($tPlannedMeeting['cp']) {
+                            echo
+                            '<div class="d-flex justify-content-center">';
+                            if ($rights === 1) {
+                                echo
+                                '<form action="/outils/Controllers/Controller_admin.php" method="post">';
+                            } elseif ($rights === 2) {
+                                echo
+                                '<form action="/outils/Controllers/Controller_responsable.php" method="post">';
+                            } else {
+                                echo
+                                '<form action="/outils/Controllers/Controller_cdp.php" method="post">';
+                            }
+                                echo    
+                                    '<input type="hidden" name="action" value="allProsByCp">
+                                    <input type="hidden" name="commentaire" value="'.$tPlannedMeeting['cp'].'">
+                                    <button class="showProsIcon" type="submit" title="Modifier date de relance / date de rendez-vous">
+                                        <i class="fa-solid fa-map-location-dot"></i>
+                                    </button>
+                                </form>
                             </div>';
                         }
                         echo

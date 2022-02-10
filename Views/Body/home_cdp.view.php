@@ -56,9 +56,25 @@ $rights = (int) $_SESSION['rights'];
                                 <button class="mapIcon">
                                     <a target="_blank" title="Voir itinéraire : '.$tPlannedMeetings[$i]['adresse'].', '.$tPlannedMeetings[$i]['cp'].', '.$tPlannedMeetings[$i]['ville'].'" 
                                         href="http://maps.google.com/maps?daddr='.$tPlannedMeetings[$i]['adresse'].' '.$tPlannedMeetings[$i]['cp'].' '.$tPlannedMeetings[$i]['ville'].'">
-                                        <i class="fas fa-map-marker-alt"></i>
+                                        <i class="fa-solid fa-car"></i>
                                     </a>
                                 </button>
+                            </div>';
+                        
+                }
+                    echo
+                        '</td>
+                        <td>';
+                if ($tPlannedMeetings[$i]['cp'] != '') {
+                    echo
+                            '<div class="d-flex justify-content-center">
+                                <form action="/outils/Controllers/Controller_cdp.php" method="post">
+                                    <input type="hidden" name="action" value="allProsByCp">
+                                    <input type="hidden" name="commentaire" value="'.$tPlannedMeeting['cp'].'">
+                                    <button class="showProsIcon" type="submit" title="Modifier date de relance / date de rendez-vous">
+                                        <i class="fa-solid fa-map-location-dot"></i>
+                                    </button>
+                                </form>
                             </div>';
                 }
                     echo

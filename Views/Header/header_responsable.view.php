@@ -11,6 +11,7 @@
         <!--Bootstrap-->
         <link rel="stylesheet" href="/outils/Assets/css/bootstrap.css">
         <!--Font Awesome-->
+        <script src="https://kit.fontawesome.com/e782c71638.js" crossorigin="anonymous"></script>
         <link rel="stylesheet" href="/outils/Assets/css/all.min.css">
         <!--Bootstrap Table-->
         <link rel="stylesheet" href="https://unpkg.com/bootstrap-table@1.19.1/dist/bootstrap-table.min.css">
