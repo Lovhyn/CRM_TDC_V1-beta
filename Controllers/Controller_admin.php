@@ -36,6 +36,7 @@
         $conclusionsManagement = "../Views/Body/conclusions_management.view.php";
         $updateContactForm = "../Views/Body/updateContactForm.view.php";
         $myMeetings = "../Views/Body/my_meetings.view.php";
+        $myRecalls = "../Views/Body/my_recalls.view.php";
 //      -------------------------------------------------------------------------------------------
 //      --------------------------------------Switch $action---------------------------------------
 //      -------------------------------------------------------------------------------------------
@@ -46,9 +47,14 @@
                 require($home);
                 require($footer);
                 break;
-            case 'myMeetings':
+            case 'myMeetings' :
                 require($header);
                 require($myMeetings);
+                require($footer);
+                break;
+            case 'myRecalls' :
+                require($header);
+                require($myRecalls);
                 require($footer);
                 break;
 //          ****************************** MANAGEMENT PROSPECTS & CLIENTS *************************
