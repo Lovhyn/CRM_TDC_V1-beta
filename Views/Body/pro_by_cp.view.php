@@ -37,44 +37,34 @@ $noAdress = '<td>
             <thead>
                 <tr>
                     <th data-sortable="true">Nom</th>
-                    <th>Décideur</th>
-                    <th>Adresse</th>
-                    <th>Code postal</th>
-                    <th>Ville</th>
-                    <th>Observation</th>
-                    <th>Statut</th>
+                    <th></th>
                     <th></th>
                 </tr>
             </thead>
 <?php 
         foreach($tProListByCp as $tProByCp) {
             echo
-                '<tr>
-                    <td>'.$tProByCp['libelle_entreprise'].'</td>';
-            if ($tProByCp['nom_decideur'] != '') {
-                echo
-                    '<td>'.$tProByCp['nom_decideur'].'</td>';
-            } else echo($unknown);
-            if ($tProByCp['adresse'] != '') {
-                echo
-                    '<td>'.$tProByCp['adresse'].'</td>';
-            } else echo($noAdress);
-            if ($tProByCp['cp'] != '') {
-                echo
-                    '<td>'.$tProByCp['cp'].'</td>';
-            } else echo($unknown);
-            if ($tProByCp['ville'] != '') {
-                echo
-                    '<td>'.$tProByCp['ville'].'</td>';
-            } else echo($unknown);
-            if ($tProByCp['observation'] != '') {
-                echo
-                    '<td>'.$tProByCp['observation'].'</td>';
-            } else echo($unknown);
+                '<tr>';
             if ($tProByCp['prospect_ou_client'] === "1") {
                 echo
-                    '<td>(Client)</td>';
-            } else echo('<td>(Prospect)</td>'); 
+                    '<td title="(Client) | '.$tProByCp['observation'].'">'.$tProByCp['libelle_entreprise'].'</td>';
+            } else {
+                echo
+                    '<td title="(Prospect) | '.$tProByCp['observation'].'">'.$tProByCp['libelle_entreprise'].'</td>';
+            }
+            if ($tProByCp['adresse'] != '') {
+                echo
+                    '<td>
+                        <div class="d-flex justify-content-center">
+                            <button class="carIcon">
+                                <a target="_blank" title="Voir itinéraire : '.$tProByCp['adresse'].', '.$tProByCp['cp'].', '.$tProByCp['ville'].'" 
+                                    href="http://maps.google.com/maps?daddr='.$tProByCp['adresse'].' '.$tProByCp['cp'].' '.$tProByCp['ville'].'">
+                                    <i class="fa-solid fa-car"></i>
+                                </a>
+                            </button>
+                        </div>
+                    </td>';
+            } else echo($noAdress);
             if ($tProByCp['tel'] != '') {
                 echo 
                 '<td>
@@ -86,7 +76,7 @@ $noAdress = '<td>
                         </button>
                     </div>
                 </td>';
-            }
+            } else echo($noPhone);
             echo
             '</tr>';
         }
