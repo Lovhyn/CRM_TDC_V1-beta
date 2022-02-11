@@ -29,7 +29,7 @@ $noAdress = '<td>
 <div class="container">
 <hr>
     <div class="d-flex justify-content-center mt-3">
-        <h2>Prospects</h2>
+        <h2>Tous les professionnels du secteur</h2>
     </div>
     <div class="table-responsive">
         <table class="table table-hover table-striped table-dark w-auto" 
