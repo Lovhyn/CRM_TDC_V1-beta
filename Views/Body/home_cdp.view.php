@@ -90,7 +90,7 @@ $noAdress = '<td>
                             <div class="d-flex justify-content-center">
                                 <form action="/outils/Controllers/Controller_cdp.php" method="post">
                                     <input type="hidden" name="action" value="allProsByCp">
-                                    <input type="hidden" name="commentaire" value="'.$tPlannedMeetings[$i]['cp'].'">
+                                    <input type="hidden" name="cp" value="'.$tPlannedMeetings[$i]['cp'].'">
                                     <button class="showProsIcon" type="submit" title="Voir tous les professionnels dont le code postal est '.$tPlannedMeetings[$i]['cp'].'">
                                         <i class="fa-solid fa-map-location-dot"></i>
                                     </button>

@@ -32,6 +32,7 @@
         $updateContactForm = "../Views/Body/updateContactForm.view.php";
         $myMeetings = "../Views/Body/my_meetings.view.php";
         $myRecalls = "../Views/Body/my_recalls.view.php";
+        $proListByCp = "../Views/Body/pro_by_cp.view.php";
 //      -------------------------------------------------------------------------------------------
 //      --------------------------------------Switch $action---------------------------------------
 //      -------------------------------------------------------------------------------------------
@@ -50,6 +51,11 @@
             case 'myRecalls' :
                 require($header);
                 require($myRecalls);
+                require($footer);
+                break;
+            case 'allProsByCp' :
+                require($header);
+                require($proListByCp);
                 require($footer);
                 break;
 //          ****************************** MANAGEMENT PROSPECTS & CLIENTS *************************

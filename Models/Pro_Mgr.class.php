@@ -554,6 +554,45 @@ public static function getFilteredCustomersList(String $paramUserId, String $par
         }
     }
 //  °°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°
+    public static function getProListByCp(String $paramCp) {
+        try {
+//          Etablit une connexion à la base de données.
+            $PDOconnexion = BddConnexion::getConnexion();
+/*
+            Prépare la requête SQL et l'enregistre dans une variable =>
+            On souhaite ici récupérer : 
+            - l'utilisateur en charge du suivi d'un professionnel.
+*/
+            $sqlRequest = " SELECT 
+                            `libelle_entreprise`,
+                            `nom_decideur`,
+                            `adresse`,
+                            `cp`, 
+                            `ville`, 
+                            `tel`,
+                            `observation`,
+                            `prospect_ou_client`
+                            FROM professionnel
+                            WHERE `cp` = :paramCp; ";
+//          Connexion PDO + prépare l'envoi de la requête.
+            $repPDO = $PDOconnexion->prepare($sqlRequest);
+//          Exécute la requête en affectant les valeurs données en paramètres aux étiquettes.
+            $repPDO->execute(array(':paramCp' => $paramCp));
+//          On définit sous quelle forme nous souhaitons récupérer le résultat.
+            $repPDO->setFetchMode(PDO::FETCH_ASSOC);
+//          On récupère le résultat de la requête sous la forme d'un tableau associatif.
+            $records = $repPDO->fetchAll();
+//          Réinitialise le curseur.
+            $repPDO->closeCursor();
+//          Ferme la connexion à la bdd.
+            BddConnexion::disconnect();
+//          Puis on retourne ce tableau.
+            return $records;
+        } catch(Exception $e) {
+            die('Erreur : Accès interdit ou connexion impossible.');
+        }
+    }
+//  °°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°
     public static function checkIfExists(String $paramString) {
         try {
 //          Etablit une connexion à la base de données.

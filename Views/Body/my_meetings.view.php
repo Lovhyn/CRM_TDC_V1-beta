@@ -1,7 +1,7 @@
 <?php
 $userConnected = (int) $_SESSION['idUser'];
 $rights = (int) $_SESSION['rights'];
-$unknown = ' - ';
+$unknown = '<td class="d-flex justify-content-center"> - </td>';
 $noPhone = '<td>
                 <div title="N° de téléphone non renseigné" class="d-flex justify-content-center">
                     <div class="phoneIconNoRights">
@@ -94,7 +94,7 @@ foreach ($tPlannedMeetings as $tPlannedMeeting) {
             }
                 echo    
                             '<input type="hidden" name="action" value="allProsByCp">
-                            <input type="hidden" name="commentaire" value="'.$tPlannedMeeting['cp'].'">
+                            <input type="hidden" name="cp" value="'.$tPlannedMeeting['cp'].'">
                             <button class="showProsIcon" type="submit" title="Voir tous les professionnels dont le code postal est '.$tPlannedMeeting['cp'].'">
                                 <i class="fa-solid fa-map-location-dot"></i>
                             </button>
