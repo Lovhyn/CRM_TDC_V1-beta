@@ -251,6 +251,7 @@ $unknown = ' - ';
                         }
                             echo    '<input type="hidden" name="action" value="updateContact">
                                     <input type="hidden" name="date_rdv" value="'.$tProActivity['date_rdv'].'">
+                                    <input type="hidden" name="prospect_ou_client" value="'.$tProActivity['prospect_ou_client'].'">
                                     <input type="hidden" name="date_relance" value="'.$tProActivity['date_relance'].'">
                                     <input type="hidden" name="ID_professionnel" value="'.$_POST['ID_professionnel'].'">
                                     <input type="hidden" name="libelle_entreprise" value="'.$_POST['libelle_entreprise'].'">

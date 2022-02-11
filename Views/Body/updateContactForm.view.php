@@ -86,6 +86,7 @@ $proId = (int) $_POST['ID_professionnel'];
     }
 ?>
                 <input type="hidden" name="action" value="proActivity">
+                <input type="hidden" name="prospect_ou_client" value="<?php echo($_POST['prospect_ou_client']);?>">
                 <input type="hidden" name="ID_professionnel" value="<?php echo($_POST['ID_professionnel']);?>">
                 <input type="hidden" name="libelle_entreprise" value="<?php echo($_POST['libelle_entreprise']);?>">
                 <input type="hidden" name="ID_utilisateur" value="<?php echo($_POST['ID_utilisateur']);?>">
