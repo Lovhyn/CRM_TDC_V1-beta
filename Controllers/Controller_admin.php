@@ -16,7 +16,7 @@
         } elseif (isset($_GET['action'])) {
             $action = $_GET['action'];
         }
-//      Routes : 
+//      Routes :
         $header = "../Views/Header/header_admin.view.php";
         $footer = "../Views/Footer/footer.view.php";
         $home = "../Views/Body/home_admin.view.php";
@@ -35,6 +35,7 @@
         $activityAreaManagement = "../Views/Body/activity_area_management.view.php";
         $conclusionsManagement = "../Views/Body/conclusions_management.view.php";
         $updateContactForm = "../Views/Body/updateContactForm.view.php";
+        $myMeetings = "../Views/Body/my_meetings.view.php";
 //      -------------------------------------------------------------------------------------------
 //      --------------------------------------Switch $action---------------------------------------
 //      -------------------------------------------------------------------------------------------
@@ -43,6 +44,11 @@
             case 'home' :
                 require($header);
                 require($home);
+                require($footer);
+                break;
+            case 'myMeetings':
+                require($header);
+                require($myMeetings);
                 require($footer);
                 break;
 //          ****************************** MANAGEMENT PROSPECTS & CLIENTS *************************
@@ -112,7 +118,7 @@
                 Attention au typage : 
                 Les données concernant l'interlocuteur ne sont pas requises, par conséquent, des
                 valeurs NULL peuvent être envoyées en BDD. Nous contrôlons ici si les variables sont
-                vides ou non. Si elles le sont, nous envoyons des chaînes vides à la fonction 
+                vides ou non. Si elles le sont, nous envoyons des chaînes vides à la fonction
                 'createInterlocutorInfos' qui elle, se chargera d'envoyer NULL si elle reçoit des 
                 chaînes vides en paramètre.
 */
@@ -524,15 +530,16 @@
                 if (isset($_POST['majRecallCalendar'])) {
                     if (($_POST['majRecallCalendar'] != NULL) AND ($_POST['majRecallCalendar']!= '')) {
 //                      On convertit la date saisie depuis le calendrier de mise à jour en UNIX.
-                        $newDate = Dates_Mgr::paramToUnixString($_POST['majRecallCalendar']);
-//                      On récupère la valeur UNIX du moment présent.
-                        $today = Dates_Mgr::nowToUnixString();
+                        $selectedDate = Dates_Mgr::paramToUnixString($_POST['majRecallCalendar']);
+                        $newDate = Dates_Mgr::dateFormatDayMonthYear($selectedDate);
+//                      On récupère la date du jour.
+                        $today = Dates_Mgr::dateFormatDayMonthYear(Dates_Mgr::nowToUnixString()); 
 /*
                         On détermine que la mise à jour ne sera faite que si et seulement si
                         le jour de relance choisi par l'utilisateur est ultérieur ou égal 
                         à la date du jour.  
 */                      
-                        if ($newDate > $today) {
+                        if ($newDate >= $today) {
                             Contacting_Mgr::updateRecallDate($newDate, $idContact);
                             $msg = '<div class="text-center" style="color: #3bf6a2">La date de relance a bien été modifiée !</div>';
                         } else {

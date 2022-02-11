@@ -30,6 +30,7 @@
         $clientsListing = "../Views/Body/clients_listing.view.php";
         $addNewClientForm = "../Views/Body/add_new_client.view.php";
         $updateContactForm = "../Views/Body/updateContactForm.view.php";
+        $myMeetings = "../Views/Body/my_meetings.view.php";
 //      -------------------------------------------------------------------------------------------
 //      --------------------------------------Switch $action---------------------------------------
 //      -------------------------------------------------------------------------------------------
@@ -40,14 +41,19 @@
                 require($home);
                 require($footer);
                 break;
+            case 'myMeetings':
+                require($header);
+                require($myMeetings);
+                require($footer);
+                break;
 //          ****************************** MANAGEMENT PROSPECTS & CLIENTS *************************
 //          READ
-            case 'prospectsListing' : 
+            case 'prospectsListing' :
                 prospectListing:
                 require($header);
                 require($prospectListing);
                 require($footer);
-                break; 
+                break;
             case 'clientsListing' :
                 require($header);
                 require($clientsListing);
@@ -63,7 +69,7 @@
                 require($fullInfosContact);
                 require($footer);
                 break;
-            case 'proActivity':
+            case 'proActivity' :
                 require($header);
                 require($proActivity);
                 require($footer);
@@ -83,7 +89,7 @@
                 - Etape 1 : On insert un nouveau professionnel
                 - Etape 2 : On insert les infos sur l'interlocuteur
                 - Etape 3 : On insert un suivi en récupèrant les identifiants du pro et de l'interlocuteur.
-*/                
+*/  
                 $idUser = (int) $_SESSION['idUser'];       
                 $newProspectName = $_POST['prospectName'];
                 $newProspectDecisionMakerName = $_POST['prospectDecisionMakerName'];
@@ -107,8 +113,9 @@
                 Attention au typage : 
                 Les données concernant l'interlocuteur ne sont pas requises, par conséquent, des
                 valeurs NULL peuvent être envoyées en BDD. Nous contrôlons ici si les variables sont
-                vides ou non. Si elles le sont, nous envoyons des chaînes vides à la fonction 'createInterlocutorInfos'
-                qui elle, se chargera d'envoyer NULL si elle reçoit des chaînes vides en paramètre.
+                vides ou non. Si elles le sont, nous envoyons des chaînes vides à la fonction
+                'createInterlocutorInfos' qui elle, se chargera d'envoyer NULL si elle reçoit des 
+                chaînes vides en paramètre.
 */
                 switch ($idInterlocutorType) {
                     case 1 :
@@ -198,15 +205,16 @@
                         $lastValueAfter = (int) $resultAfter[0]["AUTO_INCREMENT"];
 //          Etape 2 :
                         if ($lastValueAfter === ($lastValueBefore + 1)) {
-                            InfosInterlocutor_Mgr::createInterlocutorInfos($contactInterlocutorName, $contactInterlocutorInfo);
+                            InfosInterlocutor_Mgr::createInterlocutorInfos($contactInterlocutorName, 
+                                                                        $contactInterlocutorInfo);
 //                          Récupère la prochaine valeur de l'auto-increment après l'insert.
                             $lastIdInfosAfter = InfosInterlocutor_Mgr::getLastAutoIncrementValue();
 //                          Convertit le résultat en entier.
                             $infosInterlocutorIdValue = (int) $lastIdInfosAfter[0]["AUTO_INCREMENT"];
 //                          Récupère l'identifiant du dernier insert de la table 'infos_interlocuteur'.
                             $infoInterlocutorId = $infosInterlocutorIdValue - 1;
-//                          Récupère la date du jour et là retourne au format Unix sous forme de String.
 //          Etape 3 :
+//                          Récupère la date du jour et là retourne au format Unix sous forme de String.
                             $lastContactDate = Dates_Mgr::nowToUnixString();
 //                          Si l'utilisateur a validé une date depuis le calendrier rdv, on enregistre une date de rdv. 
                             if ((isset($_POST['meetingCalendar'])) AND ($contactConclusion === 5)) {
@@ -325,7 +333,7 @@
                 require($updateProForm);
                 require($footer);
                 break;
-//          UPDATE => [ONSUBMIT]
+//          UPDATE => [ON SUBMIT]
             case 'updatedPro' :
                 $proToUpdate = (int) $_POST['currentProId'];
                 $newProName = $_POST['majProName'];
@@ -370,7 +378,7 @@
                 require($footer);
                 break;
 //          CREATE => [ON SUBMIT]
-            case 'addedNewContact' : 
+            case 'addedNewContact' :
                 $idPro = (int) $_POST['ID_professionnel'];
                 $idUser = (int) $_POST['ID_utilisateur'];
                 $idInterlocutorType = (int) $_POST['idInterlocutorType'];
@@ -523,15 +531,16 @@
                 if (isset($_POST['majRecallCalendar'])) {
                     if (($_POST['majRecallCalendar'] != NULL) AND ($_POST['majRecallCalendar']!= '')) {
 //                      On convertit la date saisie depuis le calendrier de mise à jour en UNIX.
-                        $newDate = Dates_Mgr::paramToUnixString($_POST['majRecallCalendar']);
-//                      On récupère la valeur UNIX du moment présent.
-                        $today = Dates_Mgr::nowToUnixString();
+                        $selectedDate = Dates_Mgr::paramToUnixString($_POST['majRecallCalendar']);
+                        $newDate = Dates_Mgr::dateFormatDayMonthYear($selectedDate);
+//                      On récupère la date du jour.
+                        $today = Dates_Mgr::dateFormatDayMonthYear(Dates_Mgr::nowToUnixString());
 /*
                         On détermine que la mise à jour ne sera faite que si et seulement si
                         le jour de relance choisi par l'utilisateur est ultérieur ou égal 
                         à la date du jour.  
 */                      
-                        if ($newDate > $today) {
+                        if ($newDate >= $today) {
                             Contacting_Mgr::updateRecallDate($newDate, $idContact);
                             $msg = '<div class="text-center" style="color: #3bf6a2">La date de relance a bien été modifiée !</div>';
                         } else {

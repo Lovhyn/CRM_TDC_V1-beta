@@ -73,7 +73,7 @@ $rights = (int) $_SESSION['rights'];
                                 echo    
                                     '<input type="hidden" name="action" value="allProsByCp">
                                     <input type="hidden" name="commentaire" value="'.$tPlannedMeeting['cp'].'">
-                                    <button class="showProsIcon" type="submit" title="Modifier date de relance / date de rendez-vous">
+                                    <button class="showProsIcon" type="submit" title="Voir tous les professionnels dont le code postal est '.$tPlannedMeeting['cp'].'">
                                         <i class="fa-solid fa-map-location-dot"></i>
                                     </button>
                                 </form>

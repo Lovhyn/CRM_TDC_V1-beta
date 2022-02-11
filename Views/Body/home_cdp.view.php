@@ -70,8 +70,8 @@ $rights = (int) $_SESSION['rights'];
                             '<div class="d-flex justify-content-center">
                                 <form action="/outils/Controllers/Controller_cdp.php" method="post">
                                     <input type="hidden" name="action" value="allProsByCp">
-                                    <input type="hidden" name="commentaire" value="'.$tPlannedMeeting['cp'].'">
-                                    <button class="showProsIcon" type="submit" title="Modifier date de relance / date de rendez-vous">
+                                    <input type="hidden" name="commentaire" value="'.$tPlannedMeetings[$i]['cp'].'">
+                                    <button class="showProsIcon" type="submit" title="Voir tous les professionnels dont le code postal est '.$tPlannedMeetings[$i]['cp'].'">
                                         <i class="fa-solid fa-map-location-dot"></i>
                                     </button>
                                 </form>
@@ -99,7 +99,7 @@ $rights = (int) $_SESSION['rights'];
         </div>
         <div class="w-md-50 w-xs-100">
             <div class="d-flex justify-content-center">
-                <h5>Mes appels</h5>
+                <h5>Relances</h5>
             </div>
 <?php 
 //          Récupère toutes les relances du jour dans la base de données pour l'utilisateur donné en paramètre.
