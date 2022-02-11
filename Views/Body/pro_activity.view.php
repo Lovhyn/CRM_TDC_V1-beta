@@ -2,6 +2,11 @@
 $userConnected = (int) $_SESSION['idUser'];
 $rights = (int) $_SESSION['rights'];
 $unknown = ' - ';
+$unupdatable = '<div title="Une prise de contact plus récente à eu lieu." class="d-flex justify-content-center">
+                    <div class="updIconNoRights">
+                        <i class="far fa-edit"></i>
+                    </div>
+                </div>';
 ?>
 <div class="container">
 <hr>
@@ -85,6 +90,7 @@ $unknown = ' - ';
                 }
                 echo
                         '<input type="hidden" name="ID_professionnel" value="'.$_POST['ID_professionnel'].'">
+                        <input type="hidden" name="prospect_ou_client" value="'.$_POST['prospect_ou_client'].'"
                         <input type="hidden" name="libelle_entreprise" value="'.$_POST['libelle_entreprise'].'">
                         <input type="hidden" name="ID_utilisateur" value="'.$userConnected.'">
                         <input type="hidden" name="action" value="addNewContactForm">
@@ -143,7 +149,6 @@ $unknown = ' - ';
 //      Récupère la liste des prospects de l'utilisateur connecté.
         $proId = (int) $_POST['ID_professionnel'];
         $tProActivities = Contacting_Mgr::getProActivity($proId);
-// var_dump($tProActivities);
         foreach($tProActivities as $tProActivity) {
             echo
             '<tr>
@@ -235,41 +240,61 @@ $unknown = ' - ';
 */
             $getUpdatableContact = Contacting_Mgr::getUpdatableContactByIdPro($proId);
             $updatableContact = $getUpdatableContact[0]['last_pdc'];
-            if ($idUserInChargeOfThisPro === (int) $_POST['ID_utilisateur']) {
-                if ($userConnected === (int) $_POST['ID_utilisateur']) {
-/*
-                    On compare donc la date de la dernière prise de contact avec le résultat de la requête. 
-                    Si les résultats sont identiques, alors le formulaire apparaît.
-*/
+            if ($rights != 1) {
+                if ($idUserInChargeOfThisPro === (int) $_POST['ID_utilisateur']) {
+                    if ($userConnected === (int) $_POST['ID_utilisateur']) {
+                        if ($tProActivity['date_derniere_pdc'] === $updatableContact) {
+                            if((int) $tProActivity['ID_utilisateur'] === $userConnected) {
+                                if ($rights === 2) {
+                                    echo
+                                        '<form action="/outils/Controllers/Controller_responsable.php" method="post">';
+                                } else {
+                                    echo
+                                        '<form action="/outils/Controllers/Controller_cdp.php" method="post">';
+                                }
+                                echo        
+                                            '<input type="hidden" name="action" value="updateContact">
+                                            <input type="hidden" name="date_rdv" value="'.$tProActivity['date_rdv'].'">
+                                            <input type="hidden" name="prospect_ou_client" value="'.$tProActivity['prospect_ou_client'].'">
+                                            <input type="hidden" name="date_relance" value="'.$tProActivity['date_relance'].'">
+                                            <input type="hidden" name="ID_professionnel" value="'.$_POST['ID_professionnel'].'">
+                                            <input type="hidden" name="libelle_entreprise" value="'.$_POST['libelle_entreprise'].'">
+                                            <input type="hidden" name="ID_utilisateur" value="'.$_POST['ID_utilisateur'].'">
+                                            <input type="hidden" name="ID_suivre" value="'.$tProActivity['ID_suivre'].'">
+                                            <input type="hidden" name="commentaire" value="'.$tProActivity['commentaire'].'">
+                                            <button class="updIcon" type="submit" title="Modifier date de relance / date de rendez-vous">
+                                                <i class="far fa-edit"></i>
+                                            </button>
+                                        </form>';
+                            } else echo($unupdatable);
+                        } else echo($unupdatable);
+                    } else echo($unupdatable); 
+                } else echo($unupdatable);
+            } else {
+                if ((int) $tProActivity['ID_utilisateur'] === $userConnected) {
                     if ($tProActivity['date_derniere_pdc'] === $updatableContact) {
-                        if ($rights === 1) {
-                            echo'<form action="/outils/Controllers/Controller_admin.php" method="post">';
-                        } elseif ($rights === 2) {
-                            echo'<form action="/outils/Controllers/Controller_responsable.php" method="post">';
-                        } else {
-                            echo'<form action="/outils/Controllers/Controller_cdp.php" method="post">';
-                        }
-                            echo    '<input type="hidden" name="action" value="updateContact">
-                                    <input type="hidden" name="date_rdv" value="'.$tProActivity['date_rdv'].'">
-                                    <input type="hidden" name="prospect_ou_client" value="'.$tProActivity['prospect_ou_client'].'">
-                                    <input type="hidden" name="date_relance" value="'.$tProActivity['date_relance'].'">
-                                    <input type="hidden" name="ID_professionnel" value="'.$_POST['ID_professionnel'].'">
-                                    <input type="hidden" name="libelle_entreprise" value="'.$_POST['libelle_entreprise'].'">
-                                    <input type="hidden" name="ID_utilisateur" value="'.$_POST['ID_utilisateur'].'">
-                                    <input type="hidden" name="ID_suivre" value="'.$tProActivity['ID_suivre'].'">
-                                    <input type="hidden" name="commentaire" value="'.$tProActivity['commentaire'].'">
-                                    <button class="updIcon" type="submit" title="Modifier date de relance / date de rendez-vous">
-                                        <i class="far fa-edit"></i>
-                                    </button>
-                                </form>';
-                    } else {
-                        echo($unknown);
-                    }
-                }
-            }
-            echo    '</td>
+                        echo
+                            '<form action="/outils/Controllers/Controller_admin.php" method="post">
+                                <input type="hidden" name="action" value="updateContact">
+                                <input type="hidden" name="date_rdv" value="'.$tProActivity['date_rdv'].'">
+                                <input type="hidden" name="prospect_ou_client" value="'.$tProActivity['prospect_ou_client'].'">
+                                <input type="hidden" name="date_relance" value="'.$tProActivity['date_relance'].'">
+                                <input type="hidden" name="ID_professionnel" value="'.$_POST['ID_professionnel'].'">
+                                <input type="hidden" name="libelle_entreprise" value="'.$_POST['libelle_entreprise'].'">
+                                <input type="hidden" name="ID_utilisateur" value="'.$_POST['ID_utilisateur'].'">
+                                <input type="hidden" name="ID_suivre" value="'.$tProActivity['ID_suivre'].'">
+                                <input type="hidden" name="commentaire" value="'.$tProActivity['commentaire'].'">
+                                <button class="updIcon" type="submit" title="Modifier date de relance / date de rendez-vous">
+                                    <i class="far fa-edit"></i>
+                                </button>
+                            </form>';
+                    } else echo($unupdatable);
+                } else echo($unupdatable);
+            } 
+            echo    
+                '</td>
             </tr>'; 
-        }
+        } 
 ?>
         </table>
     </div>

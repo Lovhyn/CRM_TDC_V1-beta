@@ -35,7 +35,7 @@ $rights = (int) $_SESSION['rights'];
                         <th class="text-center"></th>
                     </tr>
                 </thead>
-<?php 
+<?php
         $today = Dates_Mgr::dateFormatDayMonthYear(Dates_Mgr::nowToUnixString()); 
         for ($i = 0 ; $i < 5 ; $i++) {  
 /*
@@ -115,28 +115,25 @@ $rights = (int) $_SESSION['rights'];
                         <th class="text-center"></th>
                         <th class="text-center"></th>
                         <th class="text-center"></th>
-                        <th class="text-center"></th>
                     </tr>
                 </thead> 
 <?php
-        foreach($tPlannedRecalls as $tPlannedRecall) {
+        for ($i = 0 ; $i < 5 ; $i++) {
 /*
             On cherche à n'afficher que les relances du jour, 
             On va donc comparer chaque date de relance enregistrée en bdd avec la date du jour.
 */    
-            $recallDate = Dates_Mgr::dateFormatDayMonthYear($tPlannedRecall['date_relance']);
-            $today = Dates_Mgr::dateFormatDayMonthYear(Dates_Mgr::nowToUnixString()); 
-            if  (Dates_Mgr::dateFormatDayMonthYear($tPlannedRecall['date_relance']) === $today) {
+            if  (Dates_Mgr::dateFormatDayMonthYear($tPlannedRecalls[$i]['date_relance']) === $today) {
                 echo
-                    '<tr title="'.$tPlannedRecall['commentaire'].'">
-                        <td>'.$tPlannedRecall['libelle_entreprise'].'</td>
-                        <td>'.$tPlannedRecall['libelle_conclusion'].'</td>
+                    '<tr title="'.$tPlannedRecalls[$i]['commentaire'].'">
+                        <td>'.$tPlannedRecalls[$i]['libelle_entreprise'].'</td>
+                        <td>'.$tPlannedRecalls[$i]['libelle_conclusion'].'</td>
                         <td>';
-                if ($tPlannedRecall['tel'] != '') {
+                if ($tPlannedRecalls[$i]['tel'] != '') {
                     echo
                             '<div class="d-flex justify-content-center">
                                 <button class="phoneIcon">
-                                    <a title="Appeler : '.$tPlannedRecall['tel'].'" href="tel:'.$tPlannedRecall['tel'].'">
+                                    <a title="Appeler : '.$tPlannedRecalls[$i]['tel'].'" href="tel:'.$tPlannedRecalls[$i]['tel'].'">
                                         <i id="iconPhone" class="fas fa-phone"></i>
                                     </a>
                                 </button>

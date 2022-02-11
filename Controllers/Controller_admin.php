@@ -533,14 +533,14 @@
                         $selectedDate = Dates_Mgr::paramToUnixString($_POST['majRecallCalendar']);
                         $newDate = Dates_Mgr::dateFormatDayMonthYear($selectedDate);
 //                      On récupère la date du jour.
-                        $today = Dates_Mgr::dateFormatDayMonthYear(Dates_Mgr::nowToUnixString()); 
+                        $today = Dates_Mgr::dateFormatDayMonthYear(Dates_Mgr::nowToUnixString());
 /*
                         On détermine que la mise à jour ne sera faite que si et seulement si
                         le jour de relance choisi par l'utilisateur est ultérieur ou égal 
                         à la date du jour.  
 */                      
                         if ($newDate >= $today) {
-                            Contacting_Mgr::updateRecallDate($newDate, $idContact);
+                            Contacting_Mgr::updateRecallDate($selectedDate, $idContact);
                             $msg = '<div class="text-center" style="color: #3bf6a2">La date de relance a bien été modifiée !</div>';
                         } else {
                             $msg = '<div class="text-center" style="color: #E84E0E">Erreur : La date saisie ne doit pas être antérieure ou égale à celle d\'aujourd\'hui.</div>';

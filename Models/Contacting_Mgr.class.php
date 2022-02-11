@@ -480,7 +480,7 @@ class Contacting_Mgr {
                             INNER JOIN conclusion c ON s.`ID_conclusion` = c.`ID_conclusion`
                             WHERE `date_relance` IS NOT NULL
                             AND s.ID_utilisateur = :paramUser 
-                            LIMIT 8; ";
+                            ORDER BY s.`date_relance` ASC; ";
 //          Connexion PDO + prépare l'envoi de la requête.
             $repPDO = $PDOconnexion->prepare($sqlRequest);
 //          Exécute la requête en affectant les valeurs données en paramètres aux étiquettes.

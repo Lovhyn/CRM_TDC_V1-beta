@@ -541,7 +541,7 @@
                         à la date du jour.  
 */                      
                         if ($newDate >= $today) {
-                            Contacting_Mgr::updateRecallDate($newDate, $idContact);
+                            Contacting_Mgr::updateRecallDate($selectedDate, $idContact);
                             $msg = '<div class="text-center" style="color: #3bf6a2">La date de relance a bien été modifiée !</div>';
                         } else {
                             $msg = '<div class="text-center" style="color: #E84E0E">Erreur : La date saisie ne doit pas être antérieure ou égale à celle d\'aujourd\'hui.</div>';
