@@ -1,6 +1,27 @@
 <?php
 $userConnected = (int) $_SESSION['idUser'];
 $rights = (int) $_SESSION['rights'];
+$noPhone = '<td>
+                <div title="N° de téléphone non renseigné" class="d-flex justify-content-center">
+                    <div class="phoneIconNoRights">
+                        <i class="fas fa-phone"></i>
+                    </div>
+                </div>
+            </td>';
+$noCp = '<td>
+            <div title="Code postal non renseigné" class="d-flex justify-content-center">
+                <div class="showProsIconNoRights">
+                    <i class="fa-solid fa-map-location-dot"></i>
+                </div>
+            </div>
+        </td>';
+$noAdress = '<td>
+                <div title="Adresse non renseignée" class="d-flex justify-content-center">
+                    <div class="carIconNoRights">
+                        <i class="fa-solid fa-car"></i>
+                    </div>
+                </div>
+            </td>';
 ?>
 <div class="container">
 <hr>
@@ -24,7 +45,7 @@ $rights = (int) $_SESSION['rights'];
                 <div class="d-flex justify-content-center">
                     <form action="/outils/Controllers/Controller_cdp.php" method="post">
                         <input type="hidden" name="action" value="myMeetings">
-                        <input class="myMeetingsLink" type="submit" title="Voir tout tes déplacements" value="(Voir tout)">
+                        <input class="myMeetingsLink" type="submit" title="Tous mes rendez-vous" value="(Voir tout)">
                     </form>
                 </div>
                 <thead>
@@ -52,22 +73,21 @@ $rights = (int) $_SESSION['rights'];
                         <td>';
                 if ($tPlannedMeetings[$i]['adresse'] != '') {
                     echo
-                            '<div class="d-flex justify-content-center">
-                                <button class="mapIcon">
+                        '<td>
+                            <div class="d-flex justify-content-center">
+                                <button class="carIcon">
                                     <a target="_blank" title="Voir itinéraire : '.$tPlannedMeetings[$i]['adresse'].', '.$tPlannedMeetings[$i]['cp'].', '.$tPlannedMeetings[$i]['ville'].'" 
                                         href="http://maps.google.com/maps?daddr='.$tPlannedMeetings[$i]['adresse'].' '.$tPlannedMeetings[$i]['cp'].' '.$tPlannedMeetings[$i]['ville'].'">
                                         <i class="fa-solid fa-car"></i>
                                     </a>
                                 </button>
-                            </div>';
-                        
-                }
-                    echo
-                        '</td>
-                        <td>';
+                            </div>
+                        </td>';
+                } else echo($noAdress);
                 if ($tPlannedMeetings[$i]['cp'] != '') {
                     echo
-                            '<div class="d-flex justify-content-center">
+                        '<td>
+                            <div class="d-flex justify-content-center">
                                 <form action="/outils/Controllers/Controller_cdp.php" method="post">
                                     <input type="hidden" name="action" value="allProsByCp">
                                     <input type="hidden" name="commentaire" value="'.$tPlannedMeetings[$i]['cp'].'">
@@ -75,23 +95,23 @@ $rights = (int) $_SESSION['rights'];
                                         <i class="fa-solid fa-map-location-dot"></i>
                                     </button>
                                 </form>
-                            </div>';
-                }
-                    echo
-                        '</td>
-                        <td>';
+                            </div>
+                        </td>';
+                } else echo($noCp);
                 if ($tPlannedMeetings[$i]['tel'] != '') {
                     echo
-                            '<div class="d-flex justify-content-center">
+                        '<td>
+                            <div class="d-flex justify-content-center">
                                 <button class="phoneIcon">
                                     <a title="Appeler : '.$tPlannedMeetings[$i]['tel'].'" href="tel:'.$tPlannedMeetings[$i]['tel'].'">
                                         <i id="iconPhone" class="fas fa-phone"></i>
                                     </a>
                                 </button>
-                            </div>';
-                }   echo
-                        '</td>
-                    </tr>';
+                            </div>
+                        </td>';
+                } else echo($noPhone);
+                echo
+                    '</tr>';
             }
         }
 ?>
@@ -104,11 +124,13 @@ $rights = (int) $_SESSION['rights'];
 <?php 
 //          Récupère toutes les relances du jour dans la base de données pour l'utilisateur donné en paramètre.
             $tPlannedRecalls = Contacting_Mgr::getAllPlannedRecalls($userConnected);
-            // var_dump($tPlannedRecalls);
 ?>
             <table class="table table-hover table-striped table-dark w-auto">
                 <div class="d-flex justify-content-center">
-                    <a class="fullListLink" href="">(Voir tout)</a>
+                    <form action="/outils/Controllers/Controller_cdp.php" method="post">
+                        <input type="hidden" name="action" value="myRecalls">
+                        <input class="myRecallsLink" type="submit" title="Toutes mes relances" value="(Voir tout)">
+                    </form>
                 </div>
                 <thead>
                     <tr>
@@ -127,20 +149,21 @@ $rights = (int) $_SESSION['rights'];
                 echo
                     '<tr title="'.$tPlannedRecalls[$i]['commentaire'].'">
                         <td>'.$tPlannedRecalls[$i]['libelle_entreprise'].'</td>
-                        <td>'.$tPlannedRecalls[$i]['libelle_conclusion'].'</td>
-                        <td>';
+                        <td>'.$tPlannedRecalls[$i]['libelle_conclusion'].'</td>';
                 if ($tPlannedRecalls[$i]['tel'] != '') {
                     echo
-                            '<div class="d-flex justify-content-center">
+                        '<td>
+                            <div class="d-flex justify-content-center">
                                 <button class="phoneIcon">
                                     <a title="Appeler : '.$tPlannedRecalls[$i]['tel'].'" href="tel:'.$tPlannedRecalls[$i]['tel'].'">
                                         <i id="iconPhone" class="fas fa-phone"></i>
                                     </a>
                                 </button>
-                            </div>';
-                }   echo
-                        '</td>
-                    </tr>';
+                            </div>
+                        </td>';
+                } else echo($noPhone);
+                echo
+                    '</tr>';
             }
         }
 ?>

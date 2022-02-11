@@ -474,6 +474,8 @@ class Contacting_Mgr {
                             c.`libelle_conclusion`,
                             s.`commentaire`,
                             p.`libelle_entreprise`,
+                            p.`mail`,
+                            p.`nom_decideur`,
                             p.`tel`
                             FROM suivre s
                             INNER JOIN professionnel p ON p.`ID_professionnel` = s.`ID_professionnel`

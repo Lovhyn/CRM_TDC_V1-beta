@@ -147,18 +147,14 @@ h1, h2, h3, h4, h5, h6, span {
     color: rgb(30, 252, 215);
     background-color: #21252900;
 }
-.updIconNoRights, .phoneIconNoRights, .delIconNoRights {
+.updIconNoRights, .phoneIconNoRights, .delIconNoRights, .showProsIconNoRights, .carIconNoRights {
     border: none;
     color: #616161;
     background-color: #21252900;
 }
-.updIconNoRights:hover, .delIconNoRights  {
+.updIconNoRights:hover, .delIconNoRights, .phoneIconNoRights, .showProsIconNoRights, .carIconNoRights  {
     cursor: not-allowed;
 }
-.phoneIconNoRights, .delIconNoRights {
-    cursor: not-allowed;
-}
-
 .delIcon {
     border: none;
     color: #fc8422;
@@ -179,13 +175,14 @@ h1, h2, h3, h4, h5, h6, span {
 .phoneIcon a:hover {
     color: #2ffc6c;
 }
-.mapIcon {
+.carIcon {
     border: none;
     background-color: #21252900;
 }
-.mapIcon a {
+.carIcon a {
     color: #c074ff;
 }
+
 .addUserIcon, .addConclusionBtn, .addAreaActivityBtn, .addNewProspectIcon, .addNewClientIcon, .addNewContactIcon {
     border: none;
     color: #ED6DA6;
@@ -225,7 +222,7 @@ table input, table a {
     color: #D94190;
     background-color: #21252900
 } */
-.updIcon:hover, .delIcon:hover, .addAreaActivityBtn:hover, .addConclusionBtn:hover, .validIcon:hover, .followIcon:hover, .phoneIcon:hover, .mapIcon:hover, .showProsIcon:hover {
+.updIcon:hover, .delIcon:hover, .addAreaActivityBtn:hover, .addConclusionBtn:hover, .validIcon:hover, .followIcon:hover, .phoneIcon:hover, .carIcon:hover, .showProsIcon:hover {
     transform: scale(1.3);
 }
 #newActivityAreaForm {
@@ -341,12 +338,12 @@ thead th {
 .pagination-info {
     display: none;
 }
-.myMeetingsLink {
+.myMeetingsLink, .myRecallsLink {
     border: none;
     background-color: transparent;
     color: #ED6DA6;
 }
-.myMeetingsLink:hover {
+.myMeetingsLink:hover, .myRecallsLink:hover {
     color: #cd44f7;
     transform: scale(1.1);
 }
